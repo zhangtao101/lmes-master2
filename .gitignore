@@ -1,0 +1,52 @@
+# 依赖目录
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 构建产物
+unpackage/dist/
+unpackage/build/
+dist/
+
+# IDE 配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS 文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 日志文件
+logs/
+*.log
+
+# 临时文件
+*.tmp
+*.temp
+.temp/
+
+# 环境变量文件
+.env
+.env.local
+.env.development
+.env.production
+
+# 调试文件
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 自定义忽略文件
+.codebuddy/
+
+# 压缩包
+*.zip
+*.tar
+*.tar.gz
+*.rar
