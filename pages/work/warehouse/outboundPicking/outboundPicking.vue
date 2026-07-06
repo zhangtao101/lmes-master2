@@ -101,14 +101,28 @@
 			</view>
 		</view>
 		<view class="button-wrapper" v-if="lcCode">
-			<button class="action-btn" :class="{ disabled: !formDetailId }" @click="callAGV">
-				<uni-icons type="paperplane" size="18"></uni-icons>
-				<text>呼叫AGV</text>
-			</button>
-			<button class="action-btn primary" :class="{ disabled: !formDetailId }" @click="onSubmit">
-				<uni-icons type="arrowright" size="18"></uni-icons>
-				<text>拣货作业</text>
-			</button>
+			<!-- 上面一排：同步单据、单据审核 -->
+			<view class="button-row">
+				<button class="action-btn" :class="{ disabled: !rows || rows.length === 0 }" @click="syncFormCode">
+					<uni-icons type="loop" size="18"></uni-icons>
+					<text>同步单据</text>
+				</button>
+				<button class="action-btn warn" :class="{ disabled: !rows || rows.length === 0 }" @click="auditWarehouseRecord">
+					<uni-icons type="checkmarkempty" size="18"></uni-icons>
+					<text>单据审核</text>
+				</button>
+			</view>
+			<!-- 下面一排：呼叫AGV、拣货作业 -->
+			<view class="button-row">
+				<button class="action-btn" :class="{ disabled: !formDetailId }" @click="callAGV">
+					<uni-icons type="paperplane" size="18"></uni-icons>
+					<text>呼叫AGV</text>
+				</button>
+				<button class="action-btn primary" :class="{ disabled: !formDetailId }" @click="onSubmit">
+					<uni-icons type="arrowright" size="18"></uni-icons>
+					<text>拣货作业</text>
+				</button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -287,6 +301,97 @@
 						icon: 'error'
 					})
 				}
+			},
+			// 同步单据
+			syncFormCode: async function() {
+				if (!this.rows || this.rows.length === 0) {
+					showBeautyToast({
+						title: '请先查询单据',
+						icon: 'warn'
+					});
+					return;
+				}
+
+				const resp = await material.syncFormCode({
+					formCode: this.wareLocationCode
+				});
+				if (resp.code == 200) {
+					showBeautyToast({
+						title: '同步单据成功',
+						icon: 'success'
+					});
+					// 同步成功后重新加载单据信息
+					this.loadWarehouseInfo(this.wareLocationCode);
+				} else {
+					showBeautyToast({
+						title: resp.msg || '同步单据失败',
+						icon: 'error'
+					});
+				}
+			},
+			// 单据审核
+			auditWarehouseRecord: async function() {
+				if (!this.rows || this.rows.length === 0) {
+					showBeautyToast({
+						title: '请先查询单据',
+						icon: 'warn'
+					});
+					return;
+				}
+
+				// 判断是否需要二次确认
+				const needConfirm = this.rows.some(row => row.number != row.stockNumber);
+
+				if (needConfirm) {
+					// 需要二次确认
+					const _this = this;
+					uni.showModal({
+						title: '确认审核',
+						content: '存在单据数量不等于已出库数量的数据，确认要通过审核吗？',
+						confirmText: '确认通过',
+						cancelText: '取消',
+						success: (res) => {
+							if (res.confirm) {
+								_this.doAudit(1); // 1表示通过
+							}
+						}
+					});
+				} else {
+					// 直接调用审核接口
+					this.doAudit(1); // 1表示通过
+				}
+			},
+			// 执行审核操作
+			doAudit: async function(auditState) {
+				const resp = await material.auditWarehouseRecord({
+					auditState: auditState,
+					formId: this.getFormId()
+				});
+				if (resp.code == 200) {
+					showBeautyToast({
+						title: '审核成功',
+						icon: 'success'
+					});
+					// 审核成功后清空单号信息
+					this.clearFormInfo();
+				} else {
+					showBeautyToast({
+						title: resp.msg || '审核失败',
+						icon: 'error'
+					});
+				}
+			},
+			// 清空单号信息
+			clearFormInfo: function() {
+				this.wareLocationCode = '';
+				this.rows = undefined;
+				this.details = [];
+				this.formDetailId = '';
+				this.warehouse = {};
+			},
+			// 获取单据ID
+			getFormId: function() {
+				return this.rows && this.rows.length > 0 ? this.rows[0].formId || this.rows[0].id : '';
 			}
 		}
 	}
@@ -610,9 +715,16 @@
 		right: 0;
 		background: #fff;
 		padding: 20rpx 30rpx;
+		padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
 		display: flex;
+		flex-direction: column;
 		gap: 20rpx;
 		box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.06);
+
+		.button-row {
+			display: flex;
+			gap: 20rpx;
+		}
 
 		.action-btn {
 			flex: 1;
@@ -637,6 +749,17 @@
 				&:active {
 					transform: translateY(2rpx);
 					box-shadow: 0 4rpx 16rpx rgba(102, 126, 234, 0.3);
+				}
+			}
+
+			&.warn {
+				background: linear-gradient(135deg, #faad14 0%, #ffc53d 100%);
+				color: #fff;
+				box-shadow: 0 8rpx 24rpx rgba(250, 173, 20, 0.3);
+
+				&:active {
+					transform: translateY(2rpx);
+					box-shadow: 0 4rpx 16rpx rgba(250, 173, 20, 0.3);
 				}
 			}
 

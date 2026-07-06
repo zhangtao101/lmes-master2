@@ -1,6 +1,6 @@
 <template>
 	<view class="work-container">
-		<view class="box-header">
+		<!-- <view class="box-header">
 			<view class="icon">
 			</view>
 			<view class="title">
@@ -14,8 +14,8 @@
 					<text>{{item.name}}</text>
 				</navigator>
 			</view>
-		</view>
-		<view class="box-header">
+		</view> -->
+		<!-- <view class="box-header">
 			<view class="icon">
 			</view>
 			<view class="title">
@@ -29,7 +29,7 @@
 					<text>{{item.name}}</text>
 				</navigator>
 			</view>
-		</view>
+		</view> -->
 		<view class="box-header">
 			<view class="icon">
 			</view>
@@ -260,46 +260,46 @@
 						name: "盘点任务",
 						url: "/pages/work/warehouse/inventoryTask/inventoryTask"
 					},
-					{
-						img: "../../static/images/shangmu.png",
-						name: "模具上模",
-						url: "/pages/work/warehouse/moldMounting/moldMounting"
-					},
-					{
-						img: "../../static/images/xiamu.png",
-						name: "模具下模",
-						url: "/pages/work/warehouse/moldDismounting/moldDismounting"
-					},
-					{
-						img: "../../static/images/shangliao.png",
-						name: "工序上料",
-						url: "/pages/work/warehouse/processFeeding/processFeeding"
-					},
-					{
-						img: "../../static/images/baogong.png",
-						name: "工序报工",
-						url: "/pages/work/warehouse/processReport/processReport"
-					},
-					{
-						img: "../../static/images/shebeidianjian.png",
-						name: "设备点检",
-						url: "/pages/work/warehouse/equipmentSpotCheck/equipmentSpotCheck"
-					},
-					{
-						img: "../../static/images/shebeibaoyang.png",
-						name: "设备保养",
-						url: "/pages/work/warehouse/equipmentMaintenance/equipmentMaintenance"
-					},
-					{
-						img: "../../static/images/baoxiu.png",
-						name: "设备报修",
-						url: "/pages/work/warehouse/equipmentRepairRequest/equipmentRepairRequest"
-					},
-					{
-						img: "../../static/images/weixiurenwu.png",
-						name: "维修任务",
-						url: "/pages/work/warehouse/repairTask/repairTask"
-					},
+					// {
+					// 	img: "../../static/images/shangmu.png",
+					// 	name: "模具上模",
+					// 	url: "/pages/work/warehouse/moldMounting/moldMounting"
+					// },
+					// {
+					// 	img: "../../static/images/xiamu.png",
+					// 	name: "模具下模",
+					// 	url: "/pages/work/warehouse/moldDismounting/moldDismounting"
+					// },
+					// {
+					// 	img: "../../static/images/shangliao.png",
+					// 	name: "工序上料",
+					// 	url: "/pages/work/warehouse/processFeeding/processFeeding"
+					// },
+					// {
+					// 	img: "../../static/images/baogong.png",
+					// 	name: "工序报工",
+					// 	url: "/pages/work/warehouse/processReport/processReport"
+					// },
+					// {
+					// 	img: "../../static/images/shebeidianjian.png",
+					// 	name: "设备点检",
+					// 	url: "/pages/work/warehouse/equipmentSpotCheck/equipmentSpotCheck"
+					// },
+					// {
+					// 	img: "../../static/images/shebeibaoyang.png",
+					// 	name: "设备保养",
+					// 	url: "/pages/work/warehouse/equipmentMaintenance/equipmentMaintenance"
+					// },
+					// {
+					// 	img: "../../static/images/baoxiu.png",
+					// 	name: "设备报修",
+					// 	url: "/pages/work/warehouse/equipmentRepairRequest/equipmentRepairRequest"
+					// },
+					// {
+					// 	img: "../../static/images/weixiurenwu.png",
+					// 	name: "维修任务",
+					// 	url: "/pages/work/warehouse/repairTask/repairTask"
+					// },
 					// {
 					// 	img: "../../static/images/chengpin_diaobo.png",
 					// 	name: "打印测试",
