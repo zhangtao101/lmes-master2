@@ -440,6 +440,12 @@
 			"style": {
 				"navigationBarTitleText": "维修详情"
 			}
+		},
+		{
+			"path": "pages/work/warehouse/inventoryQuery/inventoryQuery",
+			"style": {
+				"navigationBarTitleText": "库存查询"
+			}
 		}
 	],
 	"globalStyle": {

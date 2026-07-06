@@ -260,6 +260,11 @@
 						name: "盘点任务",
 						url: "/pages/work/warehouse/inventoryTask/inventoryTask"
 					},
+					{
+						img: "../../static/images/chengpin_diaobo.png",
+						name: "库存查询",
+						url: "/pages/work/warehouse/inventoryQuery/inventoryQuery"
+					},
 					// {
 					// 	img: "../../static/images/shangmu.png",
 					// 	name: "模具上模",
