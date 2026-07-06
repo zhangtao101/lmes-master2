@@ -131,4 +131,20 @@ export default {
 			data: params
 		})
 	},
+	// 单据审核
+	auditWarehouseRecord: (params) => {
+		return request({
+			url: `${prefixUrl2}wms/warehouseRecord/audit`,
+			method: "PUT",
+			data: params
+		})
+	},
+	// 手动同步单据(仅为豪声使用)
+	syncFormCode: (params) => {
+		return request({
+			url: `${prefixUrl2}api/erp/formCode/singlesync`,
+			method: "GET",
+			data: params
+		})
+	},
 }
