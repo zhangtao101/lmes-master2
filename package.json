@@ -1,0 +1,17 @@
+{
+    "id": "i-table",
+    "name": "i-table",
+    "displayName": "i-table",
+    "version": "1.0.4",
+    "description": "uniapp 表格组件，表格数据展示以及行点击事件",
+    "keywords": [
+        "uniapp",
+        "table"
+    ],
+    "dcloudext": {
+        "category": [
+            "前端组件",
+            "通用组件"
+        ]
+    }
+}

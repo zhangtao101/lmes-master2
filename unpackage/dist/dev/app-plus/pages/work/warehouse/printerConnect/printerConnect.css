@@ -1,0 +1,85 @@
+.print-container[data-v-8e71fa87] {
+  padding: 0.9375rem;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+.section[data-v-8e71fa87] {
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 0.9375rem;
+  margin-bottom: 0.9375rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.06);
+}
+.section-title[data-v-8e71fa87] {
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.625rem;
+}
+.btn-row[data-v-8e71fa87] {
+  display: flex;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+}
+.action-btn[data-v-8e71fa87] {
+  flex: 1;
+  min-width: 6.25rem;
+  height: 2.5rem;
+  border-radius: 1.25rem;
+  border: none;
+  background: #f0f0f0;
+  color: #666;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.action-btn.primary[data-v-8e71fa87] {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+}
+.action-btn[data-v-8e71fa87]:active {
+  opacity: 0.8;
+}
+.action-btn[disabled][data-v-8e71fa87] {
+  opacity: 0.5;
+}
+.action-btn.loading[data-v-8e71fa87] {
+  background: #e0e0e0;
+  color: #999;
+}
+.device-list[data-v-8e71fa87] {
+  max-height: 12.5rem;
+  overflow-y: auto;
+  margin-bottom: 0.625rem;
+}
+.device-item[data-v-8e71fa87] {
+  padding: 0.75rem;
+  background: #f8f9fb;
+  border-radius: 0.375rem;
+  margin-bottom: 0.5rem;
+  border: 0.0625rem solid transparent;
+}
+.device-item[data-v-8e71fa87]:active {
+  background: #e8eaf0;
+}
+.device-item.active[data-v-8e71fa87] {
+  border-color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+}
+.device-item uni-text[data-v-8e71fa87] {
+  display: block;
+  font-size: 0.875rem;
+  color: #333;
+}
+.device-item uni-text.address[data-v-8e71fa87] {
+  font-size: 0.75rem;
+  color: #999;
+  margin-top: 0.25rem;
+}
+.tips[data-v-8e71fa87] {
+  text-align: center;
+  padding: 1.25rem;
+  color: #999;
+  font-size: 0.875rem;
+}
