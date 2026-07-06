@@ -6,8 +6,7 @@ yarn-error.log*
 pnpm-debug.log*
 
 # 构建产物
-unpackage/dist/
-unpackage/build/
+unpackage/
 dist/
 
 # IDE 配置
