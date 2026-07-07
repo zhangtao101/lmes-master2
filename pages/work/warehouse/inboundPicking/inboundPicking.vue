@@ -99,7 +99,7 @@
 	<view class="button-wrapper" v-if="lcCode">
 		<!-- 上面一排：同步单据、单据审核 -->
 		<view class="button-row">
-			<button class="action-btn" :class="{ disabled: !rows || rows.length === 0 }" @click="syncFormCode">
+			<button class="action-btn" :class="{ disabled: !wareLocationCode }" @click="syncFormCode">
 				<uni-icons type="loop" size="18"></uni-icons>
 				<text>同步单据</text>
 			</button>
@@ -299,9 +299,9 @@
 			},
 			// 同步单据
 			syncFormCode: async function() {
-				if (!this.rows || this.rows.length === 0) {
+				if (!this.wareLocationCode) {
 					showBeautyToast({
-						title: '请先查询单据',
+						title: '请输入单据号',
 						icon: 'warn'
 					});
 					return;
