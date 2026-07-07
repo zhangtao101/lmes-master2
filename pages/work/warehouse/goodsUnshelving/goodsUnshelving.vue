@@ -195,9 +195,12 @@
 
 			// 单据号回车确认
 			onFormCodeConfirm() {
-				if (this.formCode) {
-					this.loadOrder();
-				}
+				const _this = this;
+				setTimeout(function() {
+					if (_this.formCode) {
+						_this.loadOrder();
+					}
+				}, 200);
 			},
 
 			// 加载单据信息

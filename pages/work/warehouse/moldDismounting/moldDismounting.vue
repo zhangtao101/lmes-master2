@@ -202,9 +202,13 @@ export default {
 
 		// 设备码确认
 		onEquipmentCodeConfirm() {
-			if (this.equipmentCode) {
-				this.loadEquipmentInfo(this.equipmentCode);
-			}
+			const _this = this;
+			setTimeout(function() {
+				const code = _this.equipmentCode.trim();
+				if (code) {
+					_this.loadEquipmentInfo(code);
+				}
+			}, 200);
 		},
 
 		// 加载设备信息

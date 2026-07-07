@@ -242,67 +242,73 @@
 
 			// 查询设备信息
 			onQueryEquipment() {
-				if (!this.equipmentCode) {
-					showBeautyToast({
-						title: '请输入设备编码',
-						icon: 'none'
-					})
-					return
-				}
-
-				this.loading = true
-				equipmentRepairRequestApi.getEquipmentByCode({
-					equipmentCode: this.equipmentCode
-				}).then(res => {
-					console.log('res', res)
-					this.loading = false
-					if (res.code == 200 || res.code == '200') {
-						this.assetInfo = res.data || {}
-					} else {
+				const _this = this;
+				setTimeout(function() {
+					if (!_this.equipmentCode) {
 						showBeautyToast({
-							title: res.msg || '查询设备信息失败',
+							title: '请输入设备编码',
 							icon: 'none'
 						})
+						return
 					}
-				}).catch(() => {
-					this.loading = false
-					showBeautyToast({
-						title: '查询设备信息失败',
-						icon: 'none'
+
+					_this.loading = true
+					equipmentRepairRequestApi.getEquipmentByCode({
+						equipmentCode: _this.equipmentCode
+					}).then(res => {
+						console.log('res', res)
+						_this.loading = false
+						if (res.code == 200 || res.code == '200') {
+							_this.assetInfo = res.data || {}
+						} else {
+							showBeautyToast({
+								title: res.msg || '查询设备信息失败',
+								icon: 'none'
+							})
+						}
+					}).catch(() => {
+						_this.loading = false
+						showBeautyToast({
+							title: '查询设备信息失败',
+							icon: 'none'
+						})
 					})
-				})
+				}, 200);
 			},
 
 			// 查询模具信息
 			onQueryMold() {
-				if (!this.moldCode) {
-					showBeautyToast({
-						title: '请输入模具编码',
-						icon: 'none'
-					})
-					return
-				}
-
-				this.loading = true
-				equipmentRepairRequestApi.getMoldByCode({
-					moldCode: this.moldCode
-				}).then(res => {
-					this.loading = false
-					if (res.code == 200 || res.code == '200') {
-						this.assetInfo = res.data || {}
-					} else {
+				const _this = this;
+				setTimeout(function() {
+					if (!_this.moldCode) {
 						showBeautyToast({
-							title: res.msg || '查询模具信息失败',
+							title: '请输入模具编码',
 							icon: 'none'
 						})
+						return
 					}
-				}).catch(() => {
-					this.loading = false
-					showBeautyToast({
-						title: '查询模具信息失败',
-						icon: 'none'
+
+					_this.loading = true
+					equipmentRepairRequestApi.getMoldByCode({
+						moldCode: _this.moldCode
+					}).then(res => {
+						_this.loading = false
+						if (res.code == 200 || res.code == '200') {
+							_this.assetInfo = res.data || {}
+						} else {
+							showBeautyToast({
+								title: res.msg || '查询模具信息失败',
+								icon: 'none'
+							})
+						}
+					}).catch(() => {
+						_this.loading = false
+						showBeautyToast({
+							title: '查询模具信息失败',
+							icon: 'none'
+						})
 					})
-				})
+				}, 200);
 			},
 
 			// 报修类型选择

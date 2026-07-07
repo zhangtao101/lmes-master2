@@ -192,9 +192,12 @@
 		methods: {
 			// 货架储位码确认
 			onStorageCodeConfirm: function() {
-				if (this.storageCode) {
-					this.loadShelfInfo(this.storageCode);
-				}
+				const _this = this;
+				setTimeout(function() {
+					if (_this.storageCode) {
+						_this.loadShelfInfo(_this.storageCode);
+					}
+				}, 200);
 			},
 
 			// 加载货架信息
@@ -271,14 +274,17 @@
 
 			// 标签手动输入
 			onLabelManualInput: function(item) {
-				if (!item.labelCode) {
-					uni.showToast({
-						title: '请输入标签码',
-						icon: 'none'
-					});
-					return;
-				}
-				this.loadLabelInfo(item.labelCode, item);
+				const _this = this;
+				setTimeout(function() {
+					if (!item.labelCode) {
+						uni.showToast({
+							title: '请输入标签码',
+							icon: 'none'
+						});
+						return;
+					}
+					_this.loadLabelInfo(item.labelCode, item);
+				}, 200);
 			},
 
 			// 扫码标签

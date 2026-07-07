@@ -94,9 +94,12 @@
 			},
 
 			onStorageCodeConfirm() {
-				if (this.storageCode) {
-					this.onSubmit();
-				}
+				const _this = this;
+				setTimeout(function() {
+					if (_this.storageCode) {
+						_this.onSubmit();
+					}
+				}, 200);
 			},
 
 			onSubmit() {

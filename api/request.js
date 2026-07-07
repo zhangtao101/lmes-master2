@@ -1,8 +1,8 @@
 // 根路径
 // const baseURL = 'http://192.168.0.102:8060/'
 // const baseURL = 'http://192.168.0.14:8050/'
-const baseURL = 'http://192.168.0.15:8050/'
-// const baseURL = 'http://10.10.0.220:8060/'
+// const baseURL = 'http://192.168.0.15:8050/'
+const baseURL = 'http://10.10.0.220:8060/'
 // const baseURL = 'http://192.168.10.2:8060/'
 // const baseURL = 'http://192.168.0.61:8050/'
  // const baseURL = 'http://192.168.0.211:8060/'

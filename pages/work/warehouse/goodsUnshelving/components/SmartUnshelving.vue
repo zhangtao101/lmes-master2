@@ -101,8 +101,11 @@
 
 			// 货架码回车 → 调用亮灯接口
 			onStorageCodeConfirm() {
-				if (!this.storageCode) return;
-				this.callGetOutLight();
+				const _this = this;
+				setTimeout(function() {
+					if (!_this.storageCode) return;
+					_this.callGetOutLight();
+				}, 200);
 			},
 
 			// 调用智能货架亮灯接口
@@ -138,9 +141,12 @@
 
 			// 标签码回车 → 直接取货
 			onLabelCodeConfirm() {
-				if (this.labelCode) {
-					this.onSubmit();
-				}
+				const _this = this;
+				setTimeout(function() {
+					if (_this.labelCode) {
+						_this.onSubmit();
+					}
+				}, 200);
 			},
 
 			// 提交取货
