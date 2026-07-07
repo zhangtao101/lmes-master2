@@ -310,9 +310,12 @@
 
 			// 单据号回车确认
 			onFormCodeConfirm() {
-				if (this.formCode) {
-					this.loadOrder();
-				}
+				const _this = this;
+				setTimeout(function() {
+					if (_this.formCode) {
+						_this.loadOrder();
+					}
+				}, 200);
 			},
 
 			// 加载单据信息
@@ -364,11 +367,14 @@
 
 			// 货架码回车
 			onStorageCodeConfirm() {
-				if (!this.storageCode) return;
-				// 智能模式：调用亮灯接口
-				if (this.shelvingMode === 'smart') {
-					this.onTriggerLight();
-				}
+				const _this = this;
+				setTimeout(function() {
+					if (!_this.storageCode) return;
+					// 智能模式：调用亮灯接口
+					if (_this.shelvingMode === 'smart') {
+						_this.onTriggerLight();
+					}
+				}, 200);
 			},
 
 			// 智能模式触发亮灯
@@ -414,9 +420,12 @@
 
 			// 标签码回车
 			onLabelCodeConfirm() {
-				if (this.storageCode) {
-					this.onCheckAndAdd();
-				}
+				const _this = this;
+				setTimeout(function() {
+					if (_this.storageCode) {
+						_this.onCheckAndAdd();
+					}
+				}, 200);
 			},
 
 			// 校验并添加到列表

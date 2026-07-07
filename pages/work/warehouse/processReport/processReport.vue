@@ -298,9 +298,12 @@ export default {
 		},
 
 		onWorksheetConfirm() {
-			if (this.worksheetCode) {
-				this.loadWorksheet();
-			}
+			const _this = this;
+			setTimeout(function() {
+				if (_this.worksheetCode) {
+					_this.loadWorksheet();
+				}
+			}, 200);
 		},
 
 		loadWorksheet() {
@@ -347,9 +350,12 @@ export default {
 		},
 
 		onEquipCodeConfirm() {
-			if (this.equipCode) {
-				this.loadEquipInfo();
-			}
+			const _this = this;
+			setTimeout(function() {
+				if (_this.equipCode) {
+					_this.loadEquipInfo();
+				}
+			}, 200);
 		},
 
 		loadEquipInfo() {

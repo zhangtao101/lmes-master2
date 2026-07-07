@@ -225,17 +225,20 @@ export default {
 		},
 
 		onInputConfirm: function() {
-			const code = this.codeInput.trim();
-			this.codeInput = '';
-			if (!code) {
-				uni.showToast({
-					title: '请输入货架号或储位码',
-					icon: 'none'
-				});
-				return;
-			}
-			this.shelfCode = code;
-			this.queryInfo();
+			const _this = this;
+			setTimeout(function() {
+				const code = _this.codeInput.trim();
+				_this.codeInput = '';
+				if (!code) {
+					uni.showToast({
+						title: '请输入货架号或储位码',
+						icon: 'none'
+					});
+					return;
+				}
+				_this.shelfCode = code;
+				_this.queryInfo();
+			}, 200);
 		},
 
 		handleScanCode: function(code) {

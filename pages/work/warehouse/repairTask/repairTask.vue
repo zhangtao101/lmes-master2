@@ -163,7 +163,6 @@
 					params.keyword = this.searchKey.trim()
 				}
 				repairTaskApi.getMyRepairTasks(params).then(resp => {
-					console.log('resp', resp)
 					this.loading = false
 					if (resp.code == 200 || resp.code == '200') {
 						const data = resp.data?.results
