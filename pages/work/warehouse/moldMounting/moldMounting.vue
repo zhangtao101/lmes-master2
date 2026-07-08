@@ -303,23 +303,32 @@ export default {
 
 		// 模具码确认
 		onMoldCodeConfirm() {
-			if (this.moldCode) {
-				this.loadMoldInfo(this.moldCode);
-			}
+			const _this = this;
+			setTimeout(function() {
+				if (_this.moldCode) {
+					_this.loadMoldInfo(_this.moldCode);
+				}
+			}, 200);
 		},
 
 		// 设备码确认
 		onEquipmentCodeConfirm() {
-			if (this.equipmentCode) {
-				this.loadEquipmentInfo(this.equipmentCode);
-			}
+			const _this = this;
+			setTimeout(function() {
+				if (_this.equipmentCode) {
+					_this.loadEquipmentInfo(_this.equipmentCode);
+				}
+			}, 200);
 		},
 
 		// 工单码确认
 		onWorkOrderCodeConfirm() {
-			if (this.workOrderCode) {
-				this.loadWorkOrderInfo(this.workOrderCode);
-			}
+			const _this = this;
+			setTimeout(function() {
+				if (_this.workOrderCode) {
+					_this.loadWorkOrderInfo(_this.workOrderCode);
+				}
+			}, 200);
 		},
 
 		// 加载模具信息
