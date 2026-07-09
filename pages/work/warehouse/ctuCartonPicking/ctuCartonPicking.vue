@@ -262,7 +262,7 @@
 				// 拣货操作表单数据
 				formData: {
 					packingCode: '',
-					isLabel: 0, // 0:无标签, 1:有标签
+					isLabel: 1, // 0:无标签, 1:有标签
 					labelCode: '',
 					materialCode: '',
 					materialName: '',
@@ -479,7 +479,7 @@
 			resetFormData: function() {
 				this.formData = {
 					packingCode: this.packingCode,
-					isLabel: 0,
+					isLabel: 1,
 					labelCode: '',
 					materialCode: '',
 					materialName: '',

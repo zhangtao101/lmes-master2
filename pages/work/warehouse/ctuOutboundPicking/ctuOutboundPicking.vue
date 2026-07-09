@@ -249,7 +249,7 @@
 				// 拣货操作表单数据
 				formData: {
 					packingCode: '',
-					isLabel: 0, // 0:无标签, 1:有标签
+					isLabel: 1, // 0:无标签, 1:有标签
 					labelCode: '',
 					materialCode: '',
 					materialName: '',
@@ -304,11 +304,9 @@
 
 		// 箱码手动输入确认
 		onPackingInputConfirm: function() {
-			this.packingInput = '';
 			const _this = this;
 			setTimeout(function() {
 				const code = _this.packingInput.trim();
-				_this.packingInput = '';
 				if (!code) {
 					showBeautyToast({
 						title: '请输入箱码',
@@ -317,6 +315,7 @@
 					return;
 				}
 				_this.packingCode = code;
+				_this.packingInput = '';
 				_this.reloadTable();
 			}, 200);
 		},
@@ -443,7 +442,7 @@
 			resetFormData: function() {
 				this.formData = {
 					packingCode: this.packingCode,
-					isLabel: 0,
+					isLabel: 1,
 					labelCode: '',
 					materialCode: '',
 					materialName: '',
