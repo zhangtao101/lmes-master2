@@ -125,7 +125,10 @@
 			},
 
 			onSearch() {
-				this.loadTaskList()
+				const _this = this;
+				setTimeout(function() {
+					_this.loadTaskList();
+				}, 200);
 			},
 
 			getStatusClass(status) {

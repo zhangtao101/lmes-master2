@@ -370,14 +370,6 @@
 					return
 				}
 
-				if (!this.repairContent) {
-					showBeautyToast({
-						title: '请输入报修内容',
-						icon: 'none'
-					})
-					return
-				}
-
 				if (this.submitting) return
 				this.submitting = true
 

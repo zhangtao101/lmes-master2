@@ -1,6 +1,6 @@
 import request from './request.js';
- const MES_USER = '/mes-user';
- // const MES_USER = '/hzsmt-user';
+ // const MES_USER = '/mes-user';
+ const MES_USER = '/hzsmt-user';
 export default {
 	login: (uname, pwd, rememberMe, from) => {
 		return request({
