@@ -183,9 +183,12 @@
 		},
 		methods: {
 			onManualInput: function() {
-				if (this.wareLocationCode) {
-					this.loadWarehouseInfo(this.wareLocationCode);
-				}
+				const _this = this;
+				setTimeout(function() {
+					if (_this.wareLocationCode) {
+						_this.loadWarehouseInfo(_this.wareLocationCode);
+					}
+				}, 200);
 			},
 			loadWarehouseInfo: async function(code) {
 				this.isLoading = true;
@@ -233,7 +236,10 @@
 				}
 			},
 			onLabelManualInput(item) {
-				this.loadLabelInfo(item.labelCode, item);
+				const _this = this;
+				setTimeout(function() {
+					_this.loadLabelInfo(item.labelCode, item);
+				}, 200);
 			},
 			onLocationScan: function() {
 				const _this = this;

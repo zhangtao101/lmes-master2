@@ -195,9 +195,12 @@
 				this.lcCode = floor;
 			},
 			onManualInput: function() {
-				if (this.wareLocationCode) {
-					this.loadWarehouseInfo(this.wareLocationCode);
-				}
+				const _this = this;
+				setTimeout(function() {
+					if (_this.wareLocationCode) {
+						_this.loadWarehouseInfo(_this.wareLocationCode);
+					}
+				}, 200);
 			},
 			loadWarehouseInfo: async function(code) {
 				this.wareLocationCode = code;

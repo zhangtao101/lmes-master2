@@ -238,9 +238,12 @@
 
 			// 手动输入标签码确认
 			onLabelInput() {
-				if (this.labelCode) {
-					this.loadLabelInfo(this.labelCode);
-				}
+				const _this = this;
+				setTimeout(function() {
+					if (_this.labelCode) {
+						_this.loadLabelInfo(_this.labelCode);
+					}
+				}, 200);
 			},
 
 			// 加载标签信息

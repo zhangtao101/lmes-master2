@@ -49,6 +49,9 @@
 			<view class="search-clear" v-if="searchKey" @click="onClearSearch">
 				<uni-icons type="clear" size="16" color="#999"></uni-icons>
 			</view>
+			<view class="search-scan" @click="onScanCode">
+				<uni-icons type="scan" size="18" color="#fff"></uni-icons>
+			</view>
 		</view>
 
 		<!-- 任务列表 -->
@@ -109,8 +112,9 @@
 </template>
 
 <script>
-	import equipmentSpotCheckApi from '/api/warehouse/equipmentSpotCheck.js'
-	import showBeautyToast from '@/common/beautyToast.js'
+import equipmentSpotCheckApi from '/api/warehouse/equipmentSpotCheck.js'
+import scanCode from '/common/scan.js'
+import showBeautyToast from '@/common/beautyToast.js'
 
 	export default {
 		data() {
@@ -173,6 +177,19 @@
 			onClearSearch() {
 				clearTimeout(this._searchTimer)
 				this.searchKey = ''
+			},
+
+			// 扫码搜索
+			onScanCode() {
+				const _this = this;
+				scanCode().then((code) => {
+					_this.searchKey = code;
+				}).catch(err => {
+					showBeautyToast({
+						title: err || '扫码失败',
+						icon: 'none'
+					});
+				});
 			},
 
 			loadTaskList() {
@@ -305,6 +322,18 @@
 		.search-clear {
 			flex-shrink: 0;
 			padding: 10rpx;
+		}
+
+		.search-scan {
+			flex-shrink: 0;
+			width: 80rpx;
+			height: 80rpx;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			border-radius: 12rpx;
+			margin-left: 16rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 	}
 

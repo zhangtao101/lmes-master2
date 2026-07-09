@@ -79,14 +79,14 @@
 							:class="{ active: item.executeResult === 'SUCCESS' }"
 							@click="item.executeResult = 'SUCCESS'"
 						>
-							<text>成功</text>
+							<text>正常</text>
 						</view>
 						<view
 							class="radio-item abnormal"
 							:class="{ active: item.executeResult === 'FAIL' }"
 							@click="item.executeResult = 'FAIL'"
 						>
-							<text>失败</text>
+							<text>异常</text>
 						</view>
 					</view>
 				</view>
@@ -108,7 +108,7 @@
 				<view class="form-row">
 					<text class="form-label">执行结果</text>
 					<text class="form-value" :class="item.executeResult === 'FAIL' ? 'abnormal-text' : 'normal-text'">
-						{{ item.executeResult === 'SUCCESS' ? '成功' : item.executeResult === 'FAIL' ? '失败' : '--' }}
+						{{ item.executeResult === 'SUCCESS' ? '正常' : item.executeResult === 'FAIL' ? '异常' : '--' }}
 					</text>
 				</view>
 				<view class="form-row" v-if="item.actualMinutes !== null && item.actualMinutes !== undefined">
@@ -133,18 +133,18 @@
 						:class="{ active: overallResult === 'SUCCESS' }"
 						@click="overallResult = 'SUCCESS'"
 					>
-						<text>成功</text>
+						<text>正常</text>
 					</view>
 					<view
 						class="radio-item abnormal"
 						:class="{ active: overallResult === 'FAIL' }"
 						@click="overallResult = 'FAIL'"
 					>
-						<text>失败</text>
+						<text>异常</text>
 					</view>
 				</view>
 				<text class="form-value" v-else :class="overallResult === 'FAIL' ? 'abnormal-text' : 'normal-text'">
-					{{ overallResult === 'SUCCESS' ? '成功' : overallResult === 'FAIL' ? '失败' : '--' }}
+					{{ overallResult === 'SUCCESS' ? '正常' : overallResult === 'FAIL' ? '异常' : '--' }}
 				</text>
 			</view>
 			<view class="form-row column remark-row" v-if="!readonly || overallRemark">
@@ -207,6 +207,7 @@
 			loadDetail() {
 				this.loading = true
 				equipmentSpotCheckApi.getMaintenanceDetail({ taskId: this.taskId }).then(res => {
+					console.log(res);
 					this.loading = false
 					if (res.code == 200 || res.code == '200') {
 						const data = res.data || {}

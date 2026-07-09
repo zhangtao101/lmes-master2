@@ -171,17 +171,20 @@
 
 			// 箱码手动输入确认
 			onPackingInputConfirm: function() {
-				const code = this.packingInput.trim();
-				this.packingInput = ''; // 回车后清空输入框
-				if (!code) {
-					showBeautyToast({
-						title: '请输入箱码',
-						icon: 'warn'
-					});
-					return;
-				}
-				this.packingCode = code;
-				this.queryCartonInfo();
+				const _this = this;
+				setTimeout(function() {
+					const code = _this.packingInput.trim();
+					_this.packingInput = ''; // 回车后清空输入框
+					if (!code) {
+						showBeautyToast({
+							title: '请输入箱码',
+							icon: 'warn'
+						});
+						return;
+					}
+					_this.packingCode = code;
+					_this.queryCartonInfo();
+				}, 200);
 			},
 
 			// 处理扫码枪扫描

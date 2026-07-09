@@ -319,7 +319,6 @@
 
 		// 箱码手动输入确认
 		onPackingInputConfirm: function() {
-			this.packingInput = '';
 			const _this = this;
 			setTimeout(function() {
 				const code = _this.packingInput.trim();
