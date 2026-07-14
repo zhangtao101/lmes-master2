@@ -44,6 +44,15 @@ export default {
 		});
 	},
 
+	// APP 查询故障原因列表（点击故障原因搜索框或放大镜时调用）
+	getFaultCauseList: (params) => {
+		return request({
+			url: `${prefixUrl}app/repair/fault-cause/list`,
+			method: 'GET',
+			data: params
+		});
+	},
+
 	// ==================== 设备查询 ====================
 
 	// APP 按编码查询设备信息

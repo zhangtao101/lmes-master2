@@ -34,6 +34,10 @@
 					<text class="label">报修事项</text>
 					<text class="value">{{ detailData.repairItem }}</text>
 				</view>
+				<view class="info-row block" v-if="detailData.repairContent">
+					<text class="label">报修内容</text>
+					<text class="value">{{ detailData.repairContent }}</text>
+				</view>
 				<view class="info-row" v-if="readonly && detailData.repairDesc">
 					<text class="label">报修描述</text>
 					<text class="value">{{ detailData.repairDesc }}</text>
@@ -75,10 +79,24 @@
 						</view>
 					</view>
 				</view>
-				<view class="form-row column">
-					<text class="form-label remark-label">故障原因</text>
-					<textarea class="form-textarea" v-model="faultRootCause" placeholder="请输入故障原因" />
+			<view class="form-row column">
+				<text class="form-label remark-label">故障原因</text>
+				<view v-if="faultCauseCustom" class="custom-input-wrap">
+					<input
+						class="custom-input"
+						v-model="faultRootCause"
+						placeholder="请输入故障原因"
+					/>
+					<view class="custom-back" @click="onBackToPicker">
+						<uni-icons type="arrowleft" size="28" color="#667eea"></uni-icons>
+						<text>返回选择</text>
+					</view>
 				</view>
+				<view v-else class="select-field" @click="openFaultCausePicker">
+					<text class="select-text" :class="{ placeholder: !faultRootCause }">{{ faultRootCause || '请选择故障原因' }}</text>
+					<uni-icons type="search" size="30" color="#999" class="select-icon"></uni-icons>
+				</view>
+			</view>
 				<view class="form-row column">
 					<text class="form-label remark-label">维修内容</text>
 					<textarea class="form-textarea" v-model="repairProject" placeholder="请输入维修内容" />
@@ -104,6 +122,47 @@
 				</view>
 			</view>
 		</template>
+
+		<!-- 故障原因选择弹窗 -->
+		<view class="picker-mask" v-if="faultCauseVisible" @click="closeFaultCausePicker">
+			<view class="picker-content" @click.stop>
+				<view class="picker-header">
+					<text class="picker-title">选择故障原因</text>
+					<view class="picker-close" @click="closeFaultCausePicker">
+						<uni-icons type="close" size="34" color="#999"></uni-icons>
+					</view>
+				</view>
+				<view class="picker-search">
+					<input
+						class="picker-search-input"
+						v-model="faultCauseKeyword"
+						placeholder="搜索故障原因"
+						@confirm="onFaultCauseSearchConfirm"
+						@input="onFaultCauseKeywordInput"
+					/>
+				</view>
+				<scroll-view class="picker-list" scroll-y>
+					<view
+						v-for="item in faultCauseOptions"
+						:key="item.id"
+						class="picker-item"
+						:class="{ active: faultRootCause === item.configName }"
+						@click="onFaultCauseSelect(item)"
+					>
+						<text>{{ item.configName }}</text>
+						<uni-icons v-if="faultRootCause === item.configName" type="checkmark" size="30" color="#667eea"></uni-icons>
+					</view>
+					<view class="picker-empty" v-if="faultCauseOptions.length === 0">
+						<text>暂无数据</text>
+					</view>
+				</scroll-view>
+				<view class="picker-footer">
+					<view class="picker-other-btn" :class="{ active: faultCauseCustom }" @click="onFaultCauseCustom">
+						<text>其他（手动输入）</text>
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
 
 	<!-- 底部按钮（仅待维修显示） -->
@@ -141,7 +200,15 @@
 				// 维修信息表单
 				repairResult: '',
 				faultRootCause: '',
-				repairProject: ''
+				repairProject: '',
+				// 故障原因下拉
+				faultCauseVisible: false,
+				faultCauseOptions: [],
+				faultCauseKeyword: '',
+				faultCauseTimer: null,
+				faultCauseCustom: false,
+				faultRootCauseCode: '',
+				faultRootCauseSource: ''
 			}
 		},
 		onLoad(options) {
@@ -200,6 +267,69 @@
 				this.repairResult = ''
 				this.faultRootCause = ''
 				this.repairProject = ''
+				this.faultCauseCustom = false
+				this.faultRootCauseCode = ''
+				this.faultRootCauseSource = ''
+			},
+
+			// ==================== 故障原因下拉 ====================
+			openFaultCausePicker() {
+				this.faultCauseVisible = true
+				this.loadFaultCauseList(this.faultCauseKeyword)
+			},
+
+			closeFaultCausePicker() {
+				this.faultCauseVisible = false
+			},
+
+			loadFaultCauseList(keyword) {
+				const _this = this
+				repairTaskApi.getFaultCauseList({ keyword: keyword || '' }).then(resp => {
+					if (resp.code == 200 || resp.code == '200') {
+						_this.faultCauseOptions = resp.data || []
+					} else {
+						_this.faultCauseOptions = []
+					}
+				}).catch(() => {
+					_this.faultCauseOptions = []
+				})
+			},
+
+			onFaultCauseSearchConfirm() {
+				const _this = this
+				setTimeout(function() {
+					_this.loadFaultCauseList(_this.faultCauseKeyword)
+				}, 200)
+			},
+
+			onFaultCauseKeywordInput(e) {
+				const _this = this
+				const val = e.detail.value
+				clearTimeout(this.faultCauseTimer)
+				this.faultCauseTimer = setTimeout(function() {
+					_this.loadFaultCauseList(val)
+				}, 300)
+			},
+
+			onFaultCauseSelect(item) {
+				this.faultRootCause = item.configName
+				this.faultRootCauseCode = item.configCode || ''
+				this.faultRootCauseSource = ''
+				this.faultCauseCustom = false
+				this.faultCauseVisible = false
+			},
+
+			onFaultCauseCustom() {
+				this.faultCauseCustom = true
+				this.faultRootCause = ''
+				this.faultRootCauseCode = ''
+				this.faultRootCauseSource = '1'
+				this.faultCauseVisible = false
+			},
+
+			onBackToPicker() {
+				this.faultCauseCustom = false
+				this.openFaultCausePicker()
 			},
 
 			onSubmit() {
@@ -235,6 +365,8 @@
 					taskId: this.taskId,
 					repairResult: this.repairResult,
 					faultRootCause: this.faultRootCause,
+					faultRootCauseCode: this.faultRootCauseCode,
+					faultRootCauseSource: this.faultRootCauseSource,
 					repairProject: this.repairProject,
 					operator: operator
 				}
@@ -348,6 +480,22 @@
 			margin-left: 20rpx;
 			word-break: break-all;
 		}
+
+		// 长文本字段（如报修内容）：纵向排列，自动换行
+		&.block {
+			flex-direction: column;
+			align-items: flex-start;
+
+			.label {
+				margin-bottom: 8rpx;
+			}
+
+			.value {
+				text-align: left;
+				margin-left: 0;
+				line-height: 1.6;
+			}
+		}
 	}
 
 	// ==================== 分区标题 ====================
@@ -440,6 +588,174 @@
 			&.abnormal-text {
 				color: #ff4d4f;
 			}
+		}
+	}
+
+	// ==================== 故障原因下拉选择 ====================
+	.select-field {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		box-sizing: border-box;
+		height: 64rpx;
+		border: 1rpx solid #e8e8e8;
+		border-radius: 10rpx;
+		padding: 0 16rpx;
+		background: #fff;
+
+		.select-text {
+			font-size: 26rpx;
+			color: #333;
+			flex: 1;
+			margin-right: 12rpx;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+
+			&.placeholder {
+				color: #bbb;
+			}
+		}
+
+		.select-icon {
+			flex-shrink: 0;
+		}
+	}
+
+	// 选择弹窗
+	.picker-mask {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.5);
+		display: flex;
+		align-items: flex-end;
+		z-index: 1000;
+
+		.picker-content {
+			width: 100%;
+			background: #fff;
+			border-radius: 24rpx 24rpx 0 0;
+			max-height: 70vh;
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+		}
+
+		.picker-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 28rpx 30rpx;
+			border-bottom: 1rpx solid #f0f0f0;
+
+			.picker-title {
+				font-size: 30rpx;
+				font-weight: 600;
+				color: #222;
+			}
+		}
+
+		.picker-search {
+			padding: 20rpx 30rpx;
+			border-bottom: 1rpx solid #f0f0f0;
+
+			.picker-search-input {
+				height: 68rpx;
+				background: #f5f7fa;
+				border-radius: 34rpx;
+				padding: 0 28rpx;
+				font-size: 26rpx;
+				color: #333;
+				box-sizing: border-box;
+			}
+		}
+
+		.picker-list {
+			max-height: 50vh;
+			padding: 10rpx 0;
+		}
+
+		.picker-item {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 26rpx 30rpx;
+			font-size: 28rpx;
+			color: #333;
+			border-bottom: 1rpx solid #f5f5f5;
+
+			&.active {
+				color: #667eea;
+				font-weight: 600;
+				background: #f9f9ff;
+			}
+		}
+
+		.picker-footer {
+			padding: 20rpx 30rpx;
+			border-top: 1rpx solid #f0f0f0;
+			background: #fff;
+		}
+
+		.picker-other-btn {
+			height: 84rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 42rpx;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			color: #fff;
+			font-size: 28rpx;
+			font-weight: 600;
+			box-shadow: 0 4rpx 16rpx rgba(102, 126, 234, 0.35);
+
+			&.active {
+				opacity: 0.7;
+			}
+
+			&:active {
+				opacity: 0.85;
+			}
+		}
+
+		.picker-empty {
+			padding: 60rpx 0;
+			text-align: center;
+			font-size: 26rpx;
+			color: #999;
+		}
+	}
+
+	// ==================== 故障原因自定义输入 ====================
+	.custom-input-wrap {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		box-sizing: border-box;
+
+		.custom-input {
+			flex: 1;
+			height: 64rpx;
+			border: 1rpx solid #e8e8e8;
+			border-radius: 10rpx;
+			padding: 0 16rpx;
+			font-size: 26rpx;
+			color: #333;
+			box-sizing: border-box;
+			margin-right: 16rpx;
+		}
+
+		.custom-back {
+			display: flex;
+			align-items: center;
+			font-size: 24rpx;
+			color: #667eea;
+			flex-shrink: 0;
 		}
 	}
 
