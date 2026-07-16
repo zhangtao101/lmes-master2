@@ -165,26 +165,26 @@
 					},
 				]),
 				warehouse: Object.freeze([
-					// {
-					// 	img: "../../static/images/xrk.png",
-					// 	name: "入库拣货",
-					// 	url: "/pages/work/warehouse/inboundPicking/inboundPickingNotAGV"
-					// },
-					// {
-					// 	img: "../../static/images/xck.png",
-					// 	name: "出库拣货",
-					// 	url: "/pages/work/warehouse/outboundPicking/outboundPickingNotAGV"
-					// },
 					{
 						img: "../../static/images/xrk.png",
 						name: "入库拣货",
-						url: "/pages/work/warehouse/inboundPicking/inboundPicking"
+						url: "/pages/work/warehouse/inboundPicking/inboundPickingNotAGV"
 					},
 					{
 						img: "../../static/images/xck.png",
 						name: "出库拣货",
-						url: "/pages/work/warehouse/outboundPicking/outboundPicking"
+						url: "/pages/work/warehouse/outboundPicking/outboundPickingNotAGV"
 					},
+					// {
+					// 	img: "../../static/images/xrk.png",
+					// 	name: "入库拣货",
+					// 	url: "/pages/work/warehouse/inboundPicking/inboundPicking"
+					// },
+					// {
+					// 	img: "../../static/images/xck.png",
+					// 	name: "出库拣货",
+					// 	url: "/pages/work/warehouse/outboundPicking/outboundPicking"
+					// },
 					{
 						img: "../../static/images/diaobo.png",
 						name: "AGV调拨",
