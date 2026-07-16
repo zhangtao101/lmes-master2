@@ -440,6 +440,24 @@
 			"style": {
 				"navigationBarTitleText": "维修详情"
 			}
+		},
+		{
+			"path": "pages/work/warehouse/inboundPicking/inboundPickingNotAGV",
+			"style": {
+				"navigationBarTitleText": "入库拣货"
+			}
+		},
+		{
+			"path": "pages/work/warehouse/outboundPicking/outboundPickingNotAGV",
+			"style": {
+				"navigationBarTitleText": "出库拣货"
+			}
+		},
+		{
+			"path": "pages/work/warehouse/operationPage/operationPageNotAGV/operationPageNotAGV",
+			"style": {
+				"navigationBarTitleText": "拣货详情"
+			}
 		}
 	],
 	"globalStyle": {

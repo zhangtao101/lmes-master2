@@ -130,14 +130,6 @@ export default {
 	 * @param {number} pageSize - 每页展示条数
 	 */
 	listSmtFeed: (functionId, bindingId, worksheetCode, workstationCode, pageNum, pageSize) => {
-		console.log({
-				functionId,
-				bindingId,
-				worksheetCode,
-				workstationCode,
-				pageNum,
-				pageSize
-			})
 		return request({
 			url: `${prefixUrl2}workstation/opfunction/listSmtFeed`,
 			method: "GET",

@@ -221,6 +221,9 @@ export default {
 					moldMountingApi.getEquipBindingByCode(code),
 					moldMountingApi.getCurrentMoldInfo(code)
 				]);
+
+				console.log('equipResp', equipResp);
+				console.log('moldResp', moldResp);
 				
 				if (equipResp.code == '200' && equipResp.data) {
 					this.equipmentInfo = equipResp.data;
@@ -236,8 +239,11 @@ export default {
 					this.currentMoldInfo = { message: moldResp.msg || '查询失败' };
 					this.validateResult = null;
 				}
+				
+				console.log('1', this.equipmentInfo);
+				console.log('2', this.currentMoldInfo);
 			} catch (error) {
-				showBeautyToast({ title: '设备信息查询失败', icon: 'none' });
+				showBeautyToast({ title: '设备信息查询失败9999', icon: 'none' });
 				this.equipmentInfo = {};
 				this.currentMoldInfo = {};
 				this.validateResult = null;
