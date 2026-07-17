@@ -46,13 +46,15 @@
 						<view class="table-cell" style="flex: 1;">单据数量</view>
 						<view class="table-cell" style="flex: 1;">已入数量</view>
 					</view>
-					<view class="table-row" v-for="(row, index) in rows" :key="index"
-						:class="{ active: formDetailId === row.id }" @click="tTableClick({ row })">
-						<view class="table-cell" style="flex: 1.5;">{{row.materialCode}}</view>
-						<view class="table-cell" style="flex: 2;">{{row.materialName}}</view>
-						<view class="table-cell highlight" style="flex: 1;">{{row.number}}</view>
-						<view class="table-cell success" style="flex: 1;">{{row.stockNumber}}</view>
-					</view>
+					<scroll-view scroll-y class="table-body">
+						<view class="table-row" v-for="(row, index) in rows" :key="index"
+							:class="{ active: formDetailId === row.id }" @click="tTableClick({ row })">
+							<view class="table-cell" style="flex: 1.5;">{{row.materialCode}}</view>
+							<view class="table-cell" style="flex: 2;">{{row.materialName}}</view>
+							<view class="table-cell highlight" style="flex: 1;">{{row.number}}</view>
+							<view class="table-cell success" style="flex: 1;">{{row.stockNumber}}</view>
+						</view>
+					</scroll-view>
 				</view>
 				<view class="empty-state" v-else>
 					<uni-icons type="inbox" size="60" color="#ccc"></uni-icons>
@@ -437,6 +439,10 @@
 
 				.table-wrapper {
 			padding: 20rpx;
+
+			.table-body {
+				max-height: 480rpx;
+			}
 
 			.table-row {
 				display: flex;
