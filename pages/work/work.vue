@@ -1,35 +1,35 @@
 <template>
 	<view class="work-container">
-		<view class="box-header">
-			<view class="icon">
-			</view>
-			<view class="title">
-				{{ $t('work.produce') }}
-			</view>
-		</view>
-		<view class="work-box">
-			<view class="work-item" v-for="item in product" :key="item.nameKey">
-				<navigator style="display:flex;flex-direction: column;align-items: center;" :url="item.url">
-					<image style="width:56rpx;height:56rpx;" :src="item.img" mode=""></image>
-					<text>{{ $t(item.nameKey) }}</text>
-				</navigator>
-			</view>
-		</view>
-		<view class="box-header">
-			<view class="icon">
-			</view>
-			<view class="title">
-				{{ $t('work.quality') }}
-			</view>
-		</view>
-		<view class="work-box">
-			<view class="work-item" v-for="item in quality" :key="item.nameKey">
-				<navigator style="display:flex;flex-direction: column;align-items: center;" :url="item.url">
-					<image style="width:56rpx;height:56rpx" :src="item.img" mode=""></image>
-					<text>{{ $t(item.nameKey) }}</text>
-				</navigator>
-			</view>
-		</view>
+<!--		<view class="box-header">-->
+<!--			<view class="icon">-->
+<!--			</view>-->
+<!--			<view class="title">-->
+<!--				{{ $t('work.produce') }}-->
+<!--			</view>-->
+<!--		</view>-->
+<!--		<view class="work-box">-->
+<!--			<view class="work-item" v-for="item in product" :key="item.nameKey">-->
+<!--				<navigator style="display:flex;flex-direction: column;align-items: center;" :url="item.url">-->
+<!--					<image style="width:56rpx;height:56rpx;" :src="item.img" mode=""></image>-->
+<!--					<text>{{ $t(item.nameKey) }}</text>-->
+<!--				</navigator>-->
+<!--			</view>-->
+<!--		</view>-->
+<!--		<view class="box-header">-->
+<!--			<view class="icon">-->
+<!--			</view>-->
+<!--			<view class="title">-->
+<!--				{{ $t('work.quality') }}-->
+<!--			</view>-->
+<!--		</view>-->
+<!--		<view class="work-box">-->
+<!--			<view class="work-item" v-for="item in quality" :key="item.nameKey">-->
+<!--				<navigator style="display:flex;flex-direction: column;align-items: center;" :url="item.url">-->
+<!--					<image style="width:56rpx;height:56rpx" :src="item.img" mode=""></image>-->
+<!--					<text>{{ $t(item.nameKey) }}</text>-->
+<!--				</navigator>-->
+<!--			</view>-->
+<!--		</view>-->
 		<view class="box-header">
 			<view class="icon">
 			</view>
@@ -180,36 +180,36 @@
 				},
 			]),
 			warehouse: Object.freeze([
-				// {
-				// 	img: "../../static/images/xrk.png",
-				// 	nameKey: "pages.warehouse.inboundPickingNotAGV",
-				// 	url: "/pages/work/warehouse/inboundPicking/inboundPickingNotAGV"
-				// },
-				// {
-				// 	img: "../../static/images/xck.png",
-				// 	nameKey: "pages.warehouse.outboundPickingNotAGV",
-				// 	url: "/pages/work/warehouse/outboundPicking/outboundPickingNotAGV"
-				// },
-				// 入库拣货(非AGV)（已注释）
-				// 出库拣货(非AGV)（已注释）
+        // 入库拣货(非AGV)（已注释）
 				{
-				// 入库拣货
 					img: "../../static/images/xrk.png",
-					nameKey: "pages.warehouse.inboundPicking",
-					url: "/pages/work/warehouse/inboundPicking/inboundPicking"
+					nameKey: "pages.warehouse.inboundPickingNotAGV",
+					url: "/pages/work/warehouse/inboundPicking/inboundPickingNotAGV"
 				},
+        // 出库拣货(非AGV)（已注释）
 				{
-				// 出库拣货
 					img: "../../static/images/xck.png",
-					nameKey: "pages.warehouse.outboundPicking",
-					url: "/pages/work/warehouse/outboundPicking/outboundPicking"
+					nameKey: "pages.warehouse.outboundPickingNotAGV",
+					url: "/pages/work/warehouse/outboundPicking/outboundPickingNotAGV"
 				},
-				{
-				// 调拨
-					img: "../../static/images/diaobo.png",
-					nameKey: "pages.warehouse.transfer",
-					url: "/pages/work/warehouse/transfer/transfer"
-				},
+				// {
+				// // 入库拣货
+				// 	img: "../../static/images/xrk.png",
+				// 	nameKey: "pages.warehouse.inboundPicking",
+				// 	url: "/pages/work/warehouse/inboundPicking/inboundPicking"
+				// },
+				// {
+				// // 出库拣货
+				// 	img: "../../static/images/xck.png",
+				// 	nameKey: "pages.warehouse.outboundPicking",
+				// 	url: "/pages/work/warehouse/outboundPicking/outboundPicking"
+				// },
+				// {
+				// // 调拨
+				// 	img: "../../static/images/diaobo.png",
+				// 	nameKey: "pages.warehouse.transfer",
+				// 	url: "/pages/work/warehouse/transfer/transfer"
+				// },
 				{
 				// CTO箱拣选
 					img: "../../static/images/CTOrk.png",
@@ -228,132 +228,132 @@
 					nameKey: "pages.warehouse.cartonCodeQuery",
 					url: "/pages/work/warehouse/cartonCodeQuery/cartonCodeQuery"
 				},
-				{
-				// 物料入库
-					img: "../../static/images/wuliao_in.png",
-					nameKey: "pages.warehouse.materialin",
-					url: "/pages/work/warehouse/materialin/materialin"
-				},
-				{
-				// 物料出库
-					img: "../../static/images/wuliao_out.png",
-					nameKey: "pages.warehouse.materialout",
-					url: "/pages/work/warehouse/materialout/materialout"
-				},
-				{
-				// 物料退货
-					img: "../../static/images/wuliao_return.png",
-					nameKey: "pages.warehouse.materialreturn",
-					url: "/pages/work/warehouse/materialreturn/materialreturn"
-				},
-				{
-				// 物料退库
-					img: "../../static/images/wuliao_tuiku.png",
-					nameKey: "pages.warehouse.materialback",
-					url: "/pages/work/warehouse/materialback/materialback"
-				},
+				// {
+				// // 物料入库
+				// 	img: "../../static/images/wuliao_in.png",
+				// 	nameKey: "pages.warehouse.materialin",
+				// 	url: "/pages/work/warehouse/materialin/materialin"
+				// },
+				// {
+				// // 物料出库
+				// 	img: "../../static/images/wuliao_out.png",
+				// 	nameKey: "pages.warehouse.materialout",
+				// 	url: "/pages/work/warehouse/materialout/materialout"
+				// },
+				// {
+				// // 物料退货
+				// 	img: "../../static/images/wuliao_return.png",
+				// 	nameKey: "pages.warehouse.materialreturn",
+				// 	url: "/pages/work/warehouse/materialreturn/materialreturn"
+				// },
+				// {
+				// // 物料退库
+				// 	img: "../../static/images/wuliao_tuiku.png",
+				// 	nameKey: "pages.warehouse.materialback",
+				// 	url: "/pages/work/warehouse/materialback/materialback"
+				// },
 				{
 				// 物料调拨
 					img: "../../static/images/wuliao_diaobo.png",
 					nameKey: "pages.warehouse.materildb",
 					url: "/pages/work/warehouse/materildb/materildb"
 				},
-				{
-				// 成品入库
-					img: "../../static/images/chengpin_in.png",
-					nameKey: "pages.warehouse.cpin",
-					url: "/pages/work/warehouse/cpin/cpin"
-				},
-				{
-				// 成品发货
-					img: "../../static/images/chengpin_fahuo.png",
-					nameKey: "pages.warehouse.cpsend",
-					url: "/pages/work/warehouse/cpsend/cpsend"
-				},
-				{
-				// 成品退货
-					img: "../../static/images/chengpin_return.png",
-					nameKey: "pages.warehouse.cpreturn",
-					url: "/pages/work/warehouse/cpreturn/cpreturn"
-				},
-				{
-				// 成品退库
-					img: "../../static/images/chengpin_tuiku.png",
-					nameKey: "pages.warehouse.cpback",
-					url: "/pages/work/warehouse/cpback/cpback"
-				},
-				{
-				// 成品调拨
-					img: "../../static/images/chengpin_diaobo.png",
-					nameKey: "pages.warehouse.cpdb",
-					url: "/pages/work/warehouse/cpdb/cpdb"
-				},
-				{
-				// 货物上架
-					img: "../../static/images/shangjia.png",
-					nameKey: "pages.warehouse.goodsShelving",
-					url: "/pages/work/warehouse/goodsShelving/goodsShelving"
-				},
-				{
-				// 货物下架
-					img: "../../static/images/quhuo.png",
-					nameKey: "pages.warehouse.goodsUnshelving",
-					url: "/pages/work/warehouse/goodsUnshelving/goodsUnshelving"
-				},
+				// {
+				// // 成品入库
+				// 	img: "../../static/images/chengpin_in.png",
+				// 	nameKey: "pages.warehouse.cpin",
+				// 	url: "/pages/work/warehouse/cpin/cpin"
+				// },
+				// {
+				// // 成品发货
+				// 	img: "../../static/images/chengpin_fahuo.png",
+				// 	nameKey: "pages.warehouse.cpsend",
+				// 	url: "/pages/work/warehouse/cpsend/cpsend"
+				// },
+				// {
+				// // 成品退货
+				// 	img: "../../static/images/chengpin_return.png",
+				// 	nameKey: "pages.warehouse.cpreturn",
+				// 	url: "/pages/work/warehouse/cpreturn/cpreturn"
+				// },
+				// {
+				// // 成品退库
+				// 	img: "../../static/images/chengpin_tuiku.png",
+				// 	nameKey: "pages.warehouse.cpback",
+				// 	url: "/pages/work/warehouse/cpback/cpback"
+				// },
+				// {
+				// // 成品调拨
+				// 	img: "../../static/images/chengpin_diaobo.png",
+				// 	nameKey: "pages.warehouse.cpdb",
+				// 	url: "/pages/work/warehouse/cpdb/cpdb"
+				// },
+				// {
+				// // 货物上架
+				// 	img: "../../static/images/shangjia.png",
+				// 	nameKey: "pages.warehouse.goodsShelving",
+				// 	url: "/pages/work/warehouse/goodsShelving/goodsShelving"
+				// },
+				// {
+				// // 货物下架
+				// 	img: "../../static/images/quhuo.png",
+				// 	nameKey: "pages.warehouse.goodsUnshelving",
+				// 	url: "/pages/work/warehouse/goodsUnshelving/goodsUnshelving"
+				// },
 				{
 				// 盘点任务
 					img: "../../static/images/chengpin_diaobo.png",
 					nameKey: "pages.warehouse.inventoryTask",
 					url: "/pages/work/warehouse/inventoryTask/inventoryTask"
 				},
-				{
-				// 模具上模
-					img: "../../static/images/shangmu.png",
-					nameKey: "pages.warehouse.moldMounting",
-					url: "/pages/work/warehouse/moldMounting/moldMounting"
-				},
-				{
-				// 模具下模
-					img: "../../static/images/xiamu.png",
-					nameKey: "pages.warehouse.moldDismounting",
-					url: "/pages/work/warehouse/moldDismounting/moldDismounting"
-				},
-				{
-				// 工序上料
-					img: "../../static/images/shangliao.png",
-					nameKey: "pages.warehouse.processFeeding",
-					url: "/pages/work/warehouse/processFeeding/processFeeding"
-				},
-				{
-				// 工序报工
-					img: "../../static/images/baogong.png",
-					nameKey: "pages.warehouse.processReport",
-					url: "/pages/work/warehouse/processReport/processReport"
-				},
-				{
-				// 设备点检
-					img: "../../static/images/shebeidianjian.png",
-					nameKey: "pages.warehouse.equipmentSpotCheck",
-					url: "/pages/work/warehouse/equipmentSpotCheck/equipmentSpotCheck"
-				},
-				{
-				// 设备保养
-					img: "../../static/images/shebeibaoyang.png",
-					nameKey: "pages.warehouse.equipmentMaintenance",
-					url: "/pages/work/warehouse/equipmentMaintenance/equipmentMaintenance"
-				},
-				{
-				// 设备报修
-					img: "../../static/images/baoxiu.png",
-					nameKey: "pages.warehouse.equipmentRepairRequest",
-					url: "/pages/work/warehouse/equipmentRepairRequest/equipmentRepairRequest"
-				},
-				{
-				// 维修任务
-					img: "../../static/images/weixiurenwu.png",
-					nameKey: "pages.warehouse.repairTask",
-					url: "/pages/work/warehouse/repairTask/repairTask"
-				},
+				// {
+				// // 模具上模
+				// 	img: "../../static/images/shangmu.png",
+				// 	nameKey: "pages.warehouse.moldMounting",
+				// 	url: "/pages/work/warehouse/moldMounting/moldMounting"
+				// },
+				// {
+				// // 模具下模
+				// 	img: "../../static/images/xiamu.png",
+				// 	nameKey: "pages.warehouse.moldDismounting",
+				// 	url: "/pages/work/warehouse/moldDismounting/moldDismounting"
+				// },
+				// {
+				// // 工序上料
+				// 	img: "../../static/images/shangliao.png",
+				// 	nameKey: "pages.warehouse.processFeeding",
+				// 	url: "/pages/work/warehouse/processFeeding/processFeeding"
+				// },
+				// {
+				// // 工序报工
+				// 	img: "../../static/images/baogong.png",
+				// 	nameKey: "pages.warehouse.processReport",
+				// 	url: "/pages/work/warehouse/processReport/processReport"
+				// },
+				// {
+				// // 设备点检
+				// 	img: "../../static/images/shebeidianjian.png",
+				// 	nameKey: "pages.warehouse.equipmentSpotCheck",
+				// 	url: "/pages/work/warehouse/equipmentSpotCheck/equipmentSpotCheck"
+				// },
+				// {
+				// // 设备保养
+				// 	img: "../../static/images/shebeibaoyang.png",
+				// 	nameKey: "pages.warehouse.equipmentMaintenance",
+				// 	url: "/pages/work/warehouse/equipmentMaintenance/equipmentMaintenance"
+				// },
+				// {
+				// // 设备报修
+				// 	img: "../../static/images/baoxiu.png",
+				// 	nameKey: "pages.warehouse.equipmentRepairRequest",
+				// 	url: "/pages/work/warehouse/equipmentRepairRequest/equipmentRepairRequest"
+				// },
+				// {
+				// // 维修任务
+				// 	img: "../../static/images/weixiurenwu.png",
+				// 	nameKey: "pages.warehouse.repairTask",
+				// 	url: "/pages/work/warehouse/repairTask/repairTask"
+				// },
 				// {
 				// 	img: "../../static/images/chengpin_diaobo.png",
 				// 	nameKey: "pages.warehouse.printTest",
