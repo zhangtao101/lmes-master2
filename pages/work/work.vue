@@ -165,26 +165,26 @@
 					},
 				]),
 				warehouse: Object.freeze([
-					// {
-					// 	img: "../../static/images/xrk.png",
-					// 	nameKey: "pages.warehouse.inboundPickingNotAGV",
-					// 	url: "/pages/work/warehouse/inboundPicking/inboundPickingNotAGV"
-					// },
-					// {
-					// 	img: "../../static/images/xck.png",
-					// 	nameKey: "pages.warehouse.outboundPickingNotAGV",
-					// 	url: "/pages/work/warehouse/outboundPicking/outboundPickingNotAGV"
-					// },
 					{
 						img: "../../static/images/xrk.png",
-						nameKey: "pages.warehouse.inboundPicking",
-						url: "/pages/work/warehouse/inboundPicking/inboundPicking"
+						nameKey: "pages.warehouse.inboundPickingNotAGV",
+						url: "/pages/work/warehouse/inboundPicking/inboundPickingNotAGV"
 					},
 					{
 						img: "../../static/images/xck.png",
-						nameKey: "pages.warehouse.outboundPicking",
-						url: "/pages/work/warehouse/outboundPicking/outboundPicking"
+						nameKey: "pages.warehouse.outboundPickingNotAGV",
+						url: "/pages/work/warehouse/outboundPicking/outboundPickingNotAGV"
 					},
+					// {
+					// 	img: "../../static/images/xrk.png",
+					// 	nameKey: "pages.warehouse.inboundPicking",
+					// 	url: "/pages/work/warehouse/inboundPicking/inboundPicking"
+					// },
+					// {
+					// 	img: "../../static/images/xck.png",
+					// 	nameKey: "pages.warehouse.outboundPicking",
+					// 	url: "/pages/work/warehouse/outboundPicking/outboundPicking"
+					// },
 					{
 						img: "../../static/images/diaobo.png",
 						nameKey: "pages.warehouse.transfer",
