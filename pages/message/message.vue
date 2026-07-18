@@ -1,6 +1,6 @@
 <template>
 	<view>
-		message
+		{{ $t('message.title') }}
 	</view>
 </template>
 

@@ -3,39 +3,39 @@
 		<view class="box-header">
 			<view class="icon">
 			</view>
-			<text class="title">物料入库</text>
+			<text class="title">{{ $t('pages.warehouse.materialin') }}</text>
 		</view>
 		<view class="box-body">
 			<view class="warehouse-info">
 				<view class="header">
 					<view class="left">
 						<uni-icons type="home" color="#fff" size="18"></uni-icons>
-						<text>库位：{{wareLocationCode}}</text>
+						<text>{{ $t('warehouse.location') }}{{wareLocationCode}}</text>
 					</view>
 				</view>
 				<view class="scan-input-row">
-					<input class="scan-input" v-model="locationInput" placeholder="请输入或扫描库位" @confirm="onLocationInputConfirm" />
+					<input class="scan-input" v-model="locationInput" :placeholder="$t('warehouse.locationPlaceholder')" @confirm="onLocationInputConfirm" />
 					<view class="scan-btn" @click="onLocationScan">
 						<uni-icons type="scan" color="#fff" size="16"></uni-icons>
 					</view>
 				</view>
 				<view class="body">
 					<view class="left">
-						<text>所属仓库</text>
+						<text>{{ $t('warehouse.warehouseBelong') }}</text>
 						<text>{{warehouse.wareLocationName}}</text>
 					</view>
 					<view class="right">
-						<text>所属库区</text>
+						<text>{{ $t('warehouse.areaBelong') }}</text>
 						<text>{{warehouse.wareAreaName}}</text>
 					</view>
 				</view>
 				<view class="body">
 					<view class="left">
-						<text>物理仓库</text>
+						<text>{{ $t('warehouse.physicalWarehouse') }}</text>
 						<text>{{warehouse.warehouseName}}</text>
 					</view>
 					<view class="right">
-						<text>逻辑仓库</text>
+						<text>{{ $t('warehouse.logicalWarehouse') }}</text>
 						<text>{{logicalWarehoueName}}</text>
 					</view>
 				</view>
@@ -44,17 +44,17 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="compose"></uni-icons>
-						<text class="title">入库明细</text>
+						<text class="title">{{ $t('warehouse.inboundDetail') }}</text>
 					</view>
 				</view>
 			<view class="header">
 				<view class="left">
 					<uni-icons custom-prefix="iconfont" type="icon-tiaoxingma"></uni-icons>
-					<text class="label">标签</text>
+					<text class="label">{{ $t('warehouse.label') }}</text>
 				</view>
 			</view>
 			<view class="scan-input-row">
-				<input class="scan-input" v-model="labelInput" :focus="labelFocus" placeholder="请输入或扫描标签" @confirm="onLabelInputConfirm" />
+				<input class="scan-input" v-model="labelInput" :focus="labelFocus" :placeholder="$t('warehouse.labelPlaceholder')" @confirm="onLabelInputConfirm" />
 				<view class="scan-btn" @click="onLabelScan">
 					<uni-icons type="scan" color="#fff" size="16"></uni-icons>
 				</view>
@@ -62,25 +62,25 @@
 				<view class="label-info-container" v-for="labelInfo in labelList" :key="labelInfo.labelCode">
 					<view class="label-item">
 						<view class="left">
-							<text>标签号：</text>
+							<text>{{ $t('warehouse.labelCode') }}</text>
 							<text class="value">{{labelInfo.labelCode}}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>物料编号：</text>
+							<text>{{ $t('warehouse.materialCode') }}</text>
 							<text class="value">{{labelInfo.materialCode}}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>物料名称：</text>
+							<text>{{ $t('produce.worksheetoff.materialName') }}</text>
 							<text class="value">{{labelInfo.materialName}}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>供应商：</text>
+							<text>{{ $t('produce.touliao.supplier') }}</text>
 							<text class="value">{{labelInfo.manufacturerName }}</text>
 						</view>
 					</view>
@@ -92,11 +92,11 @@
 					</view> -->
 					<view class="label-item">
 						<view class="left">
-							<text>入库量：</text>
+							<text>{{ $t('warehouse.inboundQty') }}</text>
 							<text class="value">{{labelInfo.packageNumber }}</text>
 						</view>
 						<view class="right">
-							<text>物料单位：</text>
+							<text>{{ $t('produce.touliao.materialUnit') }}</text>
 							<text class="value">{{labelInfo.unit }}</text>
 						</view>
 					</view>
@@ -104,7 +104,7 @@
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini" @click="onSubmit">确认提交</button>
+			<button type="primary" size="mini" @click="onSubmit">{{ $t('common.confirmSubmit') }}</button>
 		</view>
 	</view>
 </template>
@@ -148,7 +148,7 @@
 							_this.loadLabelInfo(code);
 						} else {
 							uni.showToast({
-								title: "标签无效！"
+								title: this.$t('warehouse.tagInvalid')
 							});
 						}
 					})
@@ -227,26 +227,26 @@
 					})
 				});
 			},
-	// 标签输入框回车确认
-	onLabelInputConfirm: function() {
-		this.labelInput = '';
-		// 延迟取码，避免扫码枪HID输入过快导致v-model未完成同步
-		const _this = this;
-		setTimeout(function() {
-			const code = _this.labelInput.trim();
-			_this.labelInput = '';
-			if (code) {
-				_this.loadLabelInfo(code).then(function() {
-					// 接口调用完成后清空输入框并重新获取焦点
-					_this.labelInput = '';
-					_this.labelFocus = false;
-					_this.$nextTick(function() {
-						_this.labelFocus = true;
+		// 标签输入框回车确认
+		onLabelInputConfirm: function() {
+			this.labelInput = '';
+			// 延迟取码，避免扫码枪HID输入过快导致v-model未完成同步
+			const _this = this;
+			setTimeout(function() {
+				const code = _this.labelInput.trim();
+				_this.labelInput = '';
+				if (code) {
+					_this.loadLabelInfo(code).then(function() {
+						// 接口调用完成后清空输入框并重新获取焦点
+						_this.labelInput = '';
+						_this.labelFocus = false;
+						_this.$nextTick(function() {
+							_this.labelFocus = true;
+						});
 					});
-				});
-			}
-		}, 200);
-	},
+				}
+			}, 200);
+		},
 		onSubmit: async function() {
 				const _labelList = [];
 				const _this = this;
@@ -263,7 +263,7 @@
 				const res = await material.materialIn(_labelList);
 				if (res.code == 200) {
 					uni.showToast({
-						title: '入库成功'
+						title: this.$t('warehouse.inboundSuccess')
 					})
 					this.wareLocationCode = '';
 					this.warehouse = {};

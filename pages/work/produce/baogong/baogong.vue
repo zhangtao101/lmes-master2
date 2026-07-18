@@ -2,37 +2,37 @@
 	<view class="baogong-container">
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>
-			<text class="common-text">工位：{{workStation.clientCode}}</text>
+			<text class="common-text">{{ $t('ws.workStation') }}{{workStation.clientCode}}</text>
 			<view class="common-right" @click="onWrokStationScan">
-				请扫描
+				{{ $t('common.scan') }}
 			</view>
 		</view>
 		<view class="baogong-content">
 			<view class="baogong-item">
-				<text class="label">工序：</text>
+				<text class="label">{{ $t('ws.process') }}</text>
 				<text class="value">{{workStation.processName}}</text>
-				<text class="label">设备：</text>
+				<text class="label">{{ $t('ws.equipment') }}</text>
 				<text class="value">{{workStation.equipmentName}}</text>
 			</view>
 		</view>
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>
-			<text class="common-text">工单号：{{workSheet.workSheetCode}}</text>
+			<text class="common-text">{{ $t('ws.workSheet') }}{{workSheet.workSheetCode}}</text>
 			<view class="common-right" @click="onWorksheetScan">
-				请扫描
+				{{ $t('common.scan') }}
 			</view>
 		</view>
 		<view class="baogong-content">
 			<view class="baogong-item">
-				<text class="label">产品编号：</text>
+				<text class="label">{{ $t('ws.productCode') }}</text>
 				<text class="value">{{workSheet.productCode}}</text>
 			</view>
 			<view class="baogong-item">
-				<text class="label">产品名称：</text>
+				<text class="label">{{ $t('ws.productName') }}</text>
 				<text class="value">{{workSheet.productName}}</text>
 			</view>
 			<view class="baogong-item">
-				<text class="label">报工数量</text>
+				<text class="label">{{ $t('produce.baogong.qty') }}</text>
 				<text class="value">
 					<uni-number-box :max="10000" v-model="bgCount"></uni-number-box>
 				</text>
@@ -40,13 +40,13 @@
 		</view>
 		<view class="baogong-content second">
 			<view class="baogong-item">
-				<text class="label">报工人</text>
+				<text class="label">{{ $t('produce.baogong.user') }}</text>
 				<text class="value">{{bgUser.userName}}</text>
 			</view>
 			<!-- <view class="baogong-item">
 				<text class="label">工单/跟踪标签</text>
 				<text class="value">
-					请扫描或选择
+					{{ $t('common.scan') }}或选择
 					<uni-icons color="#007aff" type="forward" size="18"></uni-icons>
 				</text>
 			</view> -->
@@ -57,7 +57,7 @@
 				<text>跳转操作</text> -->
 			</view>
 			<view class="right">
-				<button type="primary" size="mini" @click="onBaogong">报工</button>
+				<button type="primary" size="mini" @click="onBaogong">{{ $t('produce.baogong.confirm') }}</button>
 			</view>
 		</view>
 	</view>
@@ -138,7 +138,7 @@
 			onBaogong: async function() {
 				if (!this.bgCount) {
 					uni.showToast({
-						title: '请输入报工数量'
+						title: this.$t('produce.baogong.inputQtyTip')
 					})
 					return;
 				}
@@ -146,7 +146,7 @@
 					.userCode, 0);
 				if (res.code == 200) {
 					uni.showToast({
-						title: "报工成功！"
+						title: this.$t('produce.baogong.success')
 					});
 					this.workSheet = {};
 					this.workStation = {};

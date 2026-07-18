@@ -8,14 +8,14 @@
 				:class="{ active: currentAssetType === 'EQUIP' }"
 				@click="onAssetTypeChange('EQUIP')"
 			>
-				<text>设备</text>
+				<text>{{$t('warehouse.assetEquip')}}</text>
 			</view>
 			<view
 				class="asset-type-item"
 				:class="{ active: currentAssetType === 'MOLD' }"
 				@click="onAssetTypeChange('MOLD')"
 			>
-				<text>模具</text>
+				<text>{{$t('warehouse.assetMold')}}</text>
 			</view>
 		</view>
 
@@ -24,12 +24,12 @@
 			<input
 				class="search-input"
 				v-model="searchKey"
-				placeholder="输入关键字搜索"
+				:placeholder="$t('warehouse.keywordPlaceholder')"
 				placeholder-style="color:#bbb;"
 				@confirm="onSearch"
 			/>
 			<view class="search-btn" @click="onSearch">
-				<text>查询</text>
+				<text>{{$t('warehouse.query')}}</text>
 			</view>
 		</view>
 
@@ -38,7 +38,7 @@
 			<view class="task-card" v-for="(task, index) in taskList" :key="index" @click="onTaskClick(task)">
 				<view class="task-header">
 					<view class="task-title-wrapper">
-						<text class="task-title">{{ task.repairCode || '维修任务' }}</text>
+						<text class="task-title">{{ task.repairCode || $t('warehouse.repairTaskTitle') }}</text>
 					</view>
 					<view class="task-status-badge" :class="getStatusClass(task.status)">
 						<text>{{ getStatusText(task.status) }}</text>
@@ -46,37 +46,37 @@
 				</view>
 				<view class="task-body">
 					<view class="task-row" v-if="task.equipmentCode">
-						<text class="label">设备编码</text>
+						<text class="label">{{$t('warehouse.equipmentCodeText')}}</text>
 						<text class="value">{{ task.equipmentCode }}</text>
 					</view>
 					<view class="task-row" v-if="task.equipmentName">
-						<text class="label">设备名称</text>
+						<text class="label">{{$t('warehouse.equipmentName')}}</text>
 						<text class="value">{{ task.equipmentName }}</text>
 					</view>
 					<view class="task-row" v-if="task.moldCode">
-						<text class="label">模具编码</text>
+						<text class="label">{{$t('warehouse.moldCodeNo')}}</text>
 						<text class="value">{{ task.moldCode }}</text>
 					</view>
 					<view class="task-row" v-if="task.moldName">
-						<text class="label">模具名称</text>
+						<text class="label">{{$t('warehouse.moldName')}}</text>
 						<text class="value">{{ task.moldName }}</text>
 					</view>
 					<view class="task-row" v-if="task.repairType">
-						<text class="label">报修类型</text>
+						<text class="label">{{$t('warehouse.repairType')}}</text>
 						<text class="value">{{ task.repairType }}</text>
 					</view>
 					<view class="task-row" v-if="task.repairItem">
-						<text class="label">报修事项</text>
+						<text class="label">{{$t('warehouse.repairItem')}}</text>
 						<text class="value">{{ task.repairItem }}</text>
 					</view>
 					<view class="task-row">
-						<text class="label">报修时间</text>
+						<text class="label">{{$t('warehouse.repairTime')}}</text>
 						<text class="value">{{ task.createTime || '--' }}</text>
 					</view>
 				</view>
 				<view class="task-footer">
 					<uni-icons type="arrowright" size="16" color="#667eea"></uni-icons>
-					<text>{{ task.status === 'DONE' ? '查看详情' : '进入维修' }}</text>
+					<text>{{ task.status === 'DONE' ? $t('warehouse.viewDetail') : $t('warehouse.enterRepair') }}</text>
 				</view>
 			</view>
 		</view>
@@ -84,7 +84,7 @@
 		<!-- 空状态 -->
 		<view class="empty-state" v-else-if="!loading && taskList.length === 0">
 			<uni-icons type="inbox" size="60" color="#ccc"></uni-icons>
-			<text>{{ searchKey ? '无匹配结果' : '暂无维修任务' }}</text>
+			<text>{{ searchKey ? $t('warehouse.noMatch') : $t('warehouse.noRepairTask') }}</text>
 		</view>
 	</view>
 
@@ -92,7 +92,7 @@
 	<view class="loading-mask" v-if="loading">
 		<view class="loading-content">
 			<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-			<text class="loading-text">加载中...</text>
+			<text class="loading-text">{{$t('warehouse.loadingDots')}}</text>
 		</view>
 	</view>
 	</view>
@@ -147,13 +147,13 @@
 			getStatusText(status) {
 				switch (status) {
 					case 'WAITING':
-						return '待维修'
+						return this.$t('warehouse.statusWaitRepair')
 					case 'PROCESSING':
-						return '维修中'
+						return this.$t('warehouse.statusRepairing')
 					case 'PAUSED':
-						return '已完成'
+						return this.$t('warehouse.statusDone')
 					default:
-						return '未知'
+						return this.$t('warehouse.unknown')
 				}
 			},
 
@@ -173,7 +173,7 @@
 					} else {
 						this.taskList = []
 						showBeautyToast({
-							title: resp.msg || '加载失败',
+							title: resp.msg || this.$t('warehouse.loadFail'),
 							icon: 'none'
 						})
 					}
@@ -181,7 +181,7 @@
 					this.loading = false
 					this.taskList = []
 					showBeautyToast({
-						title: '加载失败',
+						title: this.$t('warehouse.loadFail'),
 						icon: 'none'
 					})
 				})

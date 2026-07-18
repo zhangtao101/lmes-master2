@@ -6,15 +6,16 @@
 
 **Architecture:** 采用 uni-app 官方两套并列机制——代码层用 `vue-i18n`（`main.js` 挂载，`$t()` 取词）处理 `.vue` 页面内文案；配置层用根目录 `locale/` 文件夹 + `%%` 占位处理 `pages.json`/`tabBar`/`manifest.json`。三语言文件 `locale/{zh-Hans,en,ko}.json` 作为单一数据源同时被两套机制引用，按命名空间（`app.*` / `tab.*` / `pages.*` / `<模块>.*`）组织 key。
 
-**Tech Stack:** uni-app (Vue3, `createSSRApp`) + `vue-i18n@9.x`（经 HBuilderX 插件市场导入 `uni_modules`）+ HBuilderX 工程（无 npm）。
+**Tech Stack:** uni-app (Vue3, `createSSRApp`) + `vue-i18n@9.x`（依赖由用户自行引入，本计划不处理）+ HBuilderX 工程（无 npm）。
 
 ## Global Constraints
 
 - 目标语言：`zh-Hans`（默认）/ `en` / `ko`，对应 `locale/zh-Hans.json`、`locale/en.json`、`locale/ko.json`。
 - 语言固定方式：`manifest.json` 顶层 `"locale"` 字段（值 `zh-Hans`/`en`/`ko`），**不做运行时切换、无 App 内语言入口**。
 - 运行平台：**仅 App（Android/iOS）**；tabBar `%%` 原生国际化可用，不考虑微信小程序。
-- 依赖：`vue-i18n` 当前不在工程内，须先经 HBuilderX 插件市场导入 `vue-i18n@9.x` 到 `uni_modules`，之后 `import { createI18n } from 'vue-i18n'`。
+- 依赖：`vue-i18n` 的引入由用户自行解决（已确认项目可 `import { createI18n } from 'vue-i18n'`），本计划不处理依赖安装，后续 Task 默认该 import 可正常解析。
 - 代码风格：沿用项目现有规范（`.then()` 链式、必要时 `const _this = this`），**仅替换中文文案，不重构业务逻辑**。
+- 提交策略：**执行期间不单独 `git commit`**，所有改动由用户统一提交；各 Task 中的 Commit 步骤均已移除，仅保留验证步骤。
 - 两套系统独立：`pages.json`/`tabBar`/`manifest` 用 `"%key%"`；`.vue` 页面内用 `$t('key')`，勿混淆。
 - 后端接口返回的中文状态/类型数据（v1）不处理，属数据非 UI。
 
@@ -41,27 +42,11 @@
 
 ## Phase 0 — 基础设施
 
-### Task 1: 导入 vue-i18n 依赖
+### Task 1: vue-i18n 依赖（前置条件，由用户解决）
 
-**Files:**
-- 工程依赖（非文件编辑）
+> 依赖引入由用户负责（已确认项目可 `import { createI18n } from 'vue-i18n'`）。本任务不执行任何改动，后续 Task 默认该 import 已可用。
 
-**Interfaces:**
-- 无（前置条件）
-
-- [ ] **Step 1: 通过 HBuilderX 插件市场导入 vue-i18n**
-  在 HBuilderX 中：右键项目 →「插件市场」→ 搜索 `vue-i18n` → 导入（版本 `9.x`，如 `9.1.9`），安装到 `uni_modules`。
-  预期：工程 `uni_modules/vue-i18n/` 目录存在，`import { createI18n } from 'vue-i18n'` 可解析。
-- [ ] **Step 2: 验证可解析**
-  在 `main.js` 顶部临时加 `import { createI18n } from 'vue-i18n'`，HBuilderX 不报红即成功；随后在 Task 2 正式使用。
-
-> 注：若插件市场导入失败，退路为初始化 npm（`package.json` 加 `vue-i18n@9.1.9` 后 `npm install`），但优先插件市场方案。
-
-- [ ] **Step 3: Commit**
-```bash
-git add -A
-git commit -m "chore: 导入 vue-i18n 依赖(uni_modules)"
-```
+- [ ] **前置确认**：执行 Task 2 前，确认 `import { createI18n } from 'vue-i18n'` 在工程内可解析。
 
 ### Task 2: 创建三语言词条文件（基础层）
 
@@ -424,11 +409,8 @@ git commit -m "chore: 导入 vue-i18n 依赖(uni_modules)"
 }
 ```
 
-- [ ] **Step 4: Commit**
-```bash
-git add locale/
-git commit -m "feat(i18n): 添加三语言基础词条文件"
-```
+- [ ] **Step 4: 验证**
+三语言基础词条文件已创建，结构一致，可被 `main.js` 与 `pages.json` 引用。
 
 ### Task 3: 挂载 i18n 到 main.js
 
@@ -478,11 +460,8 @@ export function createApp() {
 
 - [ ] **Step 2: 验证**
 HBuilderX 中「运行」→「运行到手机或模拟器」，无 `createI18n` 解析报错即成功。
-- [ ] **Step 3: Commit**
-```bash
-git add main.js
-git commit -m "feat(i18n): main.js 挂载 createI18n，locale 读取 manifest"
-```
+- [ ] **Step 3: 验证**
+HBuilderX 中「运行」→「运行到手机或模拟器」，无 `createI18n` 解析报错即成功。
 
 ### Task 4: manifest.json 固定默认语言
 
@@ -508,11 +487,8 @@ git commit -m "feat(i18n): main.js 挂载 createI18n，locale 读取 manifest"
 
 - [ ] **Step 2: 验证**
 「运行到手机」后，应用默认以简中显示（后续改 `locale` 即验证切换）。
-- [ ] **Step 3: Commit**
-```bash
-git add manifest.json
-git commit -m "feat(i18n): manifest.json 固定默认语言 locale"
-```
+- [ ] **Step 3: 验证**
+「运行到手机」后，应用默认以简中显示（后续改 `locale` 即验证切换）。
 
 ### Task 5: pages.json 导航栏标题与 tabBar 国际化
 
@@ -587,11 +563,8 @@ git commit -m "feat(i18n): manifest.json 固定默认语言 locale"
 
 - [ ] **Step 4: 验证（壳层三语）**
 将 `manifest.json` 的 `locale` 依次改为 `en` / `ko` 各运行一次，确认各页面导航栏标题与底部 4 个 tab 文案随之变化，然后改回 `zh-Hans`。
-- [ ] **Step 5: Commit**
-```bash
-git add pages.json
-git commit -m "feat(i18n): pages.json 导航栏标题与 tabBar 国际化"
-```
+- [ ] **Step 5: 验证（壳层三语）**
+将 `manifest.json` 的 `locale` 依次改为 `en` / `ko` 各运行一次，确认各页面导航栏标题与底部 4 个 tab 文案随之变化，然后改回 `zh-Hans`。
 
 ---
 
@@ -652,12 +625,8 @@ if (!this.username || !this.password) {
 	})
 ```
 
-- [ ] **Step 3: 验证并提交**
+- [ ] **Step 3: 验证**
 运行确认登录页占位符、按钮、空校验、失败提示三语正确。
-```bash
-git add pages/login/login.vue
-git commit -m "feat(i18n): login.vue 文案国际化"
-```
 
 ### Task 7: work.vue 作业中心菜单国际化
 
@@ -689,12 +658,8 @@ git commit -m "feat(i18n): login.vue 文案国际化"
 ```
 > 例：`{ img: '...', nameKey: 'pages.produce.worksheeton', url: '/pages/work/produce/worksheeton/worksheeton' }`。对 `product`/`quality`/`warehouse`/`devices`/`andon` 全部菜单项按此规则替换（devices/andon 当前被注释，也一并改好备用）。
 
-- [ ] **Step 3: 验证并提交**
+- [ ] **Step 3: 验证**
 运行确认作业中心模块标题与所有菜单项三语正确。
-```bash
-git add pages/work/work.vue
-git commit -m "feat(i18n): work.vue 作业中心菜单国际化"
-```
 
 ### Task 8: index.vue 国际化
 
@@ -720,11 +685,8 @@ git commit -m "feat(i18n): work.vue 作业中心菜单国际化"
 uni.showToast({ title: this.$t('index.loginFirst') })
 ```
 
-- [ ] **Step 2: 提交**
-```bash
-git add pages/index/index.vue
-git commit -m "feat(i18n): index.vue 国际化"
-```
+- [ ] **Step 2: 验证**
+运行确认主页文案三语正确。
 
 ### Task 9: message.vue / profile.vue 国际化
 
@@ -738,11 +700,8 @@ git commit -m "feat(i18n): index.vue 国际化"
 `message.vue`：`<view>{{ $t('message.title') }}</view>`
 `profile.vue`：`<view>{{ $t('profile.title') }}</view>`
 
-- [ ] **Step 2: 提交**
-```bash
-git add pages/message/message.vue pages/profile/profile.vue
-git commit -m "feat(i18n): message/profile 页国际化"
-```
+- [ ] **Step 2: 验证**
+运行确认消息/我的页标题三语正确。
 
 ---
 
@@ -800,18 +759,14 @@ git commit -m "feat(i18n): message/profile 页国际化"
 uni.showToast({ title: this.$t('common.onlineSuccess') })
 ```
 
-- [ ] **Step 3: 验证并提交**
+- [ ] **Step 3: 验证**
 运行「工单进站」页，切换 `manifest.json` 的 `locale` 为 `en`/`ko` 确认整页文案三语正确，改回 `zh-Hans`。
-```bash
-git add pages/work/produce/worksheeton/worksheeton.vue
-git commit -m "feat(i18n): worksheeton.vue 代表页全量国际化(模板)"
-```
 
 ---
 
 ## Phase 3+ — 业务模块逐批
 
-> 以下每个模块任务：对列出的每个 `.vue` 页面，执行「抽取中文 → 在 `locale/zh-Hans.json` 等三文件追加 `<模块>.<页>.<语义>` key（zh-Hans=当前中文，en/ko=翻译）→ 模板/JS 替换为 `$t()`」。**每个页面单独 commit**。翻译规则：en/ko 由执行者在已建立的 `pages.*`/`ws.*`/`common.*` 风格上生成初版（译员后续校对）。不重构业务逻辑，保留 `.then()`/`async` 原样。
+> 以下每个模块任务：对列出的每个 `.vue` 页面，执行「抽取中文 → 在 `locale/zh-Hans.json` 等三文件追加 `<模块>.<页>.<语义>` key（zh-Hans=当前中文，en/ko=翻译）→ 模板/JS 替换为 `$t()`」。**每个页面单独验证**。翻译规则：en/ko 由执行者在已建立的 `pages.*`/`ws.*`/`common.*` 风格上生成初版（译员后续校对）。不重构业务逻辑，保留 `.then()`/`async` 原样。
 
 ### Task 11: produce 模块（其余生产页）
 
@@ -825,12 +780,8 @@ git commit -m "feat(i18n): worksheeton.vue 代表页全量国际化(模板)"
 - [ ] **Step 1: 逐页抽取并替换**
 对每个页面：① 列出模板内所有字面中文（标签、按钮、placeholder、toast）；② 在 `locale/*.json` 追加 `produce.<页>.<key>`；③ 替换为 `$t()`。
 示例（`worker.vue` 若有「人员上工」标题类文案）：key `produce.worker.title` 已在 `pages.produce.worker` 存在可复用；页内专属文案新增强如 `produce.worker.clockIn`="上工"。
-- [ ] **Step 2: 每页 commit**
-```bash
-git add pages/work/produce/worker/worker.vue locale/
-git commit -m "feat(i18n): produce/worker 页国际化"
-```
-（其余页面同理，逐个提交）
+- [ ] **Step 2: 每页验证**
+（其余页面同理，逐页运行验证）
 - [ ] **Step 3: 模块验证**
 切换 `locale` 运行 produce 各页，确认无残留中文硬编码。
 
@@ -845,7 +796,7 @@ git commit -m "feat(i18n): produce/worker 页国际化"
 
 - [ ] **Step 1: 逐页抽取并替换**
 同 Task 11 模式，key 前缀 `warehouse.<页>.<语义>`。复用 Task 2 已有 `pages.warehouse.*` 作为导航类文案；页内按钮/标签/提示新增加具体 key（如 `warehouse.materialin.scan`="扫描入库单"）。
-- [ ] **Step 2: 每页 commit**（逐个提交，子组件随所属主页面一并提交）
+- [ ] **Step 2: 每页验证**（逐页运行验证，子组件随所属主页面一并处理）
 - [ ] **Step 3: 模块验证**
 切换 `locale` 运行 warehouse 各页，确认无残留中文。
 
@@ -860,7 +811,7 @@ git commit -m "feat(i18n): produce/worker 页国际化"
 
 - [ ] **Step 1: 逐页抽取并替换**
 key 前缀 `quality./device./andon.<页>.<语义>`，复用 Task 2 `pages.*` 导航 key。
-- [ ] **Step 2: 每页 commit**
+- [ ] **Step 2: 每页验证**
 - [ ] **Step 3: 模块验证**
 切换 `locale` 运行各页，确认无残留中文。
 
@@ -883,11 +834,8 @@ key 前缀 `quality./device./andon.<页>.<语义>`，复用 Task 2 `pages.*` 导
 对每一处补 key 并替换，三语言文件同步追加。
 - [ ] **Step 3: 一致性检查**
 确认 `zh-Hans/en/ko` 三文件 key 完全一致（无某语言缺 key；缺则回退 `fallbackLocale: 'zh-Hans'`）。
-- [ ] **Step 4: 提交**
-```bash
-git add -A
-git commit -m "chore(i18n): 收尾—遗漏扫描与三语对齐"
-```
+- [ ] **Step 4: 收尾说明**
+记录遗漏扫描与三语对齐结果（提交由用户统一进行）。
 
 ### Task 15: 真机三语截图验证
 
@@ -897,11 +845,8 @@ git commit -m "chore(i18n): 收尾—遗漏扫描与三语对齐"
 每语言对关键页截图，确认导航栏、tabBar、页面内文案、toast 均随语言变化且排版无溢出。
 - [ ] **Step 3: 输出 key 命名规范文档**
 在 `docs/superpowers/specs/` 追加 `i18n-keys.md`，记录命名空间约定与新增 key 流程。
-- [ ] **Step 4: 提交**
-```bash
-git add -A
-git commit -m "docs(i18n): 补充 key 命名规范与验证截图说明"
-```
+- [ ] **Step 4: 输出文档**
+在 `docs/superpowers/specs/` 追加 `i18n-keys.md`，记录命名空间约定与新增 key 流程（提交由用户统一进行）。
 
 ---
 

@@ -4,28 +4,28 @@
 			<view class="box-header">
 				<view class="icon">
 				</view>
-				<view class="title">未读消息
-				</view>
+			<view class="title">{{ $t('index.unreadMsg') }}
+			</view>
 			</view>
 			<view class="box-content">
 				<view class="content-item" v-for="item in 2" :key="item">
-					未读消息{{item}}
+					{{ $t('index.unreadMsg') }}{{item}}
 				</view>
-				<view class="more">
-					更多>>
-				</view>
+			<view class="more">
+				{{ $t('index.more') }}
+			</view>
 			</view>
 		</view>
 		<view class="container-box">
 			<view class="box-header">
 				<view class="icon">
 				</view>
-				<view class="title">待办任务
-				</view>
+			<view class="title">{{ $t('index.todo') }}
+			</view>
 			</view>
 			<view class="box-content task-content">
 				<view class="task-item" v-for="item in 5" :key="item">
-					待办任务{{item}}
+					{{ $t('index.todo') }}{{item}}
 				</view>
 			</view>
 		</view>
@@ -45,7 +45,7 @@
 			const auth = uni.getStorageSync('auth');
 			if (!auth) {
 				uni.showToast({
-					title: '请先登录！'
+					title: this.$t('index.loginFirst')
 				})
 				uni.navigateTo({
 					url: '/pages/login/login'

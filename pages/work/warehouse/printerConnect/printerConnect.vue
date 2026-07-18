@@ -1,22 +1,22 @@
 <template>
 	<view class="print-container">
 		<view class="section">
-			<view class="section-title">搜索打印机</view>
+			<view class="section-title">{{$t('warehouse.searchPrinter')}}</view>
 			<view class="btn-row">
 				<button class="action-btn" :class="{ loading: isSearching }" :disabled="isSearching" @click="searchBluetooth">
-					{{ isSearching ? '搜索中...' : '搜索蓝牙' }}
+					{{ isSearching ? $t('warehouse.searching') : $t('warehouse.searchBluetooth') }}
 				</button>
 				<button class="action-btn" :class="{ loading: isSearching }" :disabled="isSearching" @click="searchBluetoothAll">
-					{{ isSearching ? '搜索中...' : '搜索全部蓝牙' }}
+					{{ isSearching ? $t('warehouse.searching') : $t('warehouse.searchAllBluetooth') }}
 				</button>
 				<button class="action-btn" :class="{ loading: isSearching }" :disabled="isSearching" @click="searchWifi">
-					{{ isSearching ? '搜索中...' : '搜索WiFi' }}
+					{{ isSearching ? $t('warehouse.searching') : $t('warehouse.searchWifi') }}
 				</button>
 			</view>
 		</view>
 
 		<view class="section" v-if="deviceList && deviceList.length > 0">
-			<view class="section-title">选择打印机</view>
+			<view class="section-title">{{$t('warehouse.selectPrinter')}}</view>
 			<view class="device-list">
 				<view 
 					class="device-item" 
@@ -25,26 +25,27 @@
 					:class="{ active: selectedIndex === index }"
 					@click="selectDevice(index)"
 				>
-					<text>{{ item.name || '未知设备' }}</text>
+					<text>{{ item.name || $t('warehouse.unknownDevice') }}</text>
 					<text class="address">{{ item.address || '' }}</text>
 				</view>
 			</view>
 
 			<view class="btn-row">
 				<button class="action-btn primary" :disabled="selectedIndex === null || isConnecting" @click="connectPrinter">
-					{{ isConnecting ? '连接中...' : isConnected ? '已连接' : '连接打印机' }}
+					{{ isConnecting ? $t('warehouse.connecting') : isConnected ? $t('warehouse.connected') : $t('warehouse.connectPrinter') }}
 				</button>
 			</view>
 		</view>
 
 		<view class="tips" v-if="!isConnected">
-			<text>提示：连接成功后将自动返回继续打印。</text>
+			<text>{{$t('warehouse.connectTip')}}</text>
 		</view>
 	</view>
 </template>
 
 <script setup>
 	import { ref, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 	import {
 		getJcapi,
 		searchBluetoothDevicesWithName,
@@ -56,6 +57,7 @@
 	} from '/common/printerTool.js'
 
 	// 触发页面加载时即初始化 SDK（内部已做单例处理）
+	const { t } = useI18n()
 	getJcapi()
 
 	const printerNames = ['N11', 'N41', 'B1', 'K3', 'D11', 'N110', 'N410', 'M110', 'M410', '精臣', 'NIIMBOT']
@@ -98,9 +100,9 @@
 		try {
 			const list = await searchBluetoothDevicesWithName({ name: printerNames })
 			deviceList.value = list
-			uni.showToast({ title: list.length ? `找到 ${list.length} 个打印机` : '未找到打印机，请尝试搜索全部蓝牙', icon: 'none' })
+			uni.showToast({ title: list.length ? t('warehouse.foundPrinters', { count: list.length }) : t('warehouse.noPrinterTryAllBluetooth'), icon: 'none' })
 		} catch (e) {
-			uni.showToast({ title: '搜索蓝牙失败', icon: 'none' })
+			uni.showToast({ title: t('warehouse.searchBluetoothFail'), icon: 'none' })
 		} finally {
 			isSearching.value = false
 		}
@@ -114,9 +116,9 @@
 		try {
 			const list = await searchBluetoothDevices()
 			deviceList.value = list
-			uni.showToast({ title: list.length ? `找到 ${list.length} 个设备` : '未找到蓝牙设备', icon: 'none' })
+			uni.showToast({ title: list.length ? t('warehouse.foundDevices', { count: list.length }) : t('warehouse.noBluetoothDevice'), icon: 'none' })
 		} catch (e) {
-			uni.showToast({ title: '搜索蓝牙失败', icon: 'none' })
+			uni.showToast({ title: t('warehouse.searchBluetoothFail'), icon: 'none' })
 		} finally {
 			isSearching.value = false
 		}
@@ -130,9 +132,9 @@
 		try {
 			const list = await searchWifiDevices()
 			deviceList.value = list
-			uni.showToast({ title: list.length ? `找到 ${list.length} 个设备` : '未找到WiFi设备', icon: 'none' })
+			uni.showToast({ title: list.length ? t('warehouse.foundDevices', { count: list.length }) : t('warehouse.noWifiDevice'), icon: 'none' })
 		} catch (e) {
-			uni.showToast({ title: '搜索WiFi失败', icon: 'none' })
+			uni.showToast({ title: t('warehouse.searchWifiFail'), icon: 'none' })
 		} finally {
 			isSearching.value = false
 		}
@@ -145,19 +147,19 @@
 
 	const connectPrinter = async () => {
 		if (!currentDevice.value) {
-			uni.showToast({ title: '请选择打印机', icon: 'none' })
+			uni.showToast({ title: t('warehouse.pleaseSelectPrinter'), icon: 'none' })
 			return
 		}
 		isConnecting.value = true
 		try {
 			await connectPrinterByDevice(currentDevice.value)
 			isConnected.value = true
-			uni.showToast({ title: '连接成功', icon: 'success' })
+			uni.showToast({ title: t('warehouse.connectSuccess'), icon: 'success' })
 
 			// 连接成功后返回：调用方已在等待事件，会自动继续打印
 			uni.navigateBack()
 		} catch (e) {
-			uni.showToast({ title: '连接失败', icon: 'error' })
+			uni.showToast({ title: t('warehouse.connectFail'), icon: 'error' })
 		} finally {
 			isConnecting.value = false
 		}

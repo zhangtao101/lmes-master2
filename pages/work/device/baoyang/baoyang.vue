@@ -82,7 +82,7 @@
 					目测、记录数值、手动调整
 				</text>
 				<view class="item-right">
-					<button type="primary" size="mini">上传图片</button>
+					<button type="primary" size="mini">{{ $t('common.uploadImage') }}</button>
 					<!-- <switch style="transform:scale(0.8)" checked color="#4cd964" /> -->
 				</view>
 			</view>
@@ -100,7 +100,7 @@
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini">确定</button>
+			<button type="primary" size="mini">{{ $t('common.confirm') }}</button>
 		</view>
 	</view>
 </template>

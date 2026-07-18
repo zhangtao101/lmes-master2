@@ -2,47 +2,47 @@
 	<view class="baogong-container">
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>
-			<text class="common-text">工位：{{workStation.clientCode}}</text>
+			<text class="common-text">{{ $t('ws.workStation') }}{{workStation.clientCode}}</text>
 			<view class="common-right" @click="onWrokStationScan">
-				请扫描
+				{{ $t('common.scan') }}
 			</view>
 		</view>
 		<view class="baogong-content">
 			<view class="baogong-item">
-				<text class="label">工序：</text>
+				<text class="label">{{ $t('ws.process') }}</text>
 				<text class="value">{{workStation.processName}}</text>
-				<text class="label">设备：</text>
+				<text class="label">{{ $t('ws.equipment') }}</text>
 				<text class="value">{{workStation.equipmentName}}</text>
 			</view>
 		</view>
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>
-			<text class="common-text">模具号：{{steelnet.moldCode}}</text>
+			<text class="common-text">{{ $t('produce.mujukuaihuan.moldCode') }}{{steelnet.moldCode}}</text>
 			<view class="common-right" @click="onSteelnetScan">
-				请扫描
+				{{ $t('common.scan') }}
 			</view>
 		</view>
 		<view class="baogong-content">
 			<view class="baogong-item">
-				<text class="label">模具类型：</text>
+				<text class="label">{{ $t('produce.mujukuaihuan.moldType') }}</text>
 				<text class="value">{{steelnet.moldTypeName}}</text>
 			</view>
 			<view class="baogong-item">
-				<text class="label">模具名称：</text>
+				<text class="label">{{ $t('produce.mujukuaihuan.moldName') }}</text>
 				<text class="value">{{steelnet.moldName}}</text>
 			</view>
 			<view class="baogong-item">
-				<text class="label">产品编号：</text>
+				<text class="label">{{ $t('ws.productCode') }}</text>
 				<text class="value">{{steelnet.productCode}}</text>
 			</view>
 			<view class="baogong-item">
-				<text class="label">产品名称：</text>
+				<text class="label">{{ $t('ws.productName') }}</text>
 				<text class="value">{{steelnet.productName}}</text>
 			</view>
 		</view>
 		<view class="bottom-container">
 			<view class="right">
-				<button type="primary" size="mini" @click="onSureChange">确认切换</button>
+				<button type="primary" size="mini" @click="onSureChange">{{ $t('produce.mujukuaihuan.confirm') }}</button>
 			</view>
 		</view>
 	</view>
@@ -119,7 +119,7 @@
 					.$root.currentUser.userCode);
 				if (res.code == 200) {
 					uni.showToast({
-						title: '切换成功'
+						title: this.$t('produce.mujukuaihuan.success')
 					});
 					this.workStation = {};
 					this.steelnet = {};

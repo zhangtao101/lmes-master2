@@ -8,14 +8,14 @@
 					:class="{ active: currentAssetType === 'EQUIP' }"
 					@click="onAssetTypeChange('EQUIP')"
 				>
-					<text>设备</text>
+					<text>{{$t('warehouse.assetEquip')}}</text>
 				</view>
 				<view
 					class="asset-type-item"
 					:class="{ active: currentAssetType === 'MOLD' }"
 					@click="onAssetTypeChange('MOLD')"
 				>
-					<text>模具</text>
+					<text>{{$t('warehouse.assetMold')}}</text>
 				</view>
 			</view>
 
@@ -26,14 +26,14 @@
 					:class="{ active: currentStatus === 'PENDING' }"
 					@click="onStatusChange('PENDING')"
 				>
-					<text>待执行</text>
+					<text>{{$t('warehouse.statusPending')}}</text>
 				</view>
 				<view
 					class="tab-item"
 					:class="{ active: currentStatus === 'DONE' }"
 					@click="onStatusChange('DONE')"
 				>
-					<text>已完成</text>
+					<text>{{$t('warehouse.statusDone')}}</text>
 				</view>
 			</view>
 
@@ -43,7 +43,7 @@
 					class="search-input"
 					:value="searchKey"
 					@input="onSearchInput"
-					placeholder="输入计划名称/设备编码/模具编码搜索"
+					:placeholder="$t('warehouse.searchPlanPlaceholder')"
 					placeholder-style="color:#bbb;"
 				/>
 				<view class="search-clear" v-if="searchKey" @click="onClearSearch">
@@ -56,37 +56,37 @@
 				<view class="task-card" v-for="(task, index) in filteredTaskList" :key="index" @click="onTaskClick(task)">
 					<view class="task-header">
 						<view class="task-title-wrapper">
-							<text class="task-title">{{ task.taskTypeName || '设备点检' }}</text>
+							<text class="task-title">{{ task.taskTypeName || $t('warehouse.spotCheckTask') }}</text>
 						</view>
 						<view class="task-status-badge" :class="currentStatus === 'PENDING' ? 'pending' : 'done'">
-							<text>{{ currentStatus === 'PENDING' ? '待执行' : '已完成' }}</text>
+							<text>{{ currentStatus === 'PENDING' ? $t('warehouse.statusPending') : $t('warehouse.statusDone') }}</text>
 						</view>
 					</view>
 					<view class="task-body">
 						<view class="task-row">
-							<text class="label">计划名称</text>
+							<text class="label">{{$t('warehouse.planName')}}</text>
 							<text class="value">{{ task.planName || '--' }}</text>
 						</view>
 						<view class="task-row" v-if="task.equipmentCode">
-							<text class="label">设备编码</text>
+							<text class="label">{{$t('warehouse.equipmentCodeText')}}</text>
 							<text class="value">{{ task.equipmentCode }}</text>
 						</view>
 						<view class="task-row" v-if="task.equipmentName">
-							<text class="label">设备名称</text>
+							<text class="label">{{$t('warehouse.equipmentName')}}</text>
 							<text class="value">{{ task.equipmentName }}</text>
 						</view>
 						<view class="task-row" v-if="task.moldCode">
-							<text class="label">模具编码</text>
+							<text class="label">{{$t('warehouse.moldCodeNo')}}</text>
 							<text class="value">{{ task.moldCode }}</text>
 						</view>
 						<view class="task-row">
-							<text class="label">任务时间</text>
+							<text class="label">{{$t('warehouse.taskTime')}}</text>
 							<text class="value">{{ task.taskTime || '--' }}</text>
 						</view>
 					</view>
 					<view class="task-footer">
 						<uni-icons type="arrowright" size="16" color="#667eea"></uni-icons>
-						<text>{{ currentStatus === 'PENDING' ? '进入点检' : '查看详情' }}</text>
+						<text>{{ currentStatus === 'PENDING' ? $t('warehouse.enterCheck') : $t('warehouse.viewDetail') }}</text>
 					</view>
 				</view>
 			</view>
@@ -94,7 +94,7 @@
 			<!-- 空状态 -->
 			<view class="empty-state" v-else-if="!loading && filteredTaskList.length === 0">
 				<uni-icons type="inbox" size="60" color="#ccc"></uni-icons>
-				<text>{{ searchKey ? '无匹配结果' : '暂无' + (currentStatus === 'PENDING' ? '待执行' : '已完成') + '任务' }}</text>
+				<text>{{ searchKey ? $t('warehouse.noMatch') : $t('warehouse.noStatusTask', { status: currentStatus === 'PENDING' ? $t('warehouse.statusPending') : $t('warehouse.statusDone') }) }}</text>
 			</view>
 		</view>
 
@@ -102,7 +102,7 @@
 		<view class="loading-mask" v-if="loading">
 			<view class="loading-content">
 				<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-				<text class="loading-text">加载中...</text>
+				<text class="loading-text">{{$t('warehouse.loadingDots')}}</text>
 			</view>
 		</view>
 	</view>
@@ -199,7 +199,7 @@
 					} else {
 						this.taskList = []
 						showBeautyToast({
-							title: resp.msg || '加载失败',
+							title: resp.msg || this.$t('warehouse.loadFail'),
 							icon: 'none'
 						})
 					}
@@ -207,7 +207,7 @@
 					this.loading = false
 					this.taskList = []
 					showBeautyToast({
-						title: '加载失败',
+						title: this.$t('warehouse.loadFail'),
 						icon: 'none'
 					})
 				})

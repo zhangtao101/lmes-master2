@@ -4,29 +4,29 @@
 			<view class="form-item">
 				<view class="form-item-wrapper">
 					<uni-icons type="person" size="20" color="#999"></uni-icons>
-					<uni-easyinput 
-						placeholder="请输入用户名" 
-						v-model="username" 
-						:inputBorder="false"
-						placeholderStyle="color: #999;"
-					></uni-easyinput>
+				<uni-easyinput 
+					:placeholder="$t('login.accountPlaceholder')" 
+					v-model="username" 
+					:inputBorder="false"
+					placeholderStyle="color: #999;"
+				></uni-easyinput>
 				</view>
 			</view>
 			<view class="form-item">
 				<view class="form-item-wrapper">
 					<uni-icons type="locked" size="20" color="#999"></uni-icons>
-					<uni-easyinput 
-						placeholder="请输入密码" 
-						type="password" 
-						v-model="password" 
-						:inputBorder="false"
-						placeholderStyle="color: #999;"
-					></uni-easyinput>
+				<uni-easyinput 
+					:placeholder="$t('login.passwordPlaceholder')" 
+					type="password" 
+					v-model="password" 
+					:inputBorder="false"
+					placeholderStyle="color: #999;"
+				></uni-easyinput>
 				</view>
 			</view>
 			<view class="form-item">
 				<button type="primary" class="login-btn" @click="onLogin" :loading="isLoading" :disabled="isLoading">
-					{{isLoading ? '登录中...' : '登录'}}
+					{{isLoading ? $t('login.submitting') : $t('login.submit')}}
 				</button>
 			</view>
 		</view>
@@ -47,7 +47,7 @@
 			onLogin: function() {
 				if (!this.username || !this.password) {
 					uni.showToast({
-						title: "用户名或密码不能为空！",
+						title: this.$t('login.empty'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -65,7 +65,7 @@
 						});
 					} else {
 						uni.showToast({
-							title: res.msg || "登录失败，请检查用户名和密码",
+							title: res.msg || this.$t('login.fail'),
 							duration: 3000,
 							mask: true
 						})
@@ -74,7 +74,7 @@
 
 				}).catch(err => {
 					uni.showToast({
-						title: err || "登录失败，请检查网络连接",
+						title: err || this.$t('login.netError'),
 						duration: 3000,
 						mask: true
 					})

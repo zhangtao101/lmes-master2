@@ -3,39 +3,39 @@
 		<view class="box-header">
 			<view class="icon">
 			</view>
-			<text class="title">成品入库</text>
+			<text class="title">{{ $t('warehouse.cpInTitle') }}</text>
 		</view>
 		<view class="box-body">
 			<view class="warehouse-info">
 				<view class="header">
 					<view class="left">
 						<uni-icons type="home" color="#fff" size="18"></uni-icons>
-						<text>库位：{{wareLocationCode}}</text>
+						<text>{{ $t('warehouse.location') }}{{wareLocationCode}}</text>
 					</view>
 				</view>
 				<view class="scan-input-row">
-					<input class="scan-input" v-model="locationInput" placeholder="请输入或扫描库位" @confirm="onLocationInputConfirm" />
+					<input class="scan-input" v-model="locationInput" :placeholder="$t('warehouse.locationPlaceholder')" @confirm="onLocationInputConfirm" />
 					<view class="scan-btn" @click="onLocationScan">
 						<uni-icons type="scan" color="#fff" size="16"></uni-icons>
 					</view>
 				</view>
 				<view class="body">
 					<view class="left">
-						<text>所属仓库</text>
+						<text>{{ $t('warehouse.warehouseBelong') }}</text>
 						<text>{{warehouse.wareLocationName}}</text>
 					</view>
 					<view class="right">
-						<text>所属库区</text>
+						<text>{{ $t('warehouse.areaBelong') }}</text>
 						<text>{{warehouse.wareAreaName}}</text>
 					</view>
 				</view>
 				<view class="body">
 					<view class="left">
-						<text>物理仓库</text>
+						<text>{{ $t('warehouse.physicalWarehouse') }}</text>
 						<text>{{warehouse.warehouseName}}</text>
 					</view>
 					<view class="right">
-						<text>逻辑仓库</text>
+						<text>{{ $t('warehouse.logicalWarehouse') }}</text>
 						<text>{{logicalWarehoueName}}</text>
 					</view>
 				</view>
@@ -44,17 +44,17 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="compose"></uni-icons>
-						<text class="title">入库明细</text>
+						<text class="title">{{ $t('warehouse.inboundDetail') }}</text>
 					</view>
 				</view>
 			<view class="header">
 				<view class="left">
 					<uni-icons custom-prefix="iconfont" type="icon-tiaoxingma"></uni-icons>
-					<text class="label">标签：</text>
+					<text class="label">{{ $t('warehouse.labelColon') }}</text>
 				</view>
 			</view>
 			<view class="scan-input-row">
-				<input class="scan-input" v-model="labelInput" :focus="labelFocus" placeholder="请输入或扫描标签" @confirm="onLabelInputConfirm" />
+				<input class="scan-input" v-model="labelInput" :focus="labelFocus" :placeholder="$t('warehouse.labelPlaceholder')" @confirm="onLabelInputConfirm" />
 				<view class="scan-btn" @click="onLabelScan">
 					<uni-icons type="scan" color="#fff" size="16"></uni-icons>
 				</view>
@@ -62,41 +62,41 @@
 				<view class="label-info-container" v-for="labelInfo in labelList" :key="labelInfo.labelCode">
 					<view class="label-item">
 						<view class="left">
-							<text>标签号</text>
+							<text>{{ $t('warehouse.labelNo') }}</text>
 							<text class="value">{{labelInfo.labelCode}}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>产品型号</text>
+							<text>{{ $t('warehouse.productCode') }}</text>
 							<text class="value">{{labelInfo.productCode }}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>产品名称</text>
+							<text>{{ $t('warehouse.productName') }}</text>
 							<text class="value">{{labelInfo.productName }}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>计划号</text>
+							<text>{{ $t('warehouse.planCode') }}</text>
 							<text class="value">{{labelInfo.planCode}}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>客户名称</text>
+							<text>{{ $t('warehouse.customerName') }}</text>
 							<text class="value">{{labelInfo.customerName}}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>包装数量</text>
+							<text>{{ $t('warehouse.packageNumber') }}</text>
 							<text class="value">{{labelInfo.number }}</text>
 						</view>
 						<view class="right">
-							<text>入库数量</text>
+							<text>{{ $t('warehouse.inboundQtyLabel') }}</text>
 							<text class="value">{{labelInfo.number }}</text>
 						</view>
 					</view>
@@ -104,7 +104,7 @@
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini" @click="onSubmit">确认提交</button>
+			<button type="primary" size="mini" @click="onSubmit">{{ $t('common.confirmSubmit') }}</button>
 		</view>
 	</view>
 </template>
@@ -146,7 +146,7 @@
 							_this.loadLabelInfo(code);
 						} else {
 							uni.showToast({
-								title: "标签无效！"
+								title: _this.$t('warehouse.tagInvalid')
 							});
 						}
 					})
@@ -266,7 +266,7 @@
 				const res = await product.inbound(_labelList);
 				if (res.code == 200) {
 					uni.showToast({
-						title: '入库成功',
+						title: _this.$t('warehouse.inboundSuccess'),
 						icon: 'none'
 					})
 					this.wareLocationCode = '';

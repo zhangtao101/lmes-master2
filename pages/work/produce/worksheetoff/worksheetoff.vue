@@ -2,9 +2,9 @@
 	<view class="order-off-container">
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>
-			<text class="common-text">工位：{{workStation.clientCode}}</text>
+			<text class="common-text">{{ $t('ws.workStation') }}{{workStation.clientCode}}</text>
 			<text class="common-right" @click="onWrokStationScan">
-				请扫描
+				{{ $t('common.scan') }}
 			</text>
 		</view>
 		<view class="order-container">
@@ -12,7 +12,7 @@
 				<uni-row>
 					<uni-col :span="4">
 						<text class="content-label">
-							工序：
+							{{ $t('ws.process') }}
 						</text>
 					</uni-col>
 					<uni-col :span="8"> <text class="content-value">
@@ -20,7 +20,7 @@
 						</text></uni-col>
 					<uni-col :span="4">
 						<text class="content-label">
-							设备：
+							{{ $t('ws.equipment') }}
 						</text>
 					</uni-col>
 					<uni-col :span="8">
@@ -33,15 +33,15 @@
 		</view>
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-gongdanhao" size="18"></uni-icons>
-			<text class="common-text">工单号：</text>
+			<text class="common-text">{{ $t('ws.workSheet') }}</text>
 			<text class="common-right" @click="onWorksheetScan">
-				扫描或选择
+				{{ $t('common.scanOrSelect') }}
 			</text>
 		</view>
 		<view class="order-container">
 			<view class="order-item">
 				<text class="content-label">
-					产品编号：
+					{{ $t('ws.productCode') }}
 				</text>
 				<text class="content-value">
 					{{workSheet.productCode}}
@@ -49,7 +49,7 @@
 			</view>
 			<view class="order-item">
 				<text class="content-label">
-					产品名称：
+					{{ $t('ws.productName') }}
 				</text>
 				<text class="content-value">
 					{{workSheet.productName}}
@@ -59,7 +59,7 @@
 				<uni-row>
 					<uni-col :span="6">
 						<text class="content-label">
-							计划数量：
+							{{ $t('ws.planQty') }}
 						</text>
 					</uni-col>
 					<uni-col :span="4"><text class="content-value">
@@ -67,7 +67,7 @@
 						</text></uni-col>
 					<uni-col :span="6">
 						<text class="content-label">
-							下线数量：
+							{{ $t('produce.worksheetoff.offlineQty') }}
 						</text>
 					</uni-col>
 					<uni-col :span="8">
@@ -79,11 +79,11 @@
 		</view>
 		<view class="common-container-header">
 			<uni-icons color="#fff" type="spinner-cycle" size="18"></uni-icons>
-			<text class="common-text">下线类型</text>
+			<text class="common-text">{{ $t('produce.worksheetoff.type') }}</text>
 			<view class="common-right">
 				<picker range-key="wordName" @change="onTypeChange" :value="index" :range="wordList">
 					<view class="uni-input">
-						<text>选择</text>
+						<text>{{ $t('produce.worksheetoff.select') }}</text>
 					</view>
 				</picker>
 			</view>
@@ -91,7 +91,7 @@
 		<view class="order-container">
 			<view class="order-item">
 				<text class="content-label">
-					下线类型：
+					{{ $t('produce.worksheetoff.type') }}
 				</text>
 				<text class="content-value">
 					{{wordList.length?wordList[index]?.wordName:''}}
@@ -100,7 +100,7 @@
 		</view>
 		<view class="common-container-header">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-erweima" size="18"></uni-icons>
-			<text class="common-text">物料扣料校准</text>
+			<text class="common-text">{{ $t('produce.worksheetoff.materialCalib') }}</text>
 			<view class="common-right">
 
 			</view>
@@ -110,7 +110,7 @@
 				<uni-row>
 					<uni-col :span="6">
 						<text class="content-label">
-							料号：
+							{{ $t('produce.worksheetoff.materialCode') }}
 						</text>
 					</uni-col>
 					<uni-col :span="18">
@@ -122,7 +122,7 @@
 				<uni-row>
 					<uni-col :span="6">
 						<text class="content-label">
-							物料名称：
+							{{ $t('produce.worksheetoff.materialName') }}
 						</text>
 					</uni-col>
 					<uni-col :span="18">
@@ -133,14 +133,14 @@
 				</uni-row>
 				<uni-row>
 					<uni-col :span="6"><text class="content-label">
-							使用数量：
+							{{ $t('produce.worksheetoff.usedQty') }}
 						</text></uni-col>
 					<uni-col :span="4"><text class="content-value">
 							{{item.feedNumber}}
 						</text></uni-col>
 					<uni-col :span="6">
 						<text class="content-label">
-							实际用量：
+							{{ $t('produce.worksheetoff.actualQty') }}
 						</text>
 					</uni-col>
 					<uni-col :span="8">
@@ -153,7 +153,7 @@
 
 		<view class="common-container-header" style="margin-top: 20rpx;">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-erweima" size="18"></uni-icons>
-			<text class="common-text">人员工时</text>
+			<text class="common-text">{{ $t('produce.worksheetoff.userTime') }}</text>
 			<view class="common-right">
 
 			</view>
@@ -161,14 +161,14 @@
 		<view class="order-container">
 			<uni-row>
 				<uni-col :span="6"><text class="content-label">
-						当前工时：
+						{{ $t('produce.worksheetoff.currentTime') }}
 					</text></uni-col>
 				<uni-col :span="4"><text class="content-value">
 						{{currentUserTime}}H
 					</text></uni-col>
 				<uni-col :span="6">
 					<text class="content-label">
-						实际工时：
+						{{ $t('produce.worksheetoff.actualTime') }}
 					</text>
 				</uni-col>
 				<uni-col :span="8">
@@ -179,7 +179,7 @@
 
 		<view class="common-container-header">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-erweima" size="18"></uni-icons>
-			<text class="common-text">设备工时</text>
+			<text class="common-text">{{ $t('produce.worksheetoff.equipTime') }}</text>
 			<view class="common-right">
 
 			</view>
@@ -187,14 +187,14 @@
 		<view class="order-container">
 			<uni-row>
 				<uni-col :span="6"><text class="content-label">
-						当前工时：
+						{{ $t('produce.worksheetoff.currentTime') }}
 					</text></uni-col>
 				<uni-col :span="4"><text class="content-value">
 						{{currentRunTime}}H
 					</text></uni-col>
 				<uni-col :span="6">
 					<text class="content-label">
-						实际工时：
+						{{ $t('produce.worksheetoff.actualTime') }}
 					</text>
 				</uni-col>
 				<uni-col :span="8">
@@ -206,7 +206,7 @@
 
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini" @click="onSureOffline">确认下线</button>
+			<button type="primary" size="mini" @click="onSureOffline">{{ $t('produce.worksheetoff.confirm') }}</button>
 		</view>
 	</view>
 </template>
@@ -334,20 +334,20 @@
 			onSureOffline: async function() {
 				if (!this.workStation.clientCode) {
 					uni.showToast({
-						title: '请扫描工位'
+						title: this.$t('produce.worksheetoff.scanStationTip')
 					})
 					return;
 				}
 				if (!this.workSheet.workSheetCode) {
 					uni.showToast({
-						title: '请扫描工单号'
+						title: this.$t('produce.worksheetoff.scanSheetTip')
 					})
 					return;
 				}
 
 				if (!this.wordCode) {
 					uni.showToast({
-						title: '请选择下线类型'
+						title: this.$t('produce.worksheetoff.selectTypeTip')
 					})
 					return;
 				}
@@ -367,7 +367,7 @@
 					list, this.actualUserTime, this.actualRuntime, this.$root.currentUser.userCode);
 				if (res.code == 200) {
 					uni.showToast({
-						title: "下线成功"
+						title: this.$t('produce.worksheetoff.success')
 					})
 					this.workSheet = {};
 					this.workStation = {};

@@ -48,7 +48,7 @@
 						<view class="left">
 							<text>备注：</text>
 							<uni-easyinput type="textarea" autoHeight v-model="value"
-								placeholder="请输入内容"></uni-easyinput>
+								:placeholder="$t('common.inputContent')"></uni-easyinput>
 						</view>
 
 					</view>
@@ -57,7 +57,7 @@
 
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini">确认提交</button>
+			<button type="primary" size="mini">{{ $t('common.confirmSubmit') }}</button>
 		</view>
 	</view>
 </template>

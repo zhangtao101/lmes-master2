@@ -5,22 +5,22 @@
 			<view class="card-header">
 				<view class="header-left">
 					<uni-icons type="compose" color="#fff" size="18"></uni-icons>
-					<text class="header-title">下货扫码</text>
+					<text class="header-title">{{$t('warehouse.pickupScanTitle')}}</text>
 				</view>
 			</view>
 			<view class="card-content">
 				<!-- 选中物料信息 -->
 				<view class="selected-material">
 					<view class="info-row">
-						<text class="info-label">标签码：</text>
+						<text class="info-label">{{$t('warehouse.tagCode')}}：</text>
 						<text class="info-value">{{selectedItem.labelCode || '--'}}</text>
 					</view>
 					<view class="info-row">
-						<text class="info-label">料号：</text>
+						<text class="info-label">{{$t('warehouse.code')}}：</text>
 						<text class="info-value">{{selectedItem.materialCode || '--'}}</text>
 					</view>
 					<view class="info-row">
-						<text class="info-label">物料名称：</text>
+						<text class="info-label">{{$t('warehouse.materialNameColon')}}</text>
 						<text class="info-value">{{selectedItem.materialName || '--'}}</text>
 					</view>
 				</view>
@@ -33,14 +33,14 @@
 							:inputBorder="false"
 							:focus="storageFocusFlag"
 							placeholderStyle="color: #999;"
-							placeholder="请扫描或输入货架码"
+							:placeholder="$t('warehouse.scanOrInputShelf')"
 							@confirm="onStorageCodeConfirm"
 							class="main-input"
 						></uni-easyinput>
 					</view>
 					<view class="scan-btn" @click="onStorageCodeScan">
 						<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-						<text>扫码</text>
+						<text>{{$t('warehouse.scan')}}</text>
 					</view>
 				</view>
 			</view>
@@ -49,7 +49,7 @@
 		<!-- 底部取货按钮 -->
 		<view class="submit-btn-wrapper" v-if="selectedItem">
 			<button class="submit-btn" :class="{ disabled: isSubmitting }" @click="onSubmit" :disabled="isSubmitting">
-				<text>{{ isSubmitting ? '取货中...' : '货架取货' }}</text>
+				<text>{{ isSubmitting ? $t('warehouse.pickupLoading') : $t('warehouse.shelfPickup') }}</text>
 			</button>
 		</view>
 	</view>
@@ -89,7 +89,7 @@
 				scanCode().then(code => {
 					_this.storageCode = code;
 				}).catch(err => {
-					showBeautyToast({ title: err || '扫码失败', icon: 'none' });
+					showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
 				});
 			},
 
@@ -105,11 +105,11 @@
 			onSubmit() {
 				if (this.isSubmitting) return;
 				if (!this.selectedItem) {
-					showBeautyToast({ title: '请先选择要下架的物料', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.selectUnshelvingMaterialFirst'), icon: 'none' });
 					return;
 				}
 				if (!this.storageCode) {
-					showBeautyToast({ title: '请扫描或输入货架码', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.scanOrInputShelf'), icon: 'none' });
 					return;
 				}
 
@@ -123,15 +123,15 @@
 				).then(resp => {
 					this.isSubmitting = false;
 					if (resp.code == 200 || resp.code == '200') {
-						showBeautyToast({ title: resp.msg || '取货成功', icon: 'success' });
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.pickupSuccess'), icon: 'success' });
 						this.$emit('success');
 						this.storageCode = '';
 					} else {
-						showBeautyToast({ title: resp.msg || '取货失败', icon: 'none' });
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.pickupFail'), icon: 'none' });
 					}
 				}).catch(() => {
 					this.isSubmitting = false;
-					showBeautyToast({ title: '取货失败', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.pickupFail'), icon: 'none' });
 				});
 			},
 

@@ -5,20 +5,20 @@
 			<view class="task-info-card">
 				<view class="task-header">
 					<view class="task-code-wrapper">
-						<text class="task-code">任务信息</text>
+						<text class="task-code">{{ $t('warehouse.taskInfo') }}</text>
 					</view>
 				</view>
 				<view class="task-body">
 					<view class="task-row">
-						<text class="label">盘点任务号</text>
+						<text class="label">{{ $t('warehouse.inventoryTaskNo') }}</text>
 						<text class="value">{{taskCode || '--'}}</text>
 					</view>
 					<view class="task-row">
-						<text class="label">盘点计划号</text>
+						<text class="label">{{ $t('warehouse.inventoryPlanNo') }}</text>
 						<text class="value">{{stocktakingCode || '--'}}</text>
 					</view>
 					<view class="task-row">
-						<text class="label">盘点计划名称</text>
+						<text class="label">{{ $t('warehouse.inventoryPlanName') }}</text>
 						<text class="value">{{stocktakingName || '--'}}</text>
 					</view>
 
@@ -30,7 +30,7 @@
 				<view class="section-header">
 					<view class="left">
 						<uni-icons type="list" color="#fff" size="18"></uni-icons>
-						<text>料号清单</text>
+						<text>{{ $t('warehouse.materialListTitle') }}</text>
 						<text class="count">({{materialList.length}})</text>
 					</view>
 				</view>
@@ -42,41 +42,41 @@
 								<text class="material-code">{{item.materialCode || '--'}}</text>
 							</view>
 							<view class="material-status" :class="item.checkState ? 'checked' : 'unchecked'">
-								<text>{{item.checkState ? '已盘' : '未盘'}}</text>
+								<text>{{item.checkState ? $t('warehouse.checked') : $t('warehouse.unchecked')}}</text>
 							</view>
 						</view>
 						<view class="material-body">
 							<view class="material-row">
-								<text class="m-label">物料编号</text>
+								<text class="m-label">{{ $t('warehouse.materialCodeLabel') }}</text>
 								<text class="m-value">{{item.materialCode || '--'}}</text>
 							</view>
 							<view class="material-row">
-								<text class="m-label">物料名称</text>
+								<text class="m-label">{{ $t('warehouse.materialName') }}</text>
 								<text class="m-value">{{item.materialName || '--'}}</text>
 							</view>
 							<view class="material-row">
-								<text class="m-label">在库数量</text>
+								<text class="m-label">{{ $t('warehouse.inStockQty') }}</text>
 								<text class="m-value">{{item.stockNumber || '--'}}</text>
 							</view>
 							<view class="material-row">
-								<text class="m-label">盘点数量</text>
+								<text class="m-label">{{ $t('warehouse.checkQty') }}</text>
 								<text class="m-value">{{item.checkNumber || '--'}}</text>
 							</view>
 							<view class="material-row">
-								<text class="m-label">盘点状态</text>
+								<text class="m-label">{{ $t('warehouse.inventoryStatus') }}</text>
 								<text class="m-value">{{item.checkStateName || '--'}}</text>
 							</view>
 						</view>
 						<view class="material-footer">
 							<uni-icons type="arrowright" size="16" color="#667eea"></uni-icons>
-							<text>进入盘点</text>
+							<text>{{ $t('warehouse.enterInventory') }}</text>
 						</view>
 					</view>
 				</view>
 
 				<view class="empty-state" v-else-if="!loadingMaterial">
 					<uni-icons type="inbox" size="60" color="#ccc"></uni-icons>
-					<text>暂无料号</text>
+					<text>{{ $t('warehouse.noMaterial') }}</text>
 				</view>
 			</view>
 		</view>
@@ -85,7 +85,7 @@
 		<view class="loading-mask" v-if="loadingMaterial">
 			<view class="loading-content">
 				<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-				<text class="loading-text">加载中...</text>
+				<text class="loading-text">{{ $t('warehouse.loadingDots') }}</text>
 			</view>
 		</view>
 	</view>
@@ -139,14 +139,14 @@
 						}
 					} else {
 						showBeautyToast({
-							title: resp.msg || '加载料号失败',
+							title: resp.msg || this.$t('warehouse.loadMaterialFail'),
 							icon: 'none'
 						});
 					}
 				}).catch(() => {
 					this.loadingMaterial = false;
 					showBeautyToast({
-						title: '加载料号失败',
+						title: this.$t('warehouse.loadMaterialFail'),
 						icon: 'none'
 					});
 				});
@@ -169,9 +169,9 @@
 			formatTaskState(state) {
 				if (state == null || state === '') return '--';
 				const num = Number(state);
-				if (num === -1) return '未执行';
-				if (num === 1) return '执行中';
-				if (num === 2) return '已完成';
+			if (num === -1) return this.$t('warehouse.stateNotExec');
+			if (num === 1) return this.$t('warehouse.stateInProgress');
+			if (num === 2) return this.$t('warehouse.statusDone');
 				return state;
 			},
 

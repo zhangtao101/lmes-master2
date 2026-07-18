@@ -3,39 +3,39 @@
 		<view class="box-header">
 			<view class="icon">
 			</view>
-			<text class="title">物料退库</text>
+			<text class="title">{{ $t('warehouse.backTitle') }}</text>
 		</view>
 		<view class="box-body">
 			<view class="warehouse-info">
 				<view class="header">
 					<view class="left">
 						<uni-icons type="home" color="#fff" size="18"></uni-icons>
-						<text>库位：{{wareLocationCode}}</text>
+						<text>{{ $t('warehouse.location') }}{{wareLocationCode}}</text>
 					</view>
 				</view>
 				<view class="scan-input-row">
-					<input class="scan-input" v-model="locationInput" placeholder="请输入或扫描库位" @confirm="onLocationInputConfirm" />
+					<input class="scan-input" v-model="locationInput" :placeholder="$t('warehouse.locationPlaceholder')" @confirm="onLocationInputConfirm" />
 					<view class="scan-btn" @click="onLocationScan">
 						<uni-icons type="scan" color="#fff" size="16"></uni-icons>
 					</view>
 				</view>
 				<view class="body">
 					<view class="left">
-						<text>所属仓库</text>
+						<text>{{ $t('warehouse.warehouseBelong') }}</text>
 						<text>{{warehouse.wareLocationName}}</text>
 					</view>
 					<view class="right">
-						<text>所属库区</text>
+						<text>{{ $t('warehouse.areaBelong') }}</text>
 						<text>{{warehouse.wareAreaName}}</text>
 					</view>
 				</view>
 				<view class="body">
 					<view class="left">
-						<text>物理仓库</text>
+						<text>{{ $t('warehouse.physicalWarehouse') }}</text>
 						<text>{{warehouse.warehouseName}}</text>
 					</view>
 					<view class="right">
-						<text>逻辑仓库</text>
+						<text>{{ $t('warehouse.logicalWarehouse') }}</text>
 						<text>{{logicalWarehoueName}}</text>
 					</view>
 				</view>
@@ -44,17 +44,17 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="compose"></uni-icons>
-						<text class="title">退库明细</text>
+						<text class="title">{{ $t('warehouse.backDetail') }}</text>
 					</view>
 				</view>
 			<view class="header">
 				<view class="left">
 					<uni-icons custom-prefix="iconfont" type="icon-tiaoxingma"></uni-icons>
-					<text class="label">标签：</text>
+					<text class="label">{{ $t('warehouse.labelColon') }}</text>
 				</view>
 			</view>
 			<view class="scan-input-row">
-				<input class="scan-input" v-model="labelInput" :focus="labelFocus" placeholder="请输入或扫描标签" @confirm="onLabelInputConfirm" />
+				<input class="scan-input" v-model="labelInput" :focus="labelFocus" :placeholder="$t('warehouse.labelPlaceholder')" @confirm="onLabelInputConfirm" />
 				<view class="scan-btn" @click="onLabelScan">
 					<uni-icons type="scan" color="#fff" size="16"></uni-icons>
 				</view>
@@ -62,42 +62,42 @@
 				<view class="label-info-container" v-for="labelInfo in labelList" :key="labelInfo.labelCode">
 					<view class="label-item">
 						<view class="left">
-							<text>标签号</text>
+							<text>{{ $t('warehouse.labelNo') }}</text>
 							<text class="value">{{labelInfo.labelCode}}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>物料编号</text>
+							<text>{{ $t('warehouse.materialCode') }}</text>
 							<text class="value">{{labelInfo.materialCode}}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>物料名称</text>
+							<text>{{ $t('warehouse.materialName') }}</text>
 							<text class="value">{{labelInfo.materialName}}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>供应商</text>
+							<text>{{ $t('warehouse.supplier') }}</text>
 							<text class="value">{{labelInfo.manufacturerName }}</text>
 						</view>
 					</view>
 					<!-- <view class="label-item">
 						<view class="left">
-							<text>物料规格</text>
+							<text>{{ $t('warehouse.materialSpec') }}</text>
 							<text class="value">--</text>
 						</view>
 					</view> -->
 					<view class="label-item">
 						<view class="left">
-							<text>退库数量</text>
+							<text>{{ $t('warehouse.backQty') }}</text>
 							<uni-number-box :max="labelInfo.packageNumber"
 								v-model="backCount[`backcount_${labelInfo.labelCode}`]"></uni-number-box>
 						</view>
 						<view class="right">
-							<text>物料单位</text>
+							<text>{{ $t('warehouse.materialUnit') }}</text>
 							<text class="value">{{labelInfo.unit }}</text>
 						</view>
 					</view>
@@ -105,7 +105,7 @@
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini" @click="onSubmit">确认提交</button>
+			<button type="primary" size="mini" @click="onSubmit">{{ $t('common.confirmSubmit') }}</button>
 		</view>
 	</view>
 </template>
@@ -149,7 +149,7 @@
 							_this.loadLabelInfo(code);
 						} else {
 							uni.showToast({
-								title: "标签无效！"
+								title: _this.$t('warehouse.tagInvalid')
 							});
 						}
 					})
@@ -199,7 +199,7 @@
 					_this.loadWarehouseInfo(code);
 				}).catch(err => {
 					uni.showToast({
-						title: "出错啦",
+						title: _this.$t('warehouse.error'),
 						icon: 'none'
 					})
 				});
@@ -257,7 +257,7 @@
 				this.labelList.forEach(label => {
 					if (_this.backCount[`backcount_${label.labelCode}`] <= 0) {
 						uni.showToast({
-							title: "退库数量必须大于0"
+							title: _this.$t('warehouse.backQtyTip')
 						})
 						canSubmit = false;
 						return;
@@ -276,7 +276,7 @@
 					const res = await material.returnBackHouse("", _labelList);
 			if (res.code == 200) {
 					uni.showToast({
-						title: '退库成功',
+						title: _this.$t('warehouse.backSuccess'),
 						icon: 'none'
 					})
 					this.wareLocationCode = '';

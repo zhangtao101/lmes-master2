@@ -5,20 +5,20 @@
 			<view class="task-info-card">
 				<view class="task-header">
 					<view class="task-code-wrapper">
-						<text class="task-code">任务信息</text>
+						<text class="task-code">{{ $t('warehouse.taskInfo') }}</text>
 					</view>
 				</view>
 				<view class="task-body">
 					<view class="task-row">
-						<text class="t-label">盘点任务号</text>
+						<text class="t-label">{{ $t('warehouse.inventoryTaskNo') }}</text>
 						<text class="t-value">{{taskCode || '--'}}</text>
 					</view>
 					<view class="task-row">
-						<text class="t-label">盘点计划号</text>
+						<text class="t-label">{{ $t('warehouse.inventoryPlanNo') }}</text>
 						<text class="t-value">{{stocktakingCode || '--'}}</text>
 					</view>
 					<view class="task-row">
-						<text class="t-label">盘点计划名称</text>
+						<text class="t-label">{{ $t('warehouse.inventoryPlanName') }}</text>
 						<text class="t-value">{{stocktakingName || '--'}}</text>
 					</view>
 
@@ -30,7 +30,7 @@
 				<view class="section-header">
 					<view class="left">
 						<uni-icons type="compose" color="#fff" size="16"></uni-icons>
-						<text class="title">盘点明细</text>
+						<text class="title">{{ $t('warehouse.inventoryDetailTitle') }}</text>
 						<text class="count">- {{detailList.length}}条</text>
 					</view>
 				</view>
@@ -38,45 +38,45 @@
 					<view class="detail-card" v-for="(detail, index) in detailList" :key="index">
 						<view class="detail-row-group">
 							<view class="detail-row">
-								<text class="d-label">标签码：</text>
+								<text class="d-label">{{ $t('warehouse.tagCode') }}：</text>
 								<text class="d-value">{{detail.labelCode || '--'}}</text>
 							</view>
 						</view>
 						<view class="detail-row-group">
 							<view class="detail-row">
-								<text class="d-label">所在储位：</text>
+								<text class="d-label">{{ $t('warehouse.locationStorageColon') }}</text>
 								<text class="d-value">{{detail.storageCode || '--'}}</text>
 							</view>
 						</view>
 						<view class="detail-row-group">
 							<view class="detail-row">
-								<text class="d-label">物料编号：</text>
+								<text class="d-label">{{ $t('warehouse.materialCode') }}</text>
 								<text class="d-value">{{detail.materialCode || '--'}}</text>
 							</view>
 							<view class="detail-row">
-								<text class="d-label">物料名称：</text>
+								<text class="d-label">{{ $t('warehouse.materialName') }}：</text>
 								<text class="d-value">{{detail.materialName || '--'}}</text>
 							</view>
 						</view>
 						<view class="detail-row-group">
 							<view class="detail-row">
-								<text class="d-label">在库数量：</text>
+								<text class="d-label">{{ $t('warehouse.inStockQty') }}：</text>
 								<text class="d-value">{{detail.stockNumber != null ? detail.stockNumber : '--'}}</text>
 							</view>
 							<view class="detail-row">
-								<text class="d-label">盘点数量：</text>
+								<text class="d-label">{{ $t('warehouse.checkQty') }}：</text>
 								<input 
 									class="qty-input" 
 									type="digit" 
 									v-model="detail.checkNumber" 
-									placeholder="请输入"
+									:placeholder="$t('warehouse.qtyInputPlaceholder')"
 									@blur="onQtyChange(detail)"
 								/>
 							</view>
 						</view>
 						<view class="detail-row-group">
 							<view class="detail-row">
-								<text class="d-label">储位：</text>
+								<text class="d-label">{{ $t('warehouse.storageCodeColon') }}</text>
 								<text class="d-value">{{detail.storageCode || '--'}}</text>
 							</view>
 						</view>
@@ -89,11 +89,11 @@
 				<view class="section-header">
 					<view class="left">
 						<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-						<text class="title">盘点明细</text>
+						<text class="title">{{ $t('warehouse.inventoryDetailTitle') }}</text>
 					</view>
 				</view>
 				<view class="label-input-section">
-					<view class="input-header">请扫描或输入标签码</view>
+					<view class="input-header">{{ $t('warehouse.scanOrInputLabel') }}</view>
 					<view class="input-row">
 						<view class="input-group">
 							<uni-icons type="scan" color="#667eea" size="18"></uni-icons>
@@ -103,12 +103,12 @@
 								placeholderStyle="color: #999;"
 								@confirm="onLabelInput"
 								class="label-input"
-								placeholder="请输入或扫描标签码"
+								:placeholder="$t('warehouse.labelCodePlaceholder2')"
 							></uni-easyinput>
 						</view>
 						<view class="scan-btn" @click="onLabelScan">
 							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-							<text>扫码</text>
+							<text>{{ $t('warehouse.scan') }}</text>
 						</view>
 					</view>
 				</view>
@@ -117,7 +117,7 @@
 			<!-- 加载中 -->
 			<view class="empty-state" v-else-if="loadingDetail">
 				<uni-icons type="spinner-cycle" size="40" color="#667eea" class="spin-icon"></uni-icons>
-				<text>加载中...</text>
+				<text>{{ $t('warehouse.loadingDots') }}</text>
 			</view>
 		</view>
 
@@ -125,7 +125,7 @@
 		<view class="submit-btn-wrapper" v-if="detailList.length > 0">
 			<button class="submit-btn" :class="{ disabled: isSubmitting }" @click="onSave" :disabled="isSubmitting">
 				<uni-icons type="checkmarkempty" size="18"></uni-icons>
-				<text>{{ isSubmitting ? '提交中...' : '提交' }}</text>
+				<text>{{ isSubmitting ? $t('warehouse.submittingText') : $t('warehouse.submit') }}</text>
 			</button>
 		</view>
 
@@ -133,7 +133,7 @@
 		<view class="loading-mask" v-if="isLoading">
 			<view class="loading-content">
 				<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-				<text class="loading-text">加载中...</text>
+				<text class="loading-text">{{ $t('warehouse.loadingDots') }}</text>
 			</view>
 		</view>
 	</view>
@@ -217,7 +217,7 @@
 					this.detailLoaded = true;
 					this.detailList = [];
 					showBeautyToast({
-						title: '加载明细失败',
+						title: this.$t('warehouse.loadDetailFail'),
 						icon: 'none'
 					});
 				});
@@ -230,7 +230,7 @@
 					this.loadLabelInfo(code);
 				}).catch(err => {
 					showBeautyToast({
-						title: err || '扫码失败',
+						title: err || this.$t('warehouse.scanFail'),
 						icon: 'none'
 					});
 				});
@@ -262,25 +262,25 @@
 							}));
 							this.labelCode = '';
 							showBeautyToast({
-								title: '扫码成功',
+								title: this.$t('warehouse.scanSuccess'),
 								icon: 'success'
 							});
 						} else {
 							showBeautyToast({
-								title: '未获取到标签信息',
+								title: this.$t('warehouse.noLabelInfo'),
 								icon: 'none'
 							});
 						}
 					} else {
 						showBeautyToast({
-							title: resp.msg || '标签查询失败',
+							title: resp.msg || this.$t('warehouse.labelQueryFail'),
 							icon: 'none'
 						});
 					}
 				}).catch(() => {
 					this.isLoading = false;
 					showBeautyToast({
-						title: '标签查询失败',
+						title: this.$t('warehouse.labelQueryFail'),
 						icon: 'none'
 					});
 				});
@@ -295,7 +295,7 @@
 			onSave() {
 				if (this.isSubmitting) return;
 				if (!this.recordId) {
-					showBeautyToast({ title: '任务ID缺失', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.taskIdMissing'), icon: 'none' });
 					return;
 				}
 				// 校验盘点数量
@@ -303,7 +303,7 @@
 					return item.checkNumber == null || item.checkNumber === '' || String(item.checkNumber).trim() === '';
 				});
 				if (emptyItem) {
-					showBeautyToast({ title: '请填写盘点数量', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.inputCheckQty'), icon: 'none' });
 					return;
 				}
 				this.isSubmitting = true;
@@ -311,7 +311,7 @@
 					this.isSubmitting = false;
 					if (resp.code == 200 || resp.code == '200') {
 						showBeautyToast({
-							title: '保存成功',
+							title: this.$t('warehouse.saveSuccess'),
 							icon: 'success'
 						});
 						setTimeout(() => {
@@ -319,14 +319,14 @@
 						}, 800);
 					} else {
 						showBeautyToast({
-							title: resp.msg || '保存失败',
+							title: resp.msg || this.$t('warehouse.saveFail'),
 							icon: 'none'
 						});
 					}
 				}).catch(() => {
 					this.isSubmitting = false;
 					showBeautyToast({
-						title: '保存失败',
+						title: this.$t('warehouse.saveFail'),
 						icon: 'none'
 					});
 				});
@@ -335,9 +335,9 @@
 			formatTaskState(state) {
 				if (state == null || state === '') return '--';
 				const num = Number(state);
-				if (num === -1) return '未执行';
-				if (num === 1) return '执行中';
-				if (num === 2) return '已完成';
+			if (num === -1) return this.$t('warehouse.stateNotExec');
+			if (num === 1) return this.$t('warehouse.stateInProgress');
+			if (num === 2) return this.$t('warehouse.statusDone');
 				return state;
 			},
 

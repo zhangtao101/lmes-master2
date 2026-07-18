@@ -34,31 +34,31 @@
 		{
 			"path": "pages/work/produce/worksheeton/worksheeton",
 			"style": {
-				"navigationBarTitleText": "工单进站"
+				"navigationBarTitleText": "%pages.produce.worksheeton%"
 			}
 		},
 		{
 			"path": "pages/work/produce/worker/worker",
 			"style": {
-				"navigationBarTitleText": "人员上工"
+				"navigationBarTitleText": "%pages.produce.worker%"
 			}
 		},
 		{
 			"path": "pages/work/produce/devicecheck/devicecheck",
 			"style": {
-				"navigationBarTitleText": "设备点检"
+				"navigationBarTitleText": "%pages.produce.devicecheck%"
 			}
 		},
 		{
 			"path": "pages/work/produce/worksheetoff/worksheetoff",
 			"style": {
-				"navigationBarTitleText": "工单下线"
+				"navigationBarTitleText": "%pages.produce.worksheetoff%"
 			}
 		},
 		{
 			"path": "pages/work/produce/baogong/baogong",
 			"style": {
-				"navigationBarTitleText": "生产报工",
+				"navigationBarTitleText": "%pages.produce.baogong%",
 				"navigationBarBackgroundColor": "#fff",
 				"navigationBarTextStyle": "black"
 			}
@@ -66,7 +66,7 @@
 		{
 			"path": "pages/work/produce/touliao/touliao",
 			"style": {
-				"navigationBarTitleText": "物料投料",
+				"navigationBarTitleText": "%pages.produce.touliao%",
 				"navigationBarBackgroundColor": "#fff",
 				"navigationBarTextStyle": "black"
 			}
@@ -74,13 +74,13 @@
 		{
 			"path": "pages/work/produce/attendance/attendance",
 			"style": {
-				"navigationBarTitleText": "产线考勤"
+				"navigationBarTitleText": "%pages.produce.attendance%"
 			}
 		},
 		{
 			"path": "pages/work/produce/mujukuaihuan/mujukuaihuan",
 			"style": {
-				"navigationBarTitleText": "模具快换",
+				"navigationBarTitleText": "%pages.produce.mujukuaihuan%",
 				"navigationBarBackgroundColor": "#fff",
 				"navigationBarTextStyle": "black"
 			}
@@ -88,19 +88,19 @@
 		{
 			"path": "pages/work/produce/blpjilu/blpjilu",
 			"style": {
-				"navigationBarTitleText": "不良品快录"
+				"navigationBarTitleText": "%pages.produce.blpjilu%"
 			}
 		},
 		{
 			"path": "pages/work/produce/blpkuaixiu/blpkuaixiu",
 			"style": {
-				"navigationBarTitleText": "不良品快修"
+				"navigationBarTitleText": "%pages.produce.blpkuaixiu%"
 			}
 		},
 		{
 			"path": "pages/work/produce/fpkuailu/fpkuailu",
 			"style": {
-				"navigationBarTitleText": "废品快录",
+				"navigationBarTitleText": "%pages.produce.fpkuailu%",
 				"navigationBarBackgroundColor": "#fff",
 				"navigationBarTextStyle": "black"
 			}
@@ -108,13 +108,13 @@
 		{
 			"path": "pages/work/quality/iqccheck/iqccheck",
 			"style": {
-				"navigationBarTitleText": "IQC检测"
+				"navigationBarTitleText": "%pages.quality.iqccheck%"
 			}
 		},
 		{
 			"path": "pages/work/quality/ipqccheck/ipqccheck",
 			"style": {
-				"navigationBarTitleText": "IPQC(首件检)",
+				"navigationBarTitleText": "%pages.quality.ipqccheck%",
 				"navigationBarBackgroundColor": "#fff",
 				"navigationBarTextStyle": "black"
 			}
@@ -122,7 +122,7 @@
 		{
 			"path": "pages/work/quality/fqccheck/fqccheck",
 			"style": {
-				"navigationBarTitleText": "FQC检验",
+				"navigationBarTitleText": "%pages.quality.fqccheck%",
 				"navigationBarBackgroundColor": "#fff",
 				"navigationBarTextStyle": "black"
 			}
@@ -130,7 +130,7 @@
 		{
 			"path": "pages/work/quality/oqccheck/oqccheck",
 			"style": {
-				"navigationBarTitleText": "OQC检验",
+				"navigationBarTitleText": "%pages.quality.oqccheck%",
 				"navigationBarBackgroundColor": "#fff",
 				"navigationBarTextStyle": "black"
 			}
@@ -138,336 +138,336 @@
 		{
 			"path": "pages/work/warehouse/materialin/materialin",
 			"style": {
-				"navigationBarTitleText": "物料入库"
+				"navigationBarTitleText": "%pages.warehouse.materialin%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/materialout/materialout",
 			"style": {
-				"navigationBarTitleText": "物料出库"
+				"navigationBarTitleText": "%pages.warehouse.materialout%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/materialreturn/materialreturn",
 			"style": {
-				"navigationBarTitleText": "物料退货"
+				"navigationBarTitleText": "%pages.warehouse.materialreturn%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/materialback/materialback",
 			"style": {
-				"navigationBarTitleText": "物料退库"
+				"navigationBarTitleText": "%pages.warehouse.materialback%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/materildb/materildb",
 			"style": {
-				"navigationBarTitleText": "物料调拨"
+				"navigationBarTitleText": "%pages.warehouse.materildb%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/cpin/cpin",
 			"style": {
-				"navigationBarTitleText": "成品入库"
+				"navigationBarTitleText": "%pages.warehouse.cpin%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/cpsend/cpsend",
 			"style": {
-				"navigationBarTitleText": "成品发货"
+				"navigationBarTitleText": "%pages.warehouse.cpsend%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/cpreturn/cpreturn",
 			"style": {
-				"navigationBarTitleText": "成品退货"
+				"navigationBarTitleText": "%pages.warehouse.cpreturn%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/cpback/cpback",
 			"style": {
-				"navigationBarTitleText": "成品退库"
+				"navigationBarTitleText": "%pages.warehouse.cpback%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/cpdb/cpdb",
 			"style": {
-				"navigationBarTitleText": "成品调拨"
+				"navigationBarTitleText": "%pages.warehouse.cpdb%"
 			}
 		},
 		{
 			"path": "pages/work/device/devicebaoxiu/devicebaoxiu",
 			"style": {
-				"navigationBarTitleText": "设备报修"
+				"navigationBarTitleText": "%pages.warehouse.devicebaoxiu%"
 			}
 		},
 		{
 			"path": "pages/work/device/devicerepair/devicerepair",
 			"style": {
-				"navigationBarTitleText": "设备维修"
+				"navigationBarTitleText": "%pages.warehouse.devicerepair%"
 			}
 		},
 		{
 			"path": "pages/work/produce/shangliao/shangliao",
 			"style": {
-				"navigationBarTitleText": "物料上料"
+				"navigationBarTitleText": "%pages.warehouse.shangliao%"
 			}
 		},
 		{
 			"path": "pages/work/produce/worksheetout/worksheetout",
 			"style": {
-				"navigationBarTitleText": "工单出站"
+				"navigationBarTitleText": "%pages.warehouse.worksheetout%"
 			}
 		},
 		{
 			"path": "pages/work/produce/workeroff/workeroff",
 			"style": {
-				"navigationBarTitleText": "人员下工"
+				"navigationBarTitleText": "%pages.warehouse.workeroff%"
 			}
 		},
 		{
 			"path": "pages/work/produce/xialiao/xialiao",
 			"style": {
-				"navigationBarTitleText": "物料下料"
+				"navigationBarTitleText": "%pages.warehouse.xialiao%"
 			}
 		},
 		{
 			"path": "pages/work/produce/zhuanyi/zhuanyi",
 			"style": {
-				"navigationBarTitleText": "物料转移"
+				"navigationBarTitleText": "%pages.warehouse.zhuanyi%"
 			}
 		},
 		{
 			"path": "pages/work/device/pendingworklist/pendingworklist",
 			"style": {
-				"navigationBarTitleText": "设备待作业列表"
+				"navigationBarTitleText": "%pages.device.pendingworklist%"
 			}
 		},
 		{
 			"path": "pages/work/device/baoyang/baoyang",
 			"style": {
-				"navigationBarTitleText": "设备保养"
+				"navigationBarTitleText": "%pages.device.baoyang%"
 			}
 		},
 		{
 			"path": "pages/work/device/biangeng/biangeng",
 			"style": {
-				"navigationBarTitleText": "设备稼动变更"
+				"navigationBarTitleText": "%pages.device.biangeng%"
 			}
 		},
 		{
 			"path": "pages/work/andon/pendinglist/pendinglist",
 			"style": {
-				"navigationBarTitleText": "andon待作业列表"
+				"navigationBarTitleText": "%pages.andon.pendinglist%"
 			}
 		},
 		{
 			"path": "pages/work/andon/trigger/trigger",
 			"style": {
-				"navigationBarTitleText": "andon触发"
+				"navigationBarTitleText": "%pages.andon.trigger%"
 			}
 		},
 		{
 			"path": "pages/work/andon/wentipanding/wentipanding",
 			"style": {
-				"navigationBarTitleText": "andon问题判定"
+				"navigationBarTitleText": "%pages.andon.wentipanding%"
 			}
 		},
 		{
 			"path": "pages/work/andon/wentiprocess/wentiprocess",
 			"style": {
-				"navigationBarTitleText": "andon问题处理"
+				"navigationBarTitleText": "%pages.andon.wentiprocess%"
 			}
 		},
 		{
 			"path": "pages/work/device/devicerepair/equipmentMaintenance",
 			"style": {
-				"navigationBarTitleText": "设备维修"
+				"navigationBarTitleText": "%pages.warehouse.devicerepair%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/inboundPicking/inboundPicking",
 			"style": {
-				"navigationBarTitleText": "入库拣货"
+				"navigationBarTitleText": "%pages.warehouse.inboundPicking%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/outboundPicking/outboundPicking",
 			"style": {
-				"navigationBarTitleText": "出库拣货"
+				"navigationBarTitleText": "%pages.warehouse.outboundPicking%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/operationPage/operationPage",
 			"style": {
-				"navigationBarTitleText": "拣货作业"
+				"navigationBarTitleText": "%pages.warehouse.operationPage%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/ctuCartonPicking/ctuCartonPicking",
 			"style": {
-				"navigationBarTitleText": "CTO箱拣选"
+				"navigationBarTitleText": "%pages.warehouse.ctuCartonPicking%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/ctuOutboundPicking/ctuOutboundPicking",
 			"style": {
-				"navigationBarTitleText": "CTO出仓拣选"
+				"navigationBarTitleText": "%pages.warehouse.ctuOutboundPicking%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/cartonCodeQuery/cartonCodeQuery",
 			"style": {
-				"navigationBarTitleText": "箱码查询"
+				"navigationBarTitleText": "%pages.warehouse.cartonCodeQuery%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/printTest/printTest",
 			"style": {
-				"navigationBarTitleText": "打印测试"
+				"navigationBarTitleText": "%pages.warehouse.printTest%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/printerConnect/printerConnect",
 			"style": {
-				"navigationBarTitleText": "打印机连接"
+				"navigationBarTitleText": "%pages.warehouse.printerConnect%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/transfer/transfer",
 			"style": {
-				"navigationBarTitleText": "调拨"
+				"navigationBarTitleText": "%pages.warehouse.transfer%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/transfer/agvtransfer",
 			"style": {
-				"navigationBarTitleText": "调拨作业"
+				"navigationBarTitleText": "%pages.warehouse.agvtransfer%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/moldMounting/moldMounting",
 			"style": {
-				"navigationBarTitleText": "模具上模"
+				"navigationBarTitleText": "%pages.warehouse.moldMounting%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/moldDismounting/moldDismounting",
 			"style": {
-				"navigationBarTitleText": "模具下模"
+				"navigationBarTitleText": "%pages.warehouse.moldDismounting%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/inventoryTask/inventoryTask",
 			"style": {
-				"navigationBarTitleText": "盘点任务"
+				"navigationBarTitleText": "%pages.warehouse.inventoryTask%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/inventoryTask/inventoryOperation",
 			"style": {
-				"navigationBarTitleText": "盘点作业"
+				"navigationBarTitleText": "%pages.warehouse.inventoryOperation%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/inventoryTask/inventoryDetail",
 			"style": {
-				"navigationBarTitleText": "盘点明细"
+				"navigationBarTitleText": "%pages.warehouse.inventoryDetail%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/goodsShelving/goodsShelving",
 			"style": {
-				"navigationBarTitleText": "货物上架"
+				"navigationBarTitleText": "%pages.warehouse.goodsShelving%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/goodsUnshelving/goodsUnshelving",
 			"style": {
-				"navigationBarTitleText": "货物下架"
+				"navigationBarTitleText": "%pages.warehouse.goodsUnshelving%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/processFeeding/processFeeding",
 			"style": {
-				"navigationBarTitleText": "工序上料"
+				"navigationBarTitleText": "%pages.warehouse.processFeeding%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/processReport/processReport",
 			"style": {
-				"navigationBarTitleText": "工序报工"
+				"navigationBarTitleText": "%pages.warehouse.processReport%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/equipmentSpotCheck/equipmentSpotCheck",
 			"style": {
-				"navigationBarTitleText": "设备点检"
+				"navigationBarTitleText": "%pages.warehouse.equipmentSpotCheck%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/equipmentMaintenance/equipmentMaintenance",
 			"style": {
-				"navigationBarTitleText": "设备保养"
+				"navigationBarTitleText": "%pages.warehouse.equipmentMaintenance%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/equipmentSpotCheck/equipmentSpotCheckDetail",
 			"style": {
-				"navigationBarTitleText": "设备点检"
+				"navigationBarTitleText": "%pages.warehouse.equipmentSpotCheckDetail%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/equipmentMaintenance/equipmentMaintenanceDetails",
 			"style": {
-				"navigationBarTitleText": "保养详情"
+				"navigationBarTitleText": "%pages.warehouse.equipmentMaintenanceDetails%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/equipmentRepairRequest/equipmentRepairRequest",
 			"style": {
-				"navigationBarTitleText": "设备报修"
+				"navigationBarTitleText": "%pages.warehouse.equipmentRepairRequest%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/repairTask/repairTask",
 			"style": {
-				"navigationBarTitleText": "维修任务"
+				"navigationBarTitleText": "%pages.warehouse.repairTask%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/repairTask/repairTaskDetails",
 			"style": {
-				"navigationBarTitleText": "维修详情"
+				"navigationBarTitleText": "%pages.warehouse.repairTaskDetails%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/inboundPicking/inboundPickingNotAGV",
 			"style": {
-				"navigationBarTitleText": "入库拣货"
+				"navigationBarTitleText": "%pages.warehouse.inboundPickingNotAGV%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/outboundPicking/outboundPickingNotAGV",
 			"style": {
-				"navigationBarTitleText": "出库拣货"
+				"navigationBarTitleText": "%pages.warehouse.outboundPickingNotAGV%"
 			}
 		},
 		{
 			"path": "pages/work/warehouse/operationPage/operationPageNotAGV/operationPageNotAGV",
 			"style": {
-				"navigationBarTitleText": "拣货详情"
+				"navigationBarTitleText": "%pages.warehouse.operationPageNotAGV%"
 			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "MES 管 理 系 统",
+		"navigationBarTitleText": "%app.title%",
 		"navigationBarBackgroundColor": "#007aff",
 		"backgroundColor": "#F8F8F8"
 		// "titleImage": "static/logo.png"
 	},
-	/* "tabBar": {
+	"tabBar": {
 		"color": "#515151",
 		"selectedColor": "#007aff",
 		"borderStyle": "black",
@@ -477,26 +477,26 @@
 				"pagePath": "pages/index/index",
 				"iconPath": "static/images/index.png",
 				"selectedIconPath": "static/images/index_selected.png",
-				"text": "主页"
+				"text": "%tab.home%"
 			}, {
 				"pagePath": "pages/work/work",
 				"iconPath": "static/images/work.png",
 				"selectedIconPath": "static/images/work_selected.png",
-				"text": "作业"
+				"text": "%tab.work%"
 			},
 			{
 				"pagePath": "pages/message/message",
 				"iconPath": "static/images/message.png",
 				"selectedIconPath": "static/images/message_selected.png",
-				"text": "消息"
+				"text": "%tab.message%"
 			},
 			{
 				"pagePath": "pages/profile/profile",
 				"iconPath": "static/images/profile.png",
 				"selectedIconPath": "static/images/profile_selected.png",
-				"text": "我的"
+				"text": "%tab.profile%"
 			}
 		]
-	}, */
+	},
 	"uniIdRouter": {}
 }

@@ -2,7 +2,7 @@
 	<view class="ware-house-container">
 		<view class="box-header">
 			<view class="icon"></view>
-			<text class="title">CTU出库拣货</text>
+			<text class="title">{{$t('warehouse.ctuOutboundTitle')}}</text>
 		</view>
 		<view class="box-body">
 			<!-- 箱码输入区域 -->
@@ -11,12 +11,12 @@
 					<view class="header-content">
 						<view class="left">
 							<uni-icons type="home" color="#fff" size="18"></uni-icons>
-							<text>箱码：{{packingCode || '待输入'}}</text>
+							<text>{{$t('warehouse.cartonColon')}}{{packingCode || $t('warehouse.pendingInput')}}</text>
 						</view>
 					</view>
 				</view>
 			<view class="scan-input-row">
-				<input class="scan-input" v-model="packingInput" placeholder="请输入或扫描箱码" @confirm="onPackingInputConfirm" />
+				<input class="scan-input" v-model="packingInput" :placeholder="$t('warehouse.cartonInputPlaceholder')" @confirm="onPackingInputConfirm" />
 				<view class="scan-btn" @click="onScanPackingCode">
 					<uni-icons type="scan" color="#fff" size="16"></uni-icons>
 				</view>
@@ -28,7 +28,7 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="list" color="#fff" size="18"></uni-icons>
-						<text class="title">拣货详情</text>
+						<text class="title">{{$t('warehouse.pickDetail')}}</text>
 					</view>
 					<view class="right refresh-btn" @click="reloadTable">
 						<uni-icons type="refreshempty" color="#fff" size="16"></uni-icons>
@@ -36,10 +36,10 @@
 				</view>
 				<view class="table-wrapper" v-if="rows && rows.length > 0">
 					<view class="table-row table-header">
-						<view class="table-cell" style="flex: 1.2;">料号</view>
-						<view class="table-cell" style="flex: 1.5;">物料名称</view>
-						<view class="table-cell" style="flex: 1;">数量</view>
-						<view class="table-cell" style="flex: 1;">单位</view>
+						<view class="table-cell" style="flex: 1.2;">{{$t('warehouse.code')}}</view>
+						<view class="table-cell" style="flex: 1.5;">{{$t('warehouse.materialName')}}</view>
+						<view class="table-cell" style="flex: 1;">{{$t('warehouse.qty')}}</view>
+						<view class="table-cell" style="flex: 1;">{{$t('warehouse.unit')}}</view>
 					</view>
 					<view class="table-row" v-for="(row, index) in rows" :key="index">
 						<view class="table-cell" style="flex: 1.2;">{{row.materialCode}}</view>
@@ -51,14 +51,14 @@
 				<view class="empty-state" v-else>
 					<template v-if="spin.code">
 						<view class="loading-spinner"></view>
-						<text>加载中...</text>
+						<text>{{$t('warehouse.loading')}}</text>
 					</template>
 					<template v-else>
 						<view class="empty-icon-wrapper">
 							<uni-icons type="list" size="64" color="#e0e0e0"></uni-icons>
 						</view>
-						<text>暂无拣货详情</text>
-						<text class="sub-text">请扫描箱码获取数据</text>
+						<text>{{$t('warehouse.noPickDetail')}}</text>
+						<text class="sub-text">{{$t('warehouse.scanToGetData')}}</text>
 					</template>
 				</view>
 			</view>
@@ -68,17 +68,17 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="bars" color="#fff" size="18"></uni-icons>
-						<text class="title">拣货操作</text>
+						<text class="title">{{$t('warehouse.pickOperate')}}</text>
 					</view>
 				</view>
 				<view class="operation-buttons">
 					<button class="operation-btn primary" @click="handlePickingAction">
 						<uni-icons type="compose" size="18"></uni-icons>
-						<text>拣货作业</text>
+						<text>{{$t('warehouse.pickingWork')}}</text>
 					</button>
 					<button class="operation-btn danger" @click="finishPicking">
 						<uni-icons type="checkmarkempty" size="18"></uni-icons>
-						<text>完成拣货</text>
+						<text>{{$t('warehouse.finishPick')}}</text>
 					</button>
 				</view>
 			</view>
@@ -88,73 +88,73 @@
 		<uni-popup ref="pickingDrawer" type="bottom" :safe-area="false">
 			<view class="drawer-content">
 				<view class="drawer-header">
-					<text class="drawer-title">拣货作业</text>
+					<text class="drawer-title">{{$t('warehouse.pickDrawerTitle')}}</text>
 					<view class="close-btn" @click="closePickingDrawer">
 						<uni-icons type="close" size="20" color="#fff"></uni-icons>
 					</view>
 				</view>
 				<scroll-view scroll-y class="drawer-body">
 					<view class="form-item">
-						<text class="form-label">箱码</text>
+						<text class="form-label">{{$t('warehouse.cartonCode')}}</text>
 						<input class="form-input" v-model="formData.packingCode" disabled />
 					</view>
 					<view class="form-item">
-						<text class="form-label">是否有标签</text>
+						<text class="form-label">{{$t('warehouse.hasLabel')}}</text>
 						<radio-group @change="onLabelTypeChange">
 							<label class="radio-item">
 								<radio value="1" :checked="formData.isLabel === 1" />
-								<text>有</text>
+								<text>{{$t('warehouse.labelYes')}}</text>
 							</label>
 							<label class="radio-item">
 								<radio value="0" :checked="formData.isLabel === 0" />
-								<text>无</text>
+								<text>{{$t('warehouse.labelNoText')}}</text>
 							</label>
 						</radio-group>
 					</view>
 					<!-- 有标签模式 -->
 					<view class="form-item" v-if="formData.isLabel === 1">
-						<text class="form-label">物料标签</text>
-						<input class="form-input" v-model="formData.labelCode" placeholder="请输入标签码" @confirm="queryLabelInfo" />
+						<text class="form-label">{{$t('warehouse.materialLabel')}}</text>
+						<input class="form-input" v-model="formData.labelCode" :placeholder="$t('warehouse.labelCodePlaceholder')" @confirm="queryLabelInfo" />
 					</view>
 					<!-- 无标签模式 -->
 					<view class="form-item" v-if="formData.isLabel === 0">
-						<text class="form-label">料号</text>
+						<text class="form-label">{{$t('warehouse.code')}}</text>
 						<view class="picker-wrapper" @click="showMaterialPicker">
-							<input class="form-input" v-model="formData.materialName" placeholder="请选择物料" disabled />
+							<input class="form-input" v-model="formData.materialName" :placeholder="$t('warehouse.selectMaterial')" disabled />
 							<uni-icons type="arrowdown" size="16" color="#999"></uni-icons>
 						</view>
 					</view>
 					<view class="form-item">
-						<text class="form-label">物料编码</text>
+						<text class="form-label">{{$t('warehouse.materialCodeLabel')}}</text>
 						<input class="form-input" v-model="formData.materialCode" disabled />
 					</view>
 					<view class="form-item">
-						<text class="form-label">物料特征</text>
+						<text class="form-label">{{$t('warehouse.materialFeature')}}</text>
 						<view class="feature-display">
-							<input class="form-input" v-model="formData.materialDescription" placeholder="请选择物料特征" disabled />
-							<button class="view-btn" @click="showFeatureDrawer">查看/选择</button>
+							<input class="form-input" v-model="formData.materialDescription" :placeholder="$t('warehouse.selectMaterialFeature')" disabled />
+							<button class="view-btn" @click="showFeatureDrawer">{{$t('warehouse.viewSelect')}}</button>
 						</view>
 					</view>
 					<view class="form-item">
-						<text class="form-label">数量</text>
-						<input class="form-input" v-model="formData.number" type="number" placeholder="请输入数量" />
+						<text class="form-label">{{$t('warehouse.qty')}}</text>
+						<input class="form-input" v-model="formData.number" type="number" :placeholder="$t('warehouse.qtyInputPlaceholder')" />
 					</view>
 					<view class="form-item">
-						<text class="form-label">单位</text>
+						<text class="form-label">{{$t('warehouse.unit')}}</text>
 						<input class="form-input" v-model="formData.unit" disabled />
 					</view>
 					<view class="form-item">
-						<text class="form-label">供应商名称</text>
-						<input class="form-input" v-model="formData.manufacturerName" placeholder="请输入供应商名称" />
+						<text class="form-label">{{$t('warehouse.supplierName')}}</text>
+						<input class="form-input" v-model="formData.manufacturerName" :placeholder="$t('warehouse.supplierNamePlaceholder')" />
 					</view>
 					<view class="form-item">
-						<text class="form-label">储位</text>
-						<input class="form-input" v-model="formData.warehouseAreaCode" placeholder="请输入储位" />
+						<text class="form-label">{{$t('warehouse.storage')}}</text>
+						<input class="form-input" v-model="formData.warehouseAreaCode" :placeholder="$t('warehouse.storagePlaceholder2')" />
 					</view>
 				</scroll-view>
 				<view class="drawer-footer">
-					<button class="drawer-btn cancel" @click="closePickingDrawer">取消</button>
-					<button class="drawer-btn confirm" @click="submitPicking">确认</button>
+					<button class="drawer-btn cancel" @click="closePickingDrawer">{{$t('warehouse.cancel')}}</button>
+					<button class="drawer-btn confirm" @click="submitPicking">{{$t('warehouse.confirm')}}</button>
 				</view>
 			</view>
 		</uni-popup>
@@ -163,7 +163,7 @@
 		<uni-popup ref="materialPicker" type="bottom" :safe-area="false">
 			<view class="drawer-content material-picker-drawer">
 				<view class="drawer-header">
-					<text class="drawer-title">物料选择</text>
+					<text class="drawer-title">{{$t('warehouse.materialPickerTitle')}}</text>
 					<view class="close-btn" @click="closeMaterialPicker">
 						<uni-icons type="close" size="20" color="#fff"></uni-icons>
 					</view>
@@ -172,7 +172,7 @@
 					<input
 						class="search-input"
 						v-model="materialSearchKeyword"
-						placeholder="请输入料号或物料名称后按回车搜索"
+						:placeholder="$t('warehouse.materialSearchPlaceholder')"
 						@confirm="onMaterialSearchConfirm"
 					/>
 				</view>
@@ -188,7 +188,7 @@
 					</view>
 					<view class="empty-state" v-if="filteredMaterialList.length === 0">
 						<uni-icons type="inbox" size="60" color="#ccc"></uni-icons>
-						<text>暂无匹配物料</text>
+						<text>{{$t('warehouse.noMatchMaterial')}}</text>
 					</view>
 				</scroll-view>
 			</view>
@@ -198,7 +198,7 @@
 		<uni-popup ref="featureDrawer" type="bottom" :safe-area="false">
 			<view class="drawer-content feature-drawer">
 				<view class="drawer-header">
-					<text class="drawer-title">物料特征选择</text>
+					<text class="drawer-title">{{$t('warehouse.featurePickerTitle')}}</text>
 					<view class="close-btn" @click="closeFeatureDrawer">
 						<uni-icons type="close" size="20" color="#fff"></uni-icons>
 					</view>
@@ -216,7 +216,7 @@
 					</view>
 					<view class="empty-state" v-if="materialCharacteristics.length === 0">
 						<uni-icons type="inbox" size="60" color="#ccc"></uni-icons>
-						<text>暂无物料特征</text>
+						<text>{{$t('warehouse.noMaterialFeature')}}</text>
 					</view>
 				</scroll-view>
 			</view>
@@ -309,7 +309,7 @@
 				const code = _this.packingInput.trim();
 				if (!code) {
 					showBeautyToast({
-						title: '请输入箱码',
+						title: this.$t('warehouse.pleaseInputCarton'),
 						icon: 'warn'
 					});
 					return;
@@ -362,7 +362,7 @@
 			startPicking: async function() {
 				if (!this.packingCode) {
 					showBeautyToast({
-						title: '请先输入箱码',
+						title: this.$t('warehouse.pleaseInputCartonFirst'),
 						icon: 'warn'
 					});
 					return;
@@ -374,7 +374,7 @@
 						this.isPicking = true;
 						this.openPickingDrawer();
 						showBeautyToast({
-							title: '开始拣货成功',
+							title: this.$t('warehouse.startPickSuccess'),
 							icon: 'success'
 						})
 					} else {
@@ -392,15 +392,15 @@
 			finishPicking: async function() {
 				if (!this.packingCode) {
 					showBeautyToast({
-						title: '请先输入箱码',
+						title: this.$t('warehouse.pleaseInputCartonFirst'),
 						icon: 'warn'
 					});
 					return;
 				}
 
 				uni.showModal({
-					title: '确认',
-					content: '是否确认拣货完成?',
+					title: this.$t('warehouse.confirm'),
+					content: this.$t('warehouse.confirmPickFinish'),
 					success: async (res) => {
 						if (res.confirm) {
 							try {
@@ -410,7 +410,7 @@
 									this.rows = [];
 									this.isPicking = false;
 									showBeautyToast({
-										title: '拣货完成成功',
+										title: this.$t('warehouse.pickFinishSuccess'),
 										icon: 'success'
 									})
 								} else {
@@ -489,7 +489,7 @@
 				if (!keyword) {
 					_this.filteredMaterialList = [];
 					showBeautyToast({
-						title: '请输入搜索关键词',
+						title: this.$t('warehouse.pleaseInputKeyword'),
 						icon: 'warn'
 					});
 					return;
@@ -522,7 +522,7 @@
 			setTimeout(async function() {
 				if (!_this.formData.labelCode) {
 					showBeautyToast({
-						title: '请输入标签码',
+						title: this.$t('warehouse.labelCodePlaceholder'),
 						icon: 'warn'
 					});
 					return;
@@ -564,7 +564,7 @@
 					} else if (!resp.data || resp.data === null || resp.data === undefined) {
 						this.filteredMaterialList = [];
 						showBeautyToast({
-							title: '暂无匹配的物料',
+							title: this.$t('warehouse.noMatchMaterialToast'),
 							icon: 'warn'
 						});
 					}
@@ -572,7 +572,7 @@
 					console.error(error);
 					this.filteredMaterialList = [];
 					showBeautyToast({
-						title: '查询失败,请重试',
+						title: this.$t('warehouse.queryFailedRetry'),
 						icon: 'error'
 					});
 				}
@@ -637,35 +637,35 @@
 				// 表单验证
 				if (!this.formData.packingCode) {
 					showBeautyToast({
-						title: '箱码不能为空',
+						title: this.$t('warehouse.cartonRequired'),
 						icon: 'warn'
 					});
 					return;
 				}
 				if (this.formData.isLabel === 1 && !this.formData.labelCode) {
 					showBeautyToast({
-						title: '物料标签不能为空',
+						title: this.$t('warehouse.labelRequired'),
 						icon: 'warn'
 					});
 					return;
 				}
 				if (!this.formData.materialCode) {
 					showBeautyToast({
-						title: '料号不能为空',
+						title: this.$t('warehouse.codeRequired'),
 						icon: 'warn'
 					});
 					return;
 				}
 				if (!this.formData.materialDescriptionId) {
 					showBeautyToast({
-						title: '物料特征不能为空',
+						title: this.$t('warehouse.featureRequired'),
 						icon: 'warn'
 					});
 					return;
 				}
 				if (!this.formData.number) {
 					showBeautyToast({
-						title: '数量不能为空',
+						title: this.$t('warehouse.qtyRequired'),
 						icon: 'warn'
 					});
 					return;
@@ -678,7 +678,7 @@
 						this.closePickingDrawer();
 						this.reloadTable();
 						showBeautyToast({
-							title: '拣货作业成功',
+							title: this.$t('warehouse.pickSuccess'),
 							icon: 'success'
 						})
 					} else {

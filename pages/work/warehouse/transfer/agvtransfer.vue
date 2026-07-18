@@ -7,7 +7,7 @@
 					<view class="left">
 						<view class="input-group">
 							<uni-icons type="home" color="#fff" size="18"></uni-icons>
-							<text>货架储位：</text>
+							<text>{{ $t('warehouse.shelfStorage') }}：</text>
 							<uni-easyinput 
 								v-model="storageCode" 
 								:inputBorder="false"
@@ -19,24 +19,24 @@
 					</view>
 					<view class="right" @click="onStorageScan">
 						<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-						<text>请扫描</text>
+						<text>{{ $t('warehouse.pleaseScan') }}</text>
 					</view>
 				</view>
 				<view class="info-grid">
 					<view class="info-item">
-						<view class="label">货架码</view>
+						<view class="label">{{ $t('warehouse.shelfCodeLabel') }}</view>
 						<view class="value">{{shelfInfo.rqCode || '--'}}</view>
 					</view>
 					<view class="info-item">
-						<view class="label">所在地码</view>
+						<view class="label">{{ $t('warehouse.locationCodeLabel') }}</view>
 						<view class="value">{{shelfInfo.locationCode || '--'}}</view>
 					</view>
 					<view class="info-item">
-						<view class="label">货架储位号</view>
+						<view class="label">{{ $t('warehouse.shelfStorageNo') }}</view>
 						<view class="value">{{shelfInfo.storageCode || '--'}}</view>
 					</view>
 					<view class="info-item">
-						<view class="label">状态</view>
+						<view class="label">{{ $t('warehouse.status') }}</view>
 						<view class="value" :class="shelfInfo.statusName === '在库' ? 'success' : 'error'">
 							{{shelfInfo.statusName || '--'}}
 						</view>
@@ -49,7 +49,7 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="compose" color="#fff" size="16"></uni-icons>
-						<text class="title"> 标签明细</text>
+						<text class="title"> {{ $t('warehouse.labelDetail') }}</text>
 						<text class="count">({{labelList.length}})</text>
 					</view>
 				</view>
@@ -67,53 +67,53 @@
 										:disabled="!storageCode"
 										class="label-input"
 										:class="{ disabled: !storageCode }"
-										placeholder="请输入或扫描标签码"
+										:placeholder="$t('warehouse.labelCodePlaceholder2')"
 									></uni-easyinput>
 								</view>
 							</view>
 							<view class="scan-btn" :class="{ disabled: !storageCode }" @click="onLabelScan(labelInfo)">
 								<uni-icons type="scan" size="16"></uni-icons>
-								<text>扫码</text>
+								<text>{{ $t('warehouse.scan') }}</text>
 							</view>
 						</view>
 						<view class="card-body">
 							<view class="info-row-group">
 								<view class="info-row">
-									<text class="label">料号：</text>
+									<text class="label">{{ $t('warehouse.code') }}：</text>
 									<text class="value">{{labelInfo.materialCode || '--'}}</text>
 								</view>
 								<view class="info-row">
-									<text class="label">物料名称：</text>
+									<text class="label">{{ $t('warehouse.materialName') }}：</text>
 									<text class="value">{{labelInfo.materialName || '--'}}</text>
 								</view>
 							</view>
 							<view class="info-row-group">
 								<view class="info-row">
-									<text class="label">批次号：</text>
+									<text class="label">{{ $t('warehouse.batchCode') }}：</text>
 									<text class="value">{{labelInfo.batchCode || '--'}}</text>
 								</view>
 								<view class="info-row">
-									<text class="label">数量：</text>
-									<input class="uni-input number-input" type="digit" v-model="labelInfo.number" placeholder="请输入数量" />
+									<text class="label">{{ $t('warehouse.qtyColon') }}</text>
+									<input class="uni-input number-input" type="digit" v-model="labelInfo.number" :placeholder="$t('warehouse.qtyInputPlaceholder')" />
 								</view>
 							</view>
 						</view>
 						<view class="card-footer">
 							<view class="delete-btn" @click="removeLabel(index)">
-								<uni-icons type="trash" size="20" color="#fff"></uni-icons>
-								<text>删除</text>
+							<uni-icons type="trash" size="20" color="#fff"></uni-icons>
+							<text>{{ $t('warehouse.delete') }}</text>
 							</view>
 						</view>
 					</view>
 				</view>
 				<view class="empty-state" v-else>
 					<uni-icons type="inbox" size="60" color="#ccc"></uni-icons>
-					<text>暂无标签明细</text>
+					<text>{{ $t('warehouse.noLabelDetail') }}</text>
 				</view>
 				<view class="add-btn-wrapper">
 					<button class="add-btn" @click="addRow">
 						<uni-icons type="plus" size="16" color="#fff"></uni-icons>
-						<text>新增标签</text>
+						<text>{{ $t('warehouse.addLabel') }}</text>
 					</button>
 				</view>
 			</view>
@@ -123,15 +123,15 @@
 		<view class="submit-btn-wrapper">
 			<button class="submit-btn" :class="{ disabled: isProcessing }" @click="onTakeOut">
 				<uni-icons type="download" size="18"></uni-icons>
-				<text>{{ isProcessing ? '处理中...' : '取出' }}</text>
+				<text>{{ isProcessing ? $t('warehouse.returning') : $t('warehouse.takeOut') }}</text>
 			</button>
 			<button class="submit-btn btn-success" :class="{ disabled: isProcessing }" @click="onPutIn">
 				<uni-icons type="upload" size="18"></uni-icons>
-				<text>{{ isProcessing ? '处理中...' : '放入' }}</text>
+				<text>{{ isProcessing ? $t('warehouse.returning') : $t('warehouse.putIn') }}</text>
 			</button>
 			<button class="submit-btn btn-warning" :class="{ disabled: isProcessing }" @click="onShelfReturn">
 				<uni-icons type="loop" size="18"></uni-icons>
-				<text>{{ isProcessing ? '处理中...' : '货架回撤' }}</text>
+				<text>{{ isProcessing ? $t('warehouse.returning') : $t('warehouse.shelfReturn') }}</text>
 			</button>
 		</view>
 
@@ -139,7 +139,7 @@
 		<view class="loading-mask" v-if="isLoading">
 			<view class="loading-content">
 				<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-				<text class="loading-text">加载中...</text>
+				<text class="loading-text">{{ $t('warehouse.loadingDots') }}</text>
 			</view>
 		</view>
 	</view>
@@ -178,7 +178,7 @@
 							_this.loadLabelInfo(code, _this.currentLabelItem || {});
 						} else {
 							uni.showToast({
-								title: "标签无效！",
+								title: this.$t('warehouse.tagInvalid'),
 								icon: 'none'
 							});
 						}
@@ -216,14 +216,14 @@
 						};
 					} else {
 						uni.showToast({
-							title: resp.msg || '加载失败',
+							title: resp.msg || this.$t('warehouse.loadFail'),
 							icon: 'none'
 						});
 					}
 				} catch (e) {
 					this.isLoading = false;
 					uni.showToast({
-						title: '加载失败',
+						title: this.$t('warehouse.loadFail'),
 						icon: 'none'
 					});
 				}
@@ -246,14 +246,14 @@
 						item.descriptionId = data.descriptionId;
 					} else {
 						uni.showToast({
-							title: resp.msg || '加载失败',
+							title: resp.msg || this.$t('warehouse.loadFail'),
 							icon: 'none'
 						});
 					}
 				} catch (e) {
 					this.isLoading = false;
 					uni.showToast({
-						title: '加载失败',
+						title: this.$t('warehouse.loadFail'),
 						icon: 'none'
 					});
 				}
@@ -278,7 +278,7 @@
 				setTimeout(function() {
 					if (!item.labelCode) {
 						uni.showToast({
-							title: '请输入标签码',
+							title: this.$t('warehouse.labelCodePlaceholder'),
 							icon: 'none'
 						});
 						return;
@@ -291,7 +291,7 @@
 			onLabelScan: function(item) {
 				if (!this.storageCode) {
 					uni.showToast({
-						title: '请先扫描货架储位',
+						title: this.$t('warehouse.scanShelfFirst'),
 						icon: 'none'
 					});
 					return;
@@ -322,14 +322,14 @@
 			validateLabels: function() {
 				if (!this.storageCode) {
 					uni.showToast({
-						title: '请先扫描货架储位',
+						title: this.$t('warehouse.scanShelfFirst'),
 						icon: 'none'
 					});
 					return false;
 				}
 				if (this.labelList.length === 0) {
 					uni.showToast({
-						title: '请至少添加一个标签',
+						title: this.$t('warehouse.addLabelFirst'),
 						icon: 'none'
 					});
 					return false;
@@ -338,14 +338,14 @@
 					const label = this.labelList[i];
 					if (!label.labelCode) {
 						uni.showToast({
-							title: `第${i + 1}个明细未扫描标签码`,
+							title: this.$t('warehouse.detailNoLabel', { index: i + 1 }),
 							icon: 'none'
 						});
 						return false;
 					}
 					if (!label.number || label.number <= 0) {
 						uni.showToast({
-							title: `第${i + 1}个明细数量无效`,
+							title: this.$t('warehouse.detailInvalidQty', { index: i + 1 }),
 							icon: 'none'
 						});
 						return false;
@@ -373,7 +373,7 @@
 					);
 					if (resp.code == '200') {
 						uni.showToast({
-							title: '取出成功',
+							title: this.$t('warehouse.takeOutSuccess'),
 							icon: 'success'
 						});
 						// 清空数据
@@ -387,13 +387,13 @@
 						};
 					} else {
 						uni.showToast({
-							title: resp.msg || '取出失败',
+							title: resp.msg || this.$t('warehouse.takeOutFail'),
 							icon: 'none'
 						});
 					}
 				} catch (e) {
 					uni.showToast({
-						title: '取出失败',
+						title: this.$t('warehouse.takeOutFail'),
 						icon: 'none'
 					});
 				} finally {
@@ -420,7 +420,7 @@
 					);
 					if (resp.code == '200') {
 						uni.showToast({
-							title: '放入成功',
+							title: this.$t('warehouse.putInSuccess'),
 							icon: 'success'
 						});
 						// 清空数据
@@ -434,13 +434,13 @@
 						};
 					} else {
 						uni.showToast({
-							title: resp.msg || '放入失败',
+							title: resp.msg || this.$t('warehouse.putInFail'),
 							icon: 'none'
 						});
 					}
 				} catch (e) {
 					uni.showToast({
-						title: '放入失败',
+						title: this.$t('warehouse.putInFail'),
 						icon: 'none'
 					});
 				} finally {
@@ -453,7 +453,7 @@
 				if (this.isProcessing) return;
 				if (!this.storageCode || !this.shelfInfo.rqCode) {
 					uni.showToast({
-						title: '请先扫描货架储位',
+						title: this.$t('warehouse.scanShelfFirst'),
 						icon: 'none'
 					});
 					return;
@@ -467,7 +467,7 @@
 					);
 					if (resp.code == '200') {
 						uni.showToast({
-							title: '货架回撤成功',
+							title: this.$t('warehouse.shelfReturnSuccess'),
 							icon: 'success'
 						});
 						// 清空数据
@@ -481,13 +481,13 @@
 						};
 					} else {
 						uni.showToast({
-							title: resp.msg || '货架回撤失败',
+							title: resp.msg || this.$t('warehouse.shelfReturnFail'),
 							icon: 'none'
 						});
 					}
 				} catch (e) {
 					uni.showToast({
-						title: '货架回撤失败',
+						title: this.$t('warehouse.shelfReturnFail'),
 						icon: 'none'
 					});
 				} finally {

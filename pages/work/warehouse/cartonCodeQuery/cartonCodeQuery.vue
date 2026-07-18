@@ -2,7 +2,7 @@
 	<view class="carton-query-container">
 		<view class="box-header">
 			<view class="icon"></view>
-			<text class="title">箱码查询</text>
+			<text class="title">{{ $t('warehouse.cartonQueryTitle') }}</text>
 		</view>
 		<view class="box-body">
 			<!-- 箱码输入区域 -->
@@ -10,12 +10,12 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="home" color="#fff" size="18"></uni-icons>
-						<text>箱码：{{packingCode || '待输入'}}</text>
+						<text>{{ $t('warehouse.cartonCode') }}{{packingCode || $t('warehouse.pendingInput')}}</text>
 					</view>
 					<view class="right">
 						<view class="action-btn scan-btn" @click="onScanPackingCode">
 							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-							<text>请扫描</text>
+							<text>{{ $t('common.scan') }}</text>
 						</view>
 					</view>
 				</view>
@@ -23,7 +23,7 @@
 					<input
 						class="search-input"
 						v-model="packingInput"
-						placeholder="请输入箱码后按回车查询"
+						:placeholder="$t('warehouse.cartonPlaceholder')"
 						@confirm="onPackingInputConfirm"
 					/>
 					<view class="search-btn" @click="onScanPackingCode">
@@ -37,21 +37,21 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="list" color="#fff" size="18"></uni-icons>
-						<text class="title">查询结果</text>
+						<text class="title">{{ $t('warehouse.queryResult') }}</text>
 					</view>
 					<view class="right result-count">
-						<text>共 {{queryResult.length}} 条记录</text>
+						<text>{{ $t('warehouse.totalRecords', { count: queryResult.length }) }}</text>
 					</view>
 				</view>
 				<view class="table-wrapper">
 					<view class="table-row table-header">
-						<view class="table-cell" style="flex: 1.2;">料号</view>
-						<view class="table-cell" style="flex: 1.5;">物料名称</view>
-						<view class="table-cell" style="flex: 0.8;">数量</view>
-						<view class="table-cell" style="flex: 0.6;">单位</view>
-						<view class="table-cell" style="flex: 1.2;">批次号</view>
-						<view class="table-cell" style="flex: 1.2;">工单号</view>
-						<view class="table-cell" style="flex: 1;">储位</view>
+						<view class="table-cell" style="flex: 1.2;">{{ $t('warehouse.code') }}</view>
+						<view class="table-cell" style="flex: 1.5;">{{ $t('warehouse.materialName') }}</view>
+						<view class="table-cell" style="flex: 0.8;">{{ $t('warehouse.qty') }}</view>
+						<view class="table-cell" style="flex: 0.6;">{{ $t('warehouse.unit') }}</view>
+						<view class="table-cell" style="flex: 1.2;">{{ $t('warehouse.batchCode') }}</view>
+						<view class="table-cell" style="flex: 1.2;">{{ $t('warehouse.worksheetCode') }}</view>
+						<view class="table-cell" style="flex: 1;">{{ $t('warehouse.storage') }}</view>
 					</view>
 					<view class="table-row" v-for="(item, index) in queryResult" :key="index">
 						<view class="table-cell" style="flex: 1.2;">{{item.materialCode}}</view>
@@ -67,27 +67,27 @@
 				<view class="card-list">
 					<view class="card-item" v-for="(item, index) in queryResult" :key="'card-' + index">
 						<view class="card-row">
-							<text class="card-label">料号</text>
+							<text class="card-label">{{ $t('warehouse.code') }}</text>
 							<text class="card-value">{{item.materialCode}}</text>
 						</view>
 						<view class="card-row">
-							<text class="card-label">物料名称</text>
+							<text class="card-label">{{ $t('warehouse.materialName') }}</text>
 							<text class="card-value">{{item.materialName}}</text>
 						</view>
 						<view class="card-row">
-							<text class="card-label">数量</text>
+							<text class="card-label">{{ $t('warehouse.qty') }}</text>
 							<text class="card-value highlight">{{item.number}} {{item.unit}}</text>
 						</view>
 						<view class="card-row">
-							<text class="card-label">批次号</text>
+							<text class="card-label">{{ $t('warehouse.batchCode') }}</text>
 							<text class="card-value">{{item.batchCode || '-'}}</text>
 						</view>
 						<view class="card-row">
-							<text class="card-label">工单号</text>
+							<text class="card-label">{{ $t('warehouse.worksheetCode') }}</text>
 							<text class="card-value">{{item.worksheetCode || '-'}}</text>
 						</view>
 						<view class="card-row">
-							<text class="card-label">储位</text>
+							<text class="card-label">{{ $t('warehouse.storage') }}</text>
 							<text class="card-value">{{item.warehouseAreaCode || '-'}}</text>
 						</view>
 					</view>
@@ -99,14 +99,14 @@
 				<view class="empty-state">
 					<template v-if="loading">
 						<view class="loading-spinner"></view>
-						<text>查询中...</text>
+						<text>{{ $t('warehouse.querying') }}</text>
 					</template>
 					<template v-else>
 						<view class="empty-icon-wrapper">
 							<uni-icons type="list" size="64" color="#e0e0e0"></uni-icons>
 						</view>
-						<text>暂无查询结果</text>
-						<text class="sub-text">请输入正确的箱码进行查询</text>
+						<text>{{ $t('warehouse.noResult') }}</text>
+						<text class="sub-text">{{ $t('warehouse.correctCartonHint') }}</text>
 					</template>
 				</view>
 			</view>
@@ -117,7 +117,7 @@
 					<view class="empty-icon-wrapper">
 						<uni-icons type="search" size="64" color="#e0e0e0"></uni-icons>
 					</view>
-					<text>请输入箱码进行查询</text>
+					<text>{{ $t('warehouse.enterCartonHint') }}</text>
 				</view>
 			</view>
 		</view>
@@ -177,7 +177,7 @@
 					_this.packingInput = ''; // 回车后清空输入框
 					if (!code) {
 						showBeautyToast({
-							title: '请输入箱码',
+							title: _this.$t('warehouse.enterCartonTip'),
 							icon: 'warn'
 						});
 						return;
@@ -212,13 +212,13 @@
 						this.queryResult = resp.data || [];
 						if (this.queryResult.length === 0) {
 							showBeautyToast({
-								title: '暂无查询结果',
+								title: this.$t('warehouse.noResult'),
 								icon: 'warn'
 							});
 						}
 					} else {
 						showBeautyToast({
-							title: resp.msg || '查询失败',
+							title: resp.msg || this.$t('warehouse.queryFailed'),
 							icon: 'error'
 						});
 					}
@@ -226,7 +226,7 @@
 					this.loading = false;
 					console.error(error);
 					showBeautyToast({
-						title: '查询失败,请重试',
+						title: this.$t('warehouse.queryFailedRetry'),
 						icon: 'error'
 					});
 				}
