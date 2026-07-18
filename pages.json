@@ -467,36 +467,36 @@
 		"backgroundColor": "#F8F8F8"
 		// "titleImage": "static/logo.png"
 	},
-	"tabBar": {
-		"color": "#515151",
-		"selectedColor": "#007aff",
-		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
-		"fontSize": "14px",
-		"list": [{
-				"pagePath": "pages/index/index",
-				"iconPath": "static/images/index.png",
-				"selectedIconPath": "static/images/index_selected.png",
-				"text": "%tab.home%"
-			}, {
-				"pagePath": "pages/work/work",
-				"iconPath": "static/images/work.png",
-				"selectedIconPath": "static/images/work_selected.png",
-				"text": "%tab.work%"
-			},
-			{
-				"pagePath": "pages/message/message",
-				"iconPath": "static/images/message.png",
-				"selectedIconPath": "static/images/message_selected.png",
-				"text": "%tab.message%"
-			},
-			{
-				"pagePath": "pages/profile/profile",
-				"iconPath": "static/images/profile.png",
-				"selectedIconPath": "static/images/profile_selected.png",
-				"text": "%tab.profile%"
-			}
-		]
-	},
+	// "tabBar": {
+	// 	"color": "#515151",
+	// 	"selectedColor": "#007aff",
+	// 	"borderStyle": "black",
+	// 	"backgroundColor": "#ffffff",
+	// 	"fontSize": "14px",
+	// 	"list": [{
+	// 			"pagePath": "pages/index/index",
+	// 			"iconPath": "static/images/index.png",
+	// 			"selectedIconPath": "static/images/index_selected.png",
+	// 			"text": "%tab.home%"
+	// 		}, {
+	// 			"pagePath": "pages/work/work",
+	// 			"iconPath": "static/images/work.png",
+	// 			"selectedIconPath": "static/images/work_selected.png",
+	// 			"text": "%tab.work%"
+	// 		},
+	// 		{
+	// 			"pagePath": "pages/message/message",
+	// 			"iconPath": "static/images/message.png",
+	// 			"selectedIconPath": "static/images/message_selected.png",
+	// 			"text": "%tab.message%"
+	// 		},
+	// 		{
+	// 			"pagePath": "pages/profile/profile",
+	// 			"iconPath": "static/images/profile.png",
+	// 			"selectedIconPath": "static/images/profile_selected.png",
+	// 			"text": "%tab.profile%"
+	// 		}
+	// 	]
+	// },
 	"uniIdRouter": {}
 }
