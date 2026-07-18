@@ -6,7 +6,7 @@
 					<view class="profile">
 						<uni-icons type="contact-filled" size="54" color="#fff"></uni-icons>
 						<view class="name">
-							<text>请扫描</text>
+							<text>{{ $t('common.scan') }}</text>
 							<text>--</text>
 						</view>
 					</view>
@@ -21,10 +21,10 @@
 			</view>
 			<view class="opt-button">
 				<view class="left">
-					<button plain type="primary"> 上岗</button>
+					<button plain type="primary"> {{ $t('produce.attendance.onDuty') }}</button>
 				</view>
 				<view class="right">
-					<button plain type="primary"> 下岗</button>
+					<button plain type="primary"> {{ $t('produce.attendance.offDuty') }}</button>
 				</view>
 			</view>
 		</view>
@@ -42,26 +42,26 @@
 						<view>
 							<uni-icons custom-prefix="iconfont" size="18" color="#007aff"
 								type="icon-xianshiqi2"></uni-icons>
-							<text class="label">工位</text>
+							<text class="label">{{ $t('produce.attendance.station') }}</text>
 						</view>
 						<uni-icons type="down" size="18" color="#007aff"></uni-icons>
 					</view>
 					<view class="content-body">
 						<image style="width: 200rpx; height: 200rpx;" src="/static/images/scan_bg.jpg">
 						</image>
-						<text>请扫描工位</text>
+						<text>{{ $t('produce.attendance.scanStation') }}</text>
 					</view>
 				</view>
 				<view class="attendance-record">
 					<view class="record-title">
-						<text>打卡记录</text>
+						<text>{{ $t('produce.attendance.record') }}</text>
 						<text>|</text>
 						<text class="value">0</text>
 					</view>
 					<view class="record-list">
-						<text>时间</text>
-						<text>人员</text>
-						<text>资质校验</text>
+						<text>{{ $t('produce.attendance.time') }}</text>
+						<text>{{ $t('produce.attendance.person') }}</text>
+						<text>{{ $t('produce.attendance.qualify') }}</text>
 
 					</view>
 				</view>

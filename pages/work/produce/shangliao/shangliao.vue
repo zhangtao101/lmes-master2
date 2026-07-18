@@ -2,18 +2,18 @@
 	<view class="order-on-container">
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-liebiao" size="18"></uni-icons>
-			<text class="common-text">当前信息</text>
+			<text class="common-text">{{ $t('produce.shangliao.currentInfo') }}</text>
 		</view>
 		<view class="content-container">
 			<view class="content-item">
 				<text class="content-label">
-					工序：
+					{{ $t('ws.process') }}
 				</text>
 				<text class="content-value">
 					{{workStation.processName}}
 				</text>
 				<text class="content-label">
-					设备：
+					{{ $t('ws.equipment') }}
 				</text>
 				<text class="content-value">
 					{{workStation.equipmentName}}
@@ -21,13 +21,13 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					产品编号：
+					{{ $t('ws.productCode') }}
 				</text>
 				<text class="content-value">
 					{{workSheet.productCode}}
 				</text>
 				<text class="content-label">
-					计划数量：
+					{{ $t('ws.planQty') }}
 				</text>
 				<text class="content-value">
 					{{workSheet.workSheetPlanNumber}}
@@ -35,7 +35,7 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					产品名称：
+					{{ $t('ws.productName') }}
 				</text>
 				<text class="content-value">
 					{{workSheet.productName}}
@@ -44,21 +44,21 @@
 		</view>
 		<view class="common-container-header">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-erweima" size="18"></uni-icons>
-			<text class="common-text">物料上料</text>
+			<text class="common-text">{{ $t('produce.shangliao.materialFeed') }}</text>
 			<view class="common-right" @click="onScan">
-				扫描
+				{{ $t('produce.shangliao.scan') }}
 			</view>
 		</view>
 		<view class="content-container" v-for="item in feedList" :key="item.materialCode">
 			<view class="content-item">
 				<text class="content-label">
-					料号：
+					{{ $t('produce.worksheetoff.materialCode') }}
 				</text>
 				<text class="content-value">
 					{{item.materialCode}}
 				</text>
 				<text class="content-label">
-					站位：
+					{{ $t('produce.shangliao.station') }}
 				</text>
 				<text class="content-value">
 					{{item.stationCode}}
@@ -66,7 +66,7 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					物料名称：
+					{{ $t('produce.worksheetoff.materialName') }}
 				</text>
 				<text class="content-value">
 					{{item.materialName}}
@@ -74,14 +74,14 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					当前数量：
+					{{ $t('produce.touliao.currentQty') }}
 				</text>
 				<text class="content-value" :class="{warning:item.feedNumber<item.saveNumber}"
 					@click="onOpenJiaoliao(item,item.feedNumber<item.saveNumber)">
 					{{item.feedNumber}}
 				</text>
 				<text class="content-label">
-					最小安全数量：
+					{{ $t('produce.shangliao.safeQty') }}
 				</text>
 				<text class="content-value">
 					{{item.safeNumber}}
@@ -91,7 +91,7 @@
 		<view v-if="jiaoliaoList.length==0">
 			<view class="common-container-header">
 				<uni-icons color="#fff" custom-prefix="iconfont" type="icon-erweima" size="18"></uni-icons>
-				<text class="common-text">扫码记录</text>
+				<text class="common-text">{{ $t('produce.shangliao.scanRecord') }}</text>
 				<view class="common-right">
 
 				</view>
@@ -99,7 +99,7 @@
 			<view class="content-container" v-for="item in materialList" :key="item.materialCode">
 				<view class="content-item">
 					<text class="content-label">
-						物料标签：
+						{{ $t('produce.touliao.materialLabel') }}
 					</text>
 					<text class="content-value">
 						{{item.labelCode}}
@@ -107,13 +107,13 @@
 				</view>
 				<view class="content-item">
 					<text class="content-label">
-						料号：
+						{{ $t('produce.worksheetoff.materialCode') }}
 					</text>
 					<text class="content-value">
 						{{item.materialCode}}
 					</text>
 					<text class="content-label">
-						当前数量：
+						{{ $t('produce.touliao.currentQty') }}
 					</text>
 					<text class="content-value">
 						{{item.packageNumber}}
@@ -121,7 +121,7 @@
 				</view>
 				<view class="content-item">
 					<text class="content-label">
-						物料名称：
+						{{ $t('produce.worksheetoff.materialName') }}
 					</text>
 					<text class="content-value">
 						{{item.materialName}}
@@ -132,7 +132,7 @@
 		</view>
 		<view class="common-container-header" v-if="jiaoliaoList.length">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-erweima" size="18"></uni-icons>
-			<text class="common-text">物料叫料</text>
+			<text class="common-text">{{ $t('produce.shangliao.materialCall') }}</text>
 			<view class="common-right">
 
 			</view>
@@ -140,7 +140,7 @@
 		<view class="content-container" v-for="item in jiaoliaoList" :key="item.materialCode">
 			<view class="content-item">
 				<text class="content-label">
-					料号：
+					{{ $t('produce.worksheetoff.materialCode') }}
 				</text>
 				<text class="content-value">
 					{{item.materialCode}}
@@ -148,7 +148,7 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					物料名称：
+					{{ $t('produce.worksheetoff.materialName') }}
 				</text>
 				<text class="content-value">
 					{{item.materialName}}
@@ -156,13 +156,13 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					当前数量：
+					{{ $t('produce.touliao.currentQty') }}
 				</text>
 				<text class="content-value">
 					{{item.feedNumber}}
 				</text>
 				<text class="content-label">
-					最小安全数量：
+					{{ $t('produce.shangliao.safeQty') }}
 				</text>
 				<text class="content-value">
 					{{item.safeNumber}}
@@ -170,7 +170,7 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					叫料数量：
+					{{ $t('produce.shangliao.callQty') }}
 				</text>
 				<view class="content-value">
 					<uni-number-box :max="1000000" v-model="vModel[`takenumber_${item.materialCode}`]"
@@ -183,11 +183,11 @@
 		</view>
 		<!-- 两个按钮只显示一个，如果存在叫料情况则仅显示叫料按钮 -->
 		<view class="operator-button" v-if="jiaoliaoList.length">
-			<button type="primary" size="mini" @click="onSureJiaoliao">确认叫料</button>
+			<button type="primary" size="mini" @click="onSureJiaoliao">{{ $t('produce.shangliao.confirmCall') }}</button>
 		</view>
 		<view class="operator-button" v-else>
 			<button type="primary" size="mini" @click="onSure">
-				{{materialList.length?'确认上料':'确认完成'}}
+				{{materialList.length?$t('produce.shangliao.confirmFeed'):$t('produce.shangliao.confirmFinish')}}
 			</button>
 		</view>
 	</view>
@@ -279,7 +279,7 @@
 				const res = await produce.insertStores(list);
 				if (res.code === 200) {
 					uni.showToast({
-						title: "叫料成功"
+						title: this.$t('produce.shangliao.callSuccess')
 					});
 					this.jiaoliaoList = [];
 					const pages = getCurrentPages();
@@ -316,7 +316,7 @@
 						this.loadFeedList();
 						this.materialList = [];
 						uni.showToast({
-							title: "上料完成"
+							title: this.$t('produce.shangliao.feedSuccess')
 						})
 					} else {
 						uni.showToast({

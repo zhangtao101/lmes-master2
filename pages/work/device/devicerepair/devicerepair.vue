@@ -25,7 +25,7 @@
 							<view class="content-item">
 								<text>维修计划：</text>
 								<text class="content-value">
-									<text style="color: red;">应急维修</text> | 100
+									<text style="color: red;">{{ $t('device.emergencyRepair') }}</text> | 100
 								</text>
 							</view>
 							<view class="content-item">

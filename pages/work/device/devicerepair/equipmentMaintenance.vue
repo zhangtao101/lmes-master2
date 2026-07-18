@@ -2,13 +2,13 @@
 	<view class="baogong-container">
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>
-			<text class="common-text">故障信息</text>
+			<text class="common-text">{{ $t('device.faultInfo') }}</text>
 		</view>
 		<view class="baogong-content">
 			<view class="content-item">
 				<text>维修计划：</text>
 				<text class="content-value">
-					<text style="color: red;">应急维修</text>
+					<text style="color: red;">{{ $t('device.emergencyRepair') }}</text>
 				</text>
 			</view>
 			<view class="content-item">
@@ -34,7 +34,7 @@
 
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>
-			<text class="common-text">维修结果</text>
+			<text class="common-text">{{ $t('warehouse.repairResultLabel') }}</text>
 		</view>
 		<view class="baogong-content">
 			<view class="content-item">
@@ -47,26 +47,26 @@
 			<view class="content-item">
 				<text>异常原因：</text>
 				<text class="content-value">
-					<input placeholder="请输入异常原因" style="text-align: right;"/>
+					<input :placeholder="$t('device.faultReasonPlaceholder')" style="text-align: right;"/>
 				</text>
 			</view>
 			<view class="content-item">
 				<text>维修结果：</text>
 				<text class="content-value">
-					<input placeholder="请输入维修结果" style="text-align: right;" />
+					<input :placeholder="$t('warehouse.inputRepairResult')" style="text-align: right;" />
 				</text>
 			</view>
 			<view class="content-item">
 				<text>备注：</text>
 				<text class="content-value">
-					<input placeholder="请输入备注" style="text-align: right;" />
+					<input :placeholder="$t('warehouse.inputRemark')" style="text-align: right;" />
 				</text>
 			</view>
 			
 			
 			<view class="bottom-container">
 				<view class="right">
-					<button type="primary" size="mini" >提交</button>
+					<button type="primary" size="mini" >{{ $t('common.submit') }}</button>
 				</view>
 			</view>
 		</view>

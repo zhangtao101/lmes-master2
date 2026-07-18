@@ -2,21 +2,21 @@
 	<view class="order-on-container">
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-gongdanhao" size="18"></uni-icons>
-			<text class="common-text">工单号:</text>
+			<text class="common-text">{{ $t('ws.workSheet') }}</text>
 			<view class="common-right" @click="onScan">
-				请扫描或选择
+				{{ $t('common.scanOrSelect') }}
 			</view>
 		</view>
 		<view class="content-container">
 			<view class="content-item">
 				<text class="content-label">
-					工序：
+					{{ $t('ws.process') }}
 				</text>
 				<text class="content-value">
 					123
 				</text>
 				<text class="content-label">
-					设备：
+					{{ $t('ws.equipment') }}
 				</text>
 				<text class="content-value">
 					456
@@ -24,7 +24,7 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					产品编号：
+					{{ $t('ws.productCode') }}
 				</text>
 				<text class="content-value">
 				</text>
@@ -32,19 +32,19 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					产品名称：
+					{{ $t('ws.productName') }}
 				</text>
 				<text class="content-value">
 				</text>
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					计划数量：
+					{{ $t('ws.planQty') }}
 				</text>
 				<text class="content-value">
 				</text>
 				<text class="content-label">
-					下线数量：
+					{{ $t('produce.worksheetoff.offlineQty') }}
 				</text>
 				<view class="content-value">
 					<uni-number-box :max="10000" v-model="offlineNumber"></uni-number-box>
@@ -53,34 +53,34 @@
 		</view>
 		<view class="common-container-header">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-erweima" size="18"></uni-icons>
-			<text class="common-text">物料扣料校准</text>
+			<text class="common-text">{{ $t('produce.worksheetoff.materialCalib') }}</text>
 			<view class="common-right">
-				查看明细
+				{{ $t('produce.worksheetout.viewDetail') }}
 			</view>
 		</view>
 		<view class="content-container">
 			<view class="content-item">
 				<text class="content-label">
-					料号：
+					{{ $t('produce.worksheetoff.materialCode') }}
 				</text>
 				<text class="content-value">
 				</text>
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					物料名称：
+					{{ $t('produce.worksheetoff.materialName') }}
 				</text>
 				<text class="content-value">
 				</text>
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					使用数量：
+					{{ $t('produce.worksheetoff.usedQty') }}
 				</text>
 				<text class="content-value">
 				</text>
 				<text class="content-label">
-					实际用量：
+					{{ $t('produce.worksheetoff.actualQty') }}
 				</text>
 				<view class="content-value">
 					<uni-number-box :max="10000" v-model="take_number"></uni-number-box>
@@ -89,42 +89,42 @@
 		</view>
 		<view class="common-container-header">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-2610605" size="18"></uni-icons>
-			<text class="common-text">人员工时</text>
+			<text class="common-text">{{ $t('produce.worksheetoff.userTime') }}</text>
 			<view class="common-right">
-				查看明细
+				{{ $t('produce.worksheetout.viewDetail') }}
 			</view>
 		</view>
 		<view class="content-container">
 			<view class="content-item">
 				<view class="content-label">
-					当前工时：
+					{{ $t('produce.worksheetoff.currentTime') }}
 				</view>
 				<view class="content-value right">
-					<text>实际工时：</text>
+					<text>{{ $t('produce.worksheetoff.actualTime') }}</text>
 					<uni-easyinput style="width: 60px;"></uni-easyinput>
 				</view>
 			</view>
 		</view>
 		<view class="common-container-header">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-shebeidianjian" size="18"></uni-icons>
-			<text class="common-text">设备工时</text>
+			<text class="common-text">{{ $t('produce.worksheetoff.equipTime') }}</text>
 			<view class="common-right">
-				查看明细
+				{{ $t('produce.worksheetout.viewDetail') }}
 			</view>
 		</view>
 		<view class="content-container">
 			<view class="content-item">
 				<view class="content-label">
-					当前工时：
+					{{ $t('produce.worksheetoff.currentTime') }}
 				</view>
 				<view class="content-value right">
-					<text>实际工时：</text>
+					<text>{{ $t('produce.worksheetoff.actualTime') }}</text>
 					<uni-easyinput style="width: 60px;"></uni-easyinput>
 				</view>
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini">确认出站</button>
+			<button type="primary" size="mini" @click="onConfirmOut">{{ $t('produce.worksheetout.confirm') }}</button>
 		</view>
 	</view>
 </template>
@@ -150,7 +150,7 @@
 					fail() {
 						// 用户拒绝授权
 						uni.showToast({
-							title: '您拒绝了授权',
+							title: this.$t('common.scanAuthDenied'),
 							icon: 'none'
 						});
 					}
@@ -173,7 +173,7 @@
 						} else {
 							// 扫描失败
 							uni.showToast({
-								title: '扫描失败',
+								title: this.$t('common.scanFailed'),
 								icon: 'none'
 							});
 						}
@@ -181,11 +181,14 @@
 					fail() {
 						// 调用相机失败
 						uni.showToast({
-							title: '调用相机失败',
+							title: this.$t('common.cameraFailed'),
 							icon: 'none'
 						});
 					}
 				});
+			},
+			onConfirmOut: function() {
+				// 确认出站逻辑
 			}
 
 

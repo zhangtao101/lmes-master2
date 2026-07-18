@@ -5,7 +5,7 @@
 			<view class="card-header">
 				<view class="header-left">
 					<uni-icons type="compose" color="#fff" size="18"></uni-icons>
-					<text class="header-title">智能货架下架</text>
+					<text class="header-title">{{$t('warehouse.unshelvingSmart')}}</text>
 				</view>
 			</view>
 			<view class="card-content">
@@ -18,14 +18,14 @@
 							:inputBorder="false"
 							:focus="storageFocusFlag"
 							placeholderStyle="color: #999;"
-							placeholder="请扫描或输入货架码"
+							:placeholder="$t('warehouse.scanOrInputShelf')"
 							@confirm="onStorageCodeConfirm"
 							class="main-input"
 						></uni-easyinput>
 					</view>
 					<view class="scan-btn" @click="onStorageCodeScan">
 						<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-						<text>扫码</text>
+						<text>{{$t('warehouse.scan')}}</text>
 					</view>
 				</view>
 
@@ -40,24 +40,24 @@
 								:inputBorder="false"
 								:focus="labelFocusFlag"
 								placeholderStyle="color: #999;"
-								placeholder="请扫描或输入标签码"
+								:placeholder="$t('warehouse.scanOrInputLabel')"
 								@confirm="onLabelCodeConfirm"
 								class="main-input"
 							></uni-easyinput>
 						</view>
 						<view class="scan-btn" @click="onLabelCodeScan">
 							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-							<text>扫码</text>
-						</view>
+						<text>{{$t('warehouse.scan')}}</text>
 					</view>
 				</view>
 			</view>
+		</view>
 		</view>
 
 		<!-- 底部取货按钮 -->
 		<view class="submit-btn-wrapper" v-if="lightSuccess && labelCode">
 			<button class="submit-btn" :class="{ disabled: isSubmitting }" @click="onSubmit" :disabled="isSubmitting">
-				<text>{{ isSubmitting ? '取货中...' : '货架取货' }}</text>
+				<text>{{ isSubmitting ? $t('warehouse.pickupLoading') : $t('warehouse.shelfPickup') }}</text>
 			</button>
 		</view>
 	</view>
@@ -95,7 +95,7 @@
 				scanCode().then(code => {
 					_this.storageCode = code;
 				}).catch(err => {
-					showBeautyToast({ title: err || '扫码失败', icon: 'none' });
+					showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
 				});
 			},
 
@@ -111,21 +111,21 @@
 			// 调用智能货架亮灯接口
 			callGetOutLight() {
 				if (!this.storageCode) {
-					showBeautyToast({ title: '请扫描或输入货架码', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.scanOrInputShelf'), icon: 'none' });
 					return;
 				}
 				goodsShelvingApi.getOutLight(this.formCode, this.storageCode).then(resp => {
 					if (resp.code == 200 || resp.code == '200') {
-						showBeautyToast({ title: resp.msg || '亮灯成功', icon: 'success' });
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.lightSuccess'), icon: 'success' });
 						this.lightSuccess = true;
 						this.$nextTick(() => {
 							this.labelFocusFlag = true;
 						});
 					} else {
-						showBeautyToast({ title: resp.msg || '亮灯失败', icon: 'none' });
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.lightFail'), icon: 'none' });
 					}
 				}).catch(() => {
-					showBeautyToast({ title: '亮灯失败', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.lightFail'), icon: 'none' });
 				});
 			},
 
@@ -135,7 +135,7 @@
 				scanCode().then(code => {
 					_this.labelCode = code;
 				}).catch(err => {
-					showBeautyToast({ title: err || '扫码失败', icon: 'none' });
+					showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
 				});
 			},
 
@@ -153,11 +153,11 @@
 			onSubmit() {
 				if (this.isSubmitting) return;
 				if (!this.labelCode) {
-					showBeautyToast({ title: '请扫描或输入标签码', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.scanOrInputLabel'), icon: 'none' });
 					return;
 				}
 				if (!this.storageCode) {
-					showBeautyToast({ title: '请扫描或输入货架码', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.scanOrInputShelf'), icon: 'none' });
 					return;
 				}
 
@@ -171,7 +171,7 @@
 				).then(resp => {
 					this.isSubmitting = false;
 					if (resp.code == 200 || resp.code == '200') {
-						showBeautyToast({ title: resp.msg || '取货成功', icon: 'success' });
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.pickupSuccess'), icon: 'success' });
 						this.$emit('success');
 						// 重置，准备下一次
 						this.labelCode = '';
@@ -181,11 +181,11 @@
 							this.storageFocusFlag = true;
 						});
 					} else {
-						showBeautyToast({ title: resp.msg || '取货失败', icon: 'none' });
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.pickupFail'), icon: 'none' });
 					}
 				}).catch(() => {
 					this.isSubmitting = false;
-					showBeautyToast({ title: '取货失败', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.pickupFail'), icon: 'none' });
 				});
 			},
 

@@ -6,7 +6,7 @@
 					<view class="left">
 						<view class="input-group">
 							<uni-icons type="home" color="#fff" size="18"></uni-icons>
-							<text>单号：</text>
+							<text>{{ $t('warehouse.formNo') }}</text>
 							<uni-easyinput 
 								v-model="wareLocationCode" 
 								:inputBorder="false"
@@ -18,34 +18,36 @@
 					</view>
 					<view class="right" @click="onLocationScan">
 						<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-						<text>请扫描</text>
+						<text>{{ $t('warehouse.pleaseScan') }}</text>
 					</view>
 				</view>
 				<view class="table-wrapper" v-if="rows && rows.length > 0">
 					<view class="table-row table-header">
-						<view class="table-cell" style="flex: 1.5;">料号</view>
-						<view class="table-cell" style="flex: 2;">物料名称</view>
-						<view class="table-cell" style="flex: 1;">单据数量</view>
-						<view class="table-cell" style="flex: 1;">已入数量</view>
+						<view class="table-cell" style="flex: 1.5;">{{ $t('warehouse.code') }}</view>
+						<view class="table-cell" style="flex: 2;">{{ $t('warehouse.materialName') }}</view>
+						<view class="table-cell" style="flex: 1;">{{ $t('warehouse.formQty') }}</view>
+						<view class="table-cell" style="flex: 1;">{{ $t('warehouse.inQty') }}</view>
 					</view>
-					<view class="table-row" v-for="(row, index) in rows" :key="index"
-						:class="{ active: formDetailId === row.id }" @click="tTableClick({ row })">
-						<view class="table-cell" style="flex: 1.5;">{{row.materialCode}}</view>
-						<view class="table-cell" style="flex: 2;">{{row.materialName}}</view>
-						<view class="table-cell highlight" style="flex: 1;">{{row.number}}</view>
-						<view class="table-cell success" style="flex: 1;">{{row.stockNumber}}</view>
-					</view>
+					<scroll-view scroll-y class="table-body">
+						<view class="table-row" v-for="(row, index) in rows" :key="index"
+							:class="{ active: formDetailId === row.id }" @click="tTableClick({ row })">
+							<view class="table-cell" style="flex: 1.5;">{{row.materialCode}}</view>
+							<view class="table-cell" style="flex: 2;">{{row.materialName}}</view>
+							<view class="table-cell highlight" style="flex: 1;">{{row.number}}</view>
+							<view class="table-cell success" style="flex: 1;">{{row.stockNumber}}</view>
+						</view>
+					</scroll-view>
 				</view>
 				<view class="empty-state" v-else>
 					<uni-icons type="inbox" size="60" color="#ccc"></uni-icons>
-					<text>{{spin.code ? '加载中...' : '暂无数据'}}</text>
+					<text>{{spin.code ? $t('warehouse.loadingDots') : $t('warehouse.noData')}}</text>
 				</view>
 			</view>
 			<view class="warehouse-detail">
 				<view class="header">
 					<view class="left">
 						<uni-icons type="compose" color="#fff" size="16"></uni-icons>
-						<text class="title">货架明细</text>
+						<text class="title">{{ $t('warehouse.shelfDetail') }}</text>
 						<text class="count">({{details.length}})</text>
 					</view>
 					<view class="right refresh-btn" @click="queryDetails">
@@ -56,47 +58,47 @@
 					<view class="detail-card" v-for="(detail, index) in details" :key="index">
 						<view class="detail-row-group">
 							<view class="detail-row">
-								<text class="label">料号：</text>
+								<text class="label">{{ $t('warehouse.code') }}：</text>
 								<text class="value">{{detail.materialCode || '--'}}</text>
 							</view>
 							<view class="detail-row">
-								<text class="label">物料名称：</text>
+								<text class="label">{{ $t('warehouse.materialName') }}：</text>
 								<text class="value">{{detail.materialName || '--'}}</text>
 							</view>
 						</view>
 						<view class="detail-row-group">
 							<view class="detail-row">
-								<text class="label">批次号：</text>
+								<text class="label">{{ $t('warehouse.batchCode') }}：</text>
 								<text class="value">{{detail.batchCode || '--'}}</text>
 							</view>
 							<view class="detail-row">
-								<text class="label">标签号：</text>
+								<text class="label">{{ $t('warehouse.labelNo') }}：</text>
 								<text class="value">{{detail.labelCode || '--'}}</text>
 							</view>
 						</view>
 						<view class="detail-row-group">
 							<view class="detail-row">
-								<text class="label">库位号：</text>
+								<text class="label">{{ $t('warehouse.locationNo') }}：</text>
 								<text class="value">{{detail.locationCode || '--'}}</text>
 							</view>
 							<view class="detail-row">
-								<text class="label">储位号：</text>
+								<text class="label">{{ $t('warehouse.storageNo') }}：</text>
 								<text class="value">{{detail.storageCode || '--'}}</text>
 							</view>
 						</view>
 						<view class="detail-row-group">
 							<view class="detail-row">
-								<text class="label">库区号：</text>
+								<text class="label">{{ $t('warehouse.areaNo') }}：</text>
 								<text class="value">{{detail.wareAreaCode || '--'}}</text>
 							</view>
 							<view class="detail-row">
-								<text class="label">仓库名称：</text>
+								<text class="label">{{ $t('warehouse.warehouseNameLabel') }}：</text>
 								<text class="value">{{detail.warehouseName || '--'}}</text>
 							</view>
 						</view>
 						<view class="detail-row-group">
 							<view class="detail-row">
-								<text class="label">库存数量：</text>
+								<text class="label">{{ $t('warehouse.stockQty') }}：</text>
 								<text class="value">{{detail.number == null ? '--' : detail.number}}</text>
 							</view>
 						</view>
@@ -104,14 +106,14 @@
 				</view>
 				<view class="empty-state" v-else>
 					<uni-icons type="inbox" size="60" color="#ccc"></uni-icons>
-					<text>暂无货架明细</text>
+					<text>{{ $t('warehouse.noShelfDetail') }}</text>
 				</view>
 			</view>
 		</view>
 		<view class="button-wrapper">
 			<button class="action-btn primary" :class="{ disabled: !formDetailId }" @click="onSubmit">
 				<uni-icons type="arrowright" size="18"></uni-icons>
-				<text>拣货作业</text>
+				<text>{{ $t('warehouse.pickingWork') }}</text>
 			</button>
 		</view>
 	</view>
@@ -153,7 +155,7 @@
 							_this.loadWarehouseInfo(code);
 						} else {
 							uni.showToast({
-								title: "标签无效！",
+								title: _this.$t('warehouse.tagInvalid'),
 								icon: 'none'
 							});
 						}
@@ -211,7 +213,7 @@
 			onSubmit: async function() {
 				if (!this.formDetailId) {
 					showBeautyToast({
-						title: '请先选择入库项',
+						title: this.$t('warehouse.selectInItemFirst'),
 						icon: 'warn'
 					});
 					return;
@@ -353,6 +355,10 @@
 
 				.table-wrapper {
 			padding: 20rpx;
+
+			.table-body {
+				max-height: 480rpx;
+			}
 
 			.table-row {
 				display: flex;

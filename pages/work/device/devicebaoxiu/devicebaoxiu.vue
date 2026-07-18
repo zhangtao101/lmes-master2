@@ -3,7 +3,7 @@
 		<view class="box-header">
 			<view class="icon">
 			</view>
-			<text class="title">设备报修</text>
+			<text class="title">{{ $t('warehouse.equipRepairReport') }}</text>
 		</view>
 		<view class="box-body">
 			<view class="warehouse-info">
@@ -39,7 +39,7 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="compose"></uni-icons>
-						<text class="title">报修明细</text>
+						<text class="title">{{ $t('device.reportDetail') }}</text>
 					</view>
 				</view>
 				<view class="label-info-container">
@@ -53,7 +53,7 @@
 					<view class="label-item">
 						<view class="left">
 							<text>报修受理周期：</text>
-							<uni-easyinput type="text" autoHeight v-model="value" placeholder="请输入内容"></uni-easyinput>
+							<uni-easyinput type="text" autoHeight v-model="value" :placeholder="$t('common.inputContent')"></uni-easyinput>
 							<text>单位：小时</text>
 						</view>
 					</view>
@@ -67,7 +67,7 @@
 						<view class="left">
 							<text>报修内容：</text>
 							<uni-easyinput type="textarea" autoHeight v-model="value"
-								placeholder="请输入内容"></uni-easyinput>
+								:placeholder="$t('common.inputContent')"></uni-easyinput>
 						</view>
 
 					</view>
@@ -75,7 +75,7 @@
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini">确认提交</button>
+			<button type="primary" size="mini">{{ $t('common.confirmSubmit') }}</button>
 		</view>
 	</view>
 </template>

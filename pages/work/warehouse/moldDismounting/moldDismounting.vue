@@ -7,14 +7,14 @@
 					<view class="left">
 						<view class="input-group">
 							<uni-icons type="shop" color="#fff" size="18"></uni-icons>
-							<text>设备码：</text>
+							<text>{{ $t('warehouse.equipmentCode') }}</text>
 							<uni-easyinput 
 								v-model="equipmentCode" 
 								:inputBorder="false"
 								placeholderStyle="color: #999;"
 								@confirm="onEquipmentCodeConfirm"
 								class="code-input"
-								placeholder="请输入或扫描设备码"
+								:placeholder="$t('warehouse.scanOrInputEquip')"
 								:disabled="loadingEquipment"
 							></uni-easyinput>
 						</view>
@@ -22,26 +22,26 @@
 					<view class="right" :class="{ disabled: loadingEquipment }" @click="onEquipmentScan">
 						<template v-if="loadingEquipment">
 							<uni-icons type="spinner-cycle" color="#fff" size="16" class="loading-icon"></uni-icons>
-							<text>加载中</text>
+							<text>{{ $t('warehouse.loading') }}</text>
 						</template>
 						<template v-else>
 							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-							<text>请扫描</text>
+							<text>{{ $t('common.scan') }}</text>
 						</template>
 					</view>
 				</view>
 				<view class="info-grid" v-if="equipmentInfo.equipCode">
 					<view class="info-item">
-						<view class="label">设备名称</view>
+						<view class="label">{{ $t('warehouse.equipmentName') }}</view>
 						<view class="value">{{equipmentInfo.equipName || '--'}}</view>
 					</view>
 					<view class="info-item">
-						<view class="label">工序</view>
+						<view class="label">{{ $t('ws.process') }}</view>
 						<view class="value">{{equipmentInfo.processName || '--'}}</view>
 					</view>
 				</view>
 				<view class="empty-tip" v-else-if="!loadingEquipment">
-					<text>请扫描或输入设备码</text>
+					<text>{{ $t('warehouse.scanOrInputEquip') }}</text>
 				</view>
 			</view>
 
@@ -50,32 +50,32 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="settings" color="#fff" size="16"></uni-icons>
-						<text>在机模具信息</text>
+						<text>{{ $t('warehouse.currentMoldInfo') }}</text>
 					</view>
 				</view>
 				<view class="mold-detail" v-if="currentMoldInfo.moldCode">
 					<view class="info-grid">
 						<view class="info-item">
-							<view class="label">模具编码</view>
+							<view class="label">{{ $t('warehouse.moldCodeNo') }}</view>
 							<view class="value">{{currentMoldInfo.moldCode || '--'}}</view>
 						</view>
 						<view class="info-item">
-							<view class="label">模具名称</view>
+							<view class="label">{{ $t('warehouse.moldName') }}</view>
 							<view class="value">{{currentMoldInfo.moldName || '--'}}</view>
 						</view>
 						<view class="info-item">
-							<view class="label">工单号</view>
+							<view class="label">{{ $t('ws.workSheet') }}</view>
 							<view class="value success">{{currentMoldInfo.workOrderNo || '--'}}</view>
 						</view>
 						<view class="info-item">
-							<view class="label">上模时间</view>
+							<view class="label">{{ $t('warehouse.mountTime') }}</view>
 							<view class="value success">{{currentMoldInfo.installTime || '--'}}</view>
 						</view>
 					</view>
 				</view>
 				<view class="empty-tip" v-else>
 					<uni-icons type="info" size="24" color="#999"></uni-icons>
-					<text>{{currentMoldInfo.message || '设备暂无在机模具'}}</text>
+					<text>{{currentMoldInfo.message || $t('warehouse.noMoldOnEquip')}}</text>
 				</view>
 			</view>
 
@@ -84,7 +84,7 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="checkbox" color="#fff" size="16"></uni-icons>
-						<text>校验结果</text>
+						<text>{{ $t('warehouse.validateResult') }}</text>
 					</view>
 				</view>
 				<view class="validate-result" :class="validateStatus">
@@ -105,7 +105,7 @@
 							<uni-icons type="help" size="24" color="#999"></uni-icons>
 						</view>
 						<view class="result-text">
-							<text class="message">请扫描设备查看在机模具</text>
+							<text class="message">{{ $t('warehouse.scanEquipHint') }}</text>
 						</view>
 					</template>
 				</view>
@@ -119,7 +119,7 @@
 				@click="onReset"
 			>
 				<uni-icons type="refresh" size="18"></uni-icons>
-				<text>重置</text>
+				<text>{{ $t('common.reset') }}</text>
 			</button>
 			<button 
 				class="submit-btn" 
@@ -128,7 +128,7 @@
 				:disabled="!canSubmit"
 			>
 				<uni-icons type="checkmarkempty" size="18"></uni-icons>
-				<text>确认下模</text>
+				<text>{{ $t('warehouse.confirmDismount') }}</text>
 			</button>
 		</view>
 	</view>
@@ -183,7 +183,7 @@ export default {
 				this.loadEquipmentInfo(code);
 			} else {
 				showBeautyToast({
-					title: "无效编码！",
+					title: this.$t('warehouse.invalidCode'),
 					icon: 'error'
 				});
 			}
@@ -228,7 +228,7 @@ export default {
 				if (equipResp.code == '200' && equipResp.data) {
 					this.equipmentInfo = equipResp.data;
 				} else {
-					showBeautyToast({ title: equipResp.msg || '设备信息查询失败', icon: 'none' });
+					showBeautyToast({ title: equipResp.msg || this.$t('warehouse.equipQueryFail'), icon: 'none' });
 					this.equipmentInfo = {};
 				}
 
@@ -236,14 +236,14 @@ export default {
 					this.currentMoldInfo = moldResp.data || {};
 					this.checkValidation();
 				} else {
-					this.currentMoldInfo = { message: moldResp.msg || '查询失败' };
+					this.currentMoldInfo = { message: moldResp.msg || this.$t('warehouse.queryFailed') };
 					this.validateResult = null;
 				}
 				
 				console.log('1', this.equipmentInfo);
 				console.log('2', this.currentMoldInfo);
 			} catch (error) {
-				showBeautyToast({ title: '设备信息查询失败9999', icon: 'none' });
+				showBeautyToast({ title: this.$t('warehouse.equipQueryFail'), icon: 'none' });
 				this.equipmentInfo = {};
 				this.currentMoldInfo = {};
 				this.validateResult = null;
@@ -263,12 +263,12 @@ export default {
 			if (this.currentMoldInfo && this.currentMoldInfo.moldCode) {
 				this.validateResult = {
 					valid: true,
-					message: `检测到在机模具：${this.currentMoldInfo.moldCode}`
+					message: this.$t('warehouse.detectedMold', { code: this.currentMoldInfo.moldCode })
 				};
 			} else {
 				this.validateResult = {
 					valid: false,
-					message: '该设备暂无在机模具，无法进行下模操作'
+					message: this.$t('warehouse.noMoldDismountTip')
 				};
 			}
 		},
@@ -288,18 +288,18 @@ export default {
 				);
 				if (resp.code == '200') {
 					showBeautyToast({
-						title: '下模成功',
+						title: this.$t('warehouse.dismountSuccess'),
 						icon: 'success'
 					});
 					this.resetForm();
 				} else {
 					showBeautyToast({
-						title: resp.msg || '下模失败',
+						title: resp.msg || this.$t('warehouse.dismountFail'),
 						icon: 'none'
 					});
 				}
 			} catch (error) {
-				showBeautyToast({ title: '下模失败', icon: 'none' });
+				showBeautyToast({ title: this.$t('warehouse.dismountFail'), icon: 'none' });
 			} finally {
 				this.isSubmitting = false;
 			}
@@ -308,7 +308,7 @@ export default {
 		// 重置
 		onReset() {
 			this.resetForm();
-			showBeautyToast({ title: '已重置', icon: 'none' });
+			showBeautyToast({ title: this.$t('warehouse.reseted'), icon: 'none' });
 		},
 
 		// 重置表单

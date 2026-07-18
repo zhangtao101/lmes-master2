@@ -1,34 +1,35 @@
 <template>
 	<view class="print-container">
 		<view class="section">
-			<view class="section-title">1. 连接状态</view>
+			<view class="section-title">{{$t('warehouse.connStatusStep')}}</view>
 			<view class="connection-status" :class="{ connected: isConnected }">
-				<text>{{ isConnected ? '已连接打印机' : '未连接打印机' }}</text>
-				<button class="link-btn" @click="goToConnect">{{ isConnected ? '切换打印机' : '去连接' }}</button>
+				<text>{{ isConnected ? $t('warehouse.printerConnected') : $t('warehouse.printerNotConnected') }}</text>
+				<button class="link-btn" @click="goToConnect">{{ isConnected ? $t('warehouse.switchPrinter') : $t('warehouse.goConnect') }}</button>
 			</view>
 		</view>
 
 		<view class="section">
-			<view class="section-title">2. 打印内容</view>
+			<view class="section-title">{{$t('warehouse.printContentStep')}}</view>
 			<view class="form-item">
-				<text class="label">标签内容：</text>
-				<input class="input" v-model="printContent" placeholder="请输入打印内容" />
+				<text class="label">{{$t('warehouse.labelContent')}}</text>
+				<input class="input" v-model="printContent" :placeholder="$t('warehouse.inputPrintContent')" />
 			</view>
 			<view class="btn-row">
 				<button class="action-btn primary" :disabled="!isConnected" @click="doPrint">
-					{{ isConnected ? '打印（含文本+二维码+条形码+图片）' : '请先连接打印机' }}
+					{{ isConnected ? $t('warehouse.printWithAll') : $t('warehouse.connectPrinterFirst') }}
 				</button>
 			</view>
 		</view>
 
 		<view class="tips" v-if="!isConnected">
-			<text>提示：请先连接打印机后再进行打印</text>
+			<text>{{$t('warehouse.printTip')}}</text>
 		</view>
 	</view>
 </template>
 
 <script setup>
 	import { ref, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 	import {
 		getJcapi,
 		printWithEnsureConnected,
@@ -48,11 +49,12 @@
 	} from '/common/printerTool.js'
 
 	// 调用 getJcapi() 确保 SDK 已初始化
+	const { t } = useI18n()
 	getJcapi()
 	
 	// 状态变量
 	const isConnected = ref(isSessionPrinterConnected())
-	const printContent = ref('测试标签内容')
+	const printContent = ref(t('warehouse.testLabelContent'))
 
 	const eventName = getPrinterConnectedEventName()
 	const onConnectedHandler = () => {
@@ -79,7 +81,7 @@
 	// 打印
 	const doPrint = async () => {
 		if (!printContent.value) {
-			uni.showToast({ title: '请输入打印内容', icon: 'none' })
+			uni.showToast({ title: t('warehouse.inputPrintContent'), icon: 'none' })
 			return
 		}
 
@@ -150,11 +152,11 @@
 									if (printRes && printRes.code === 0) {
 										resolve(printRes)
 									} else {
-										reject(printRes || new Error('打印失败'))
+										reject(printRes || new Error(t('warehouse.printFail')))
 									}
 								})
 							} else {
-								reject(res || new Error('设置打印任务失败'))
+								reject(res || new Error(t('warehouse.setPrintTaskFail')))
 							}
 						})
 					} catch (err) {
@@ -163,10 +165,10 @@
 				})
 			})
 
-			uni.showToast({ title: '打印成功', icon: 'success' })
+			uni.showToast({ title: t('warehouse.printSuccess'), icon: 'success' })
 		} catch (e) {
-			const msg = (e && (e.msg || e.message)) ? (e.msg || e.message) : '未知错误'
-			uni.showToast({ title: '打印失败: ' + msg, icon: 'none' })
+			const msg = (e && (e.msg || e.message)) ? (e.msg || e.message) : t('warehouse.unknownError')
+			uni.showToast({ title: t('warehouse.printFailed') + msg, icon: 'none' })
 		}
 	}
 	

@@ -4,46 +4,46 @@
 		<!-- 任务基本信息 -->
 		<view class="info-card">
 			<view class="info-header">
-				<text class="info-title">{{ detailData.repairCode || '维修任务' }}</text>
+				<text class="info-title">{{ detailData.repairCode || $t('warehouse.repairTaskTitle') }}</text>
 				<view class="status-badge" :class="readonly ? 'done' : 'pending'">
-					<text>{{ readonly ? '已完成' : '待维修' }}</text>
+					<text>{{ readonly ? $t('warehouse.statusDone') : $t('warehouse.statusWaitRepair') }}</text>
 				</view>
 			</view>
 			<view class="info-body">
 				<view class="info-row" v-if="detailData.equipmentCode">
-					<text class="label">设备编码</text>
+					<text class="label">{{ $t('warehouse.equipmentCodeText') }}</text>
 					<text class="value">{{ detailData.equipmentCode }}</text>
 				</view>
 				<view class="info-row" v-if="detailData.equipmentName">
-					<text class="label">设备名称</text>
+					<text class="label">{{ $t('warehouse.equipmentName') }}</text>
 					<text class="value">{{ detailData.equipmentName }}</text>
 				</view>
 				<view class="info-row" v-if="detailData.moldCode">
-					<text class="label">模具编码</text>
+					<text class="label">{{ $t('warehouse.moldCodeNo') }}</text>
 					<text class="value">{{ detailData.moldCode }}</text>
 				</view>
 				<view class="info-row" v-if="detailData.moldName">
-					<text class="label">模具名称</text>
+					<text class="label">{{ $t('warehouse.moldName') }}</text>
 					<text class="value">{{ detailData.moldName }}</text>
 				</view>
 				<view class="info-row" v-if="detailData.repairType">
-					<text class="label">报修类型</text>
+					<text class="label">{{ $t('warehouse.repairType') }}</text>
 					<text class="value">{{ detailData.repairType }}</text>
 				</view>
 				<view class="info-row" v-if="detailData.repairItem">
-					<text class="label">报修事项</text>
+					<text class="label">{{ $t('warehouse.repairItem') }}</text>
 					<text class="value">{{ detailData.repairItem }}</text>
 				</view>
 				<view class="info-row block" v-if="detailData.repairContent">
-					<text class="label">报修内容</text>
+					<text class="label">{{ $t('warehouse.repairContent') }}</text>
 					<text class="value">{{ detailData.repairContent }}</text>
 				</view>
 				<view class="info-row" v-if="readonly && detailData.repairDesc">
-					<text class="label">报修描述</text>
+					<text class="label">{{ $t('warehouse.repairDescLabel') }}</text>
 					<text class="value">{{ detailData.repairDesc }}</text>
 				</view>
 				<view class="info-row" v-if="readonly && detailData.createTime">
-					<text class="label">报修时间</text>
+					<text class="label">{{ $t('warehouse.repairTime') }}</text>
 					<text class="value">{{ detailData.createTime }}</text>
 				</view>
 			</view>
@@ -51,73 +51,73 @@
 
 		<!-- 维修信息填写（仅待维修显示） -->
 		<template v-if="!readonly">
-			<view class="section-title">维修信息</view>
+			<view class="section-title">{{ $t('warehouse.repairInfoTitle') }}</view>
 			<view class="form-card">
 				<view class="form-row">
-					<text class="form-label">维修结果</text>
+					<text class="form-label">{{ $t('warehouse.repairResultLabel') }}</text>
 					<view class="radio-group">
 						<view
 							class="radio-item"
 							:class="{ active: repairResult === 'NORMAL' }"
 							@click="repairResult = 'NORMAL'"
 						>
-							<text>已修复</text>
+							<text>{{ $t('warehouse.repairedStatus') }}</text>
 						</view>
 						<view
 							class="radio-item"
 							:class="{ active: repairResult === 'PARTIAL' }"
 							@click="repairResult = 'PARTIAL'"
 						>
-							<text>部分修复</text>
+							<text>{{ $t('warehouse.partialRepairedStatus') }}</text>
 						</view>
 						<view
 							class="radio-item abnormal"
 							:class="{ active: repairResult === 'FAILED' }"
 							@click="repairResult = 'FAILED'"
 						>
-							<text>未修复</text>
+							<text>{{ $t('warehouse.unrepairedStatus') }}</text>
 						</view>
 					</view>
 				</view>
 			<view class="form-row column">
-				<text class="form-label remark-label">故障原因</text>
+				<text class="form-label remark-label">{{ $t('warehouse.faultCauseLabel') }}</text>
 				<view v-if="faultCauseCustom" class="custom-input-wrap">
 					<input
 						class="custom-input"
 						v-model="faultRootCause"
-						placeholder="请输入故障原因"
+						:placeholder="$t('warehouse.inputFaultCause')"
 					/>
 					<view class="custom-back" @click="onBackToPicker">
 						<uni-icons type="arrowleft" size="28" color="#667eea"></uni-icons>
-						<text>返回选择</text>
+						<text>{{ $t('warehouse.backToSelect') }}</text>
 					</view>
 				</view>
 				<view v-else class="select-field" @click="openFaultCausePicker">
-					<text class="select-text" :class="{ placeholder: !faultRootCause }">{{ faultRootCause || '请选择故障原因' }}</text>
+					<text class="select-text" :class="{ placeholder: !faultRootCause }">{{ faultRootCause || $t('warehouse.selectFaultCause') }}</text>
 					<uni-icons type="search" size="30" color="#999" class="select-icon"></uni-icons>
 				</view>
 			</view>
 				<view class="form-row column">
-					<text class="form-label remark-label">维修内容</text>
-					<textarea class="form-textarea" v-model="repairProject" placeholder="请输入维修内容" />
+					<text class="form-label remark-label">{{ $t('warehouse.repairContentLabel') }}</text>
+					<textarea class="form-textarea" v-model="repairProject" :placeholder="$t('warehouse.inputRepairContent')" />
 				</view>
 			</view>
 		</template>
 
 		<!-- 维修结果查看（已完成显示） -->
 		<template v-else>
-			<view class="section-title">维修信息</view>
+			<view class="section-title">{{ $t('warehouse.repairInfoTitle') }}</view>
 			<view class="form-card readonly-card">
 				<view class="form-row remark-row" v-if="detailData.repairResult">
-					<text class="form-label remark-label">维修结果</text>
+					<text class="form-label remark-label">{{ $t('warehouse.repairResultLabel') }}</text>
 					<text class="form-value remark-value">{{ formatRepairResult(detailData.repairResult) }}</text>
 				</view>
 				<view class="form-row remark-row" v-if="detailData.faultRootCause">
-					<text class="form-label remark-label">故障原因</text>
+					<text class="form-label remark-label">{{ $t('warehouse.faultCauseLabel') }}</text>
 					<text class="form-value remark-value">{{ detailData.faultRootCause }}</text>
 				</view>
 				<view class="form-row remark-row" v-if="detailData.repairProject">
-					<text class="form-label remark-label">维修内容</text>
+					<text class="form-label remark-label">{{ $t('warehouse.repairContentLabel') }}</text>
 					<text class="form-value remark-value">{{ detailData.repairProject }}</text>
 				</view>
 			</view>
@@ -127,7 +127,7 @@
 		<view class="picker-mask" v-if="faultCauseVisible" @click="closeFaultCausePicker">
 			<view class="picker-content" @click.stop>
 				<view class="picker-header">
-					<text class="picker-title">选择故障原因</text>
+					<text class="picker-title">{{ $t('warehouse.faultCausePickerTitle') }}</text>
 					<view class="picker-close" @click="closeFaultCausePicker">
 						<uni-icons type="close" size="34" color="#999"></uni-icons>
 					</view>
@@ -136,7 +136,7 @@
 					<input
 						class="picker-search-input"
 						v-model="faultCauseKeyword"
-						placeholder="搜索故障原因"
+						:placeholder="$t('warehouse.searchFaultCause')"
 						@confirm="onFaultCauseSearchConfirm"
 						@input="onFaultCauseKeywordInput"
 					/>
@@ -153,12 +153,12 @@
 						<uni-icons v-if="faultRootCause === item.configName" type="checkmark" size="30" color="#667eea"></uni-icons>
 					</view>
 					<view class="picker-empty" v-if="faultCauseOptions.length === 0">
-						<text>暂无数据</text>
+						<text>{{ $t('warehouse.noData') }}</text>
 					</view>
 				</scroll-view>
 				<view class="picker-footer">
 					<view class="picker-other-btn" :class="{ active: faultCauseCustom }" @click="onFaultCauseCustom">
-						<text>其他（手动输入）</text>
+						<text>{{ $t('warehouse.otherManualInput') }}</text>
 					</view>
 				</view>
 			</view>
@@ -168,10 +168,10 @@
 	<!-- 底部按钮（仅待维修显示） -->
 	<view class="bottom-bar" v-if="!readonly">
 		<view class="btn-reset" @click="onReset">
-			<text>重置</text>
+			<text>{{ $t('common.reset') }}</text>
 		</view>
 		<view class="btn-submit" :class="{ 'btn-disabled': submitting }" @click="!submitting && onSubmit()">
-			<text>{{ submitting ? '提交中...' : '确认提交' }}</text>
+			<text>{{ submitting ? $t('warehouse.submittingText') : $t('warehouse.confirmSubmit') }}</text>
 		</view>
 	</view>
 
@@ -179,7 +179,7 @@
 	<view class="loading-mask" v-if="loading">
 		<view class="loading-content">
 			<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-			<text class="loading-text">加载中...</text>
+			<text class="loading-text">{{ $t('warehouse.loadingDots') }}</text>
 		</view>
 	</view>
 	</view>
@@ -217,11 +217,11 @@
 		},
 		methods: {
 			formatRepairResult(result) {
-				const resultMap = {
-					'NORMAL': '已修复',
-					'PARTIAL': '部分修复',
-					'FAILED': '未修复'
-				}
+			const resultMap = {
+				'NORMAL': this.$t('warehouse.repairedStatus'),
+				'PARTIAL': this.$t('warehouse.partialRepairedStatus'),
+				'FAILED': this.$t('warehouse.unrepairedStatus')
+			}
 				return resultMap[result] || result || '--'
 			},
 
@@ -245,14 +245,14 @@
 						}
 					} else {
 						showBeautyToast({
-							title: resp.msg || '加载失败',
+							title: resp.msg || this.$t('warehouse.loadFail'),
 							icon: 'none'
 						})
 					}
 				}).catch(() => {
 					this.loading = false
 					showBeautyToast({
-						title: '加载失败',
+						title: this.$t('warehouse.loadFail'),
 						icon: 'none'
 					})
 				})
@@ -335,7 +335,7 @@
 			onSubmit() {
 				if (!this.repairResult.trim()) {
 					showBeautyToast({
-						title: '请输入维修结果',
+						title: this.$t('warehouse.inputRepairResult'),
 						icon: 'none'
 					})
 					return
@@ -343,7 +343,7 @@
 				
 				if (!this.faultRootCause.trim()) {
 					showBeautyToast({
-						title: '请输入故障原因',
+						title: this.$t('warehouse.inputFaultCause'),
 						icon: 'none'
 					})
 					return
@@ -351,7 +351,7 @@
 				
 				if (!this.repairProject.trim()) {
 					showBeautyToast({
-						title: '请输入维修内容',
+						title: this.$t('warehouse.inputRepairContent'),
 						icon: 'none'
 					})
 					return
@@ -375,7 +375,7 @@
 					this.submitting = false
 					if (resp.code == 200 || resp.code == '200') {
 						showBeautyToast({
-							title: '提交成功',
+							title: this.$t('warehouse.submitSuccess'),
 							icon: 'success'
 						})
 						setTimeout(() => {
@@ -383,14 +383,14 @@
 						}, 1500)
 					} else {
 						showBeautyToast({
-							title: resp.msg || '提交失败',
+							title: resp.msg || this.$t('warehouse.submitFail'),
 							icon: 'none'
 						})
 					}
 				}).catch(() => {
 					this.submitting = false
 					showBeautyToast({
-						title: '提交失败',
+						title: this.$t('warehouse.submitFail'),
 						icon: 'none'
 					})
 				})

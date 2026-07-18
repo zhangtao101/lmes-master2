@@ -13,38 +13,38 @@
 					</view>
 					<view class="task-body">
 						<view class="task-row">
-							<text class="label">盘点任务号</text>
+							<text class="label">{{$t('warehouse.inventoryTaskNo')}}</text>
 							<text class="value">{{task.taskCode || task.typeName || '--'}}</text>
 						</view>
 						<view class="task-row">
-							<text class="label">盘点计划号</text>
+							<text class="label">{{$t('warehouse.inventoryPlanNo')}}</text>
 							<text class="value">{{task.stocktakingCode || task.typeName || '--'}}</text>
 						</view>
 						<view class="task-row">
-							<text class="label">盘点计划名称</text>
+							<text class="label">{{$t('warehouse.inventoryPlanName')}}</text>
 							<text class="value">{{task.stocktakingName || task.typeName || '--'}}</text>
 						</view>
 						<view class="task-row">
-							<text class="label">盘点状态</text>
+							<text class="label">{{$t('warehouse.inventoryStatus')}}</text>
 							<text class="value status-text" :class="taskStateClass(task.taskState)">{{formatTaskState(task.taskState)}}</text>
 						</view>
 					</view>
 					<view class="task-footer">
 						<uni-icons type="arrowright" size="16" color="#667eea"></uni-icons>
-						<text>进入盘点</text>
+						<text>{{$t('warehouse.enterInventory')}}</text>
 					</view>
 				</view>
 			</view>
 			<view class="empty-state" v-else-if="!loading">
 				<uni-icons type="inbox" size="60" color="#ccc"></uni-icons>
-				<text>暂无待执行任务</text>
+				<text>{{$t('warehouse.noPendingTask')}}</text>
 			</view>
 			<view class="load-more" v-if="taskList.length > 0">
 				<text v-if="loadingMore" class="loading-text">
 					<uni-icons type="spinner-cycle" size="14" color="#999" class="spin-icon"></uni-icons>
-					加载中...
+					{{$t('warehouse.loadingDots')}}
 				</text>
-				<text v-else-if="!hasMore" class="no-more">没有更多了</text>
+				<text v-else-if="!hasMore" class="no-more">{{$t('warehouse.noMore')}}</text>
 			</view>
 		</view>
 
@@ -52,7 +52,7 @@
 		<view class="loading-mask" v-if="loading">
 			<view class="loading-content">
 				<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-				<text class="loading-text">加载中...</text>
+				<text class="loading-text">{{$t('warehouse.loadingDots')}}</text>
 			</view>
 		</view>
 	</view>
@@ -104,14 +104,14 @@
 						}
 					} else {
 						showBeautyToast({
-							title: resp.msg || '加载失败',
+							title: resp.msg || this.$t('warehouse.loadFail'),
 							icon: 'none'
 						});
 					}
 				}).catch(() => {
 					this.loading = false;
 					showBeautyToast({
-						title: '加载失败',
+						title: this.$t('warehouse.loadFail'),
 						icon: 'none'
 					});
 				});
@@ -139,7 +139,7 @@
 					} else {
 						this.pageNum--;
 						showBeautyToast({
-							title: resp.msg || '加载失败',
+							title: resp.msg || this.$t('warehouse.loadFail'),
 							icon: 'none'
 						});
 					}
@@ -168,9 +168,9 @@
 			formatTaskState(state) {
 				if (state == null || state === '') return '--';
 				const num = Number(state);
-				if (num === -1) return '未执行';
-				if (num === 1) return '执行中';
-				if (num === 2) return '已完成';
+				if (num === -1) return this.$t('warehouse.stateNotExec');
+				if (num === 1) return this.$t('warehouse.stateInProgress');
+				if (num === 2) return this.$t('warehouse.statusDone');
 				return state;
 			},
 			taskStateClass(state) {

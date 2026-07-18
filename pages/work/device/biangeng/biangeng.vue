@@ -3,7 +3,7 @@
 		<view class="box-header">
 			<view class="icon">
 			</view>
-			<text class="title">设备报修</text>
+			<text class="title">{{ $t('warehouse.equipRepairReport') }}</text>
 		</view>
 		<view class="box-body">
 			<view class="warehouse-info">
@@ -40,13 +40,13 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="compose"></uni-icons>
-						<text class="title">稼动变更</text>
+						<text class="title">{{ $t('pages.device.biangeng') }}</text>
 					</view>
 				</view>
 				<view class="label-info-container">
 					<view class="label-item">
 						<view class="left">
-							<text style="float: right;">稼动类型</text>
+							<text style="float: right;">{{ $t('device.jiaodongType') }}</text>
 							<uni-data-select :localdata="types" label="稼动类型"></uni-data-select>
 							
 						</view>
@@ -60,7 +60,7 @@
 					<view class="label-item">
 						<view class="left">
 							<text>稼动响应周期：</text>
-							<uni-easyinput type="number" :min="0" autoHeight placeholder="请输入内容"></uni-easyinput>
+							<uni-easyinput type="number" :min="0" autoHeight :placeholder="$t('common.inputContent')"></uni-easyinput>
 							<text>单位：小时</text>
 						</view>
 					</view>
@@ -68,7 +68,7 @@
 					<view class="label-item">
 						<view class="left">
 							<text>备注：</text>
-							<uni-easyinput type="textarea" autoHeight placeholder="请输入内容"></uni-easyinput>
+							<uni-easyinput type="textarea" autoHeight :placeholder="$t('common.inputContent')"></uni-easyinput>
 						</view>
 
 					</view>
@@ -76,7 +76,7 @@
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini">确认提交</button>
+			<button type="primary" size="mini">{{ $t('common.confirmSubmit') }}</button>
 		</view>
 	</view>
 </template>

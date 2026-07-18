@@ -4,41 +4,41 @@
 		<!-- 任务基本信息 -->
 		<view class="info-card">
 			<view class="info-header">
-				<text class="info-title">{{ detailData.planName || detailData.taskTypeName || '设备保养' }}</text>
+				<text class="info-title">{{ detailData.planName || detailData.taskTypeName || $t('warehouse.maintainTask') }}</text>
 				<view class="status-badge" :class="readonly ? 'done' : 'pending'">
-					<text>{{ readonly ? '已完成' : '待执行' }}</text>
+					<text>{{ readonly ? $t('warehouse.statusDone') : $t('warehouse.statusPending') }}</text>
 				</view>
 			</view>
 			<view class="info-body">
 				<view class="info-row" v-if="detailData.equipmentCode">
-					<text class="label">设备编码</text>
+					<text class="label">{{ $t('warehouse.equipmentCodeText') }}</text>
 					<text class="value">{{ detailData.equipmentCode }}</text>
 				</view>
 				<view class="info-row" v-if="detailData.equipmentName">
-					<text class="label">设备名称</text>
+					<text class="label">{{ $t('warehouse.equipmentName') }}</text>
 					<text class="value">{{ detailData.equipmentName }}</text>
 				</view>
 				<view class="info-row" v-if="detailData.moldCode">
-					<text class="label">模具编码</text>
+					<text class="label">{{ $t('warehouse.moldCodeNo') }}</text>
 					<text class="value">{{ detailData.moldCode }}</text>
 				</view>
 				<view class="info-row" v-if="detailData.moldName">
-					<text class="label">模具名称</text>
+					<text class="label">{{ $t('warehouse.moldName') }}</text>
 					<text class="value">{{ detailData.moldName }}</text>
 				</view>
 				<view class="info-row" v-if="readonly && detailData.recordNo">
-					<text class="label">记录单号</text>
+					<text class="label">{{ $t('warehouse.recordNo') }}</text>
 					<text class="value">{{ detailData.recordNo }}</text>
 				</view>
 				<view class="info-row" v-if="readonly && detailData.executedTime">
-					<text class="label">执行时间</text>
+					<text class="label">{{ $t('warehouse.executedTime') }}</text>
 					<text class="value">{{ detailData.executedTime }}</text>
 				</view>
 			</view>
 		</view>
 
 		<!-- 保养项列表 -->
-		<view class="section-title">保养项</view>
+		<view class="section-title">{{ $t('warehouse.maintainItems') }}</view>
 		<view class="item-card" v-for="(item, index) in formItems" :key="index">
 			<view class="item-info">
 				<view class="item-name-row">
@@ -46,114 +46,114 @@
 					<text class="item-name">{{ item.itemName || '--' }}</text>
 				</view>
 				<view class="item-desc" v-if="item.itemDescription">
-					<text class="desc-label">保养说明：</text>
+					<text class="desc-label">{{ $t('warehouse.maintainDesc') }}</text>
 					<text class="desc-text">{{ item.itemDescription }}</text>
 				</view>
 			</view>
 			<!-- 待执行：可编辑 -->
 			<view class="item-form" v-if="!readonly">
 				<view class="form-row">
-					<text class="form-label">完成状态</text>
+					<text class="form-label">{{ $t('warehouse.completeStatus') }}</text>
 					<view class="radio-group">
 						<view
 							class="radio-item"
 							:class="{ active: item.isCompleted === 1 }"
 							@click="item.isCompleted = 1"
 						>
-							<text>已完成</text>
+							<text>{{ $t('warehouse.completed') }}</text>
 						</view>
 						<view
 							class="radio-item abnormal"
 							:class="{ active: item.isCompleted === 0 }"
 							@click="item.isCompleted = 0"
 						>
-							<text>未完成</text>
+							<text>{{ $t('warehouse.notCompleted') }}</text>
 						</view>
 					</view>
 				</view>
 				<view class="form-row">
-					<text class="form-label">执行结果</text>
+					<text class="form-label">{{ $t('warehouse.executeResultLabel') }}</text>
 					<view class="radio-group">
 						<view
 							class="radio-item"
 							:class="{ active: item.executeResult === 'SUCCESS' }"
 							@click="item.executeResult = 'SUCCESS'"
 						>
-							<text>正常</text>
+							<text>{{ $t('warehouse.normal') }}</text>
 						</view>
 						<view
 							class="radio-item abnormal"
 							:class="{ active: item.executeResult === 'FAIL' }"
 							@click="item.executeResult = 'FAIL'"
 						>
-							<text>异常</text>
+							<text>{{ $t('warehouse.abnormal') }}</text>
 						</view>
 					</view>
 				</view>
 				<view class="form-row">
-					<text class="form-label">实际耗时(分钟)</text>
-					<input class="form-input" type="number" v-model="item.actualMinutes" placeholder="请输入耗时" />
+					<text class="form-label">{{ $t('warehouse.actualMinutes') }}</text>
+					<input class="form-input" type="number" v-model="item.actualMinutes" :placeholder="$t('warehouse.inputMinutes')" />
 				</view>
 				<view class="form-row column remark-row">
-					<text class="form-label remark-label">备注</text>
-					<textarea class="form-textarea" v-model="item.remark" placeholder="请输入备注" />
+					<text class="form-label remark-label">{{ $t('warehouse.remark') }}</text>
+					<textarea class="form-textarea" v-model="item.remark" :placeholder="$t('warehouse.inputRemark')" />
 				</view>
 			</view>
 			<!-- 已完成：只读 -->
 			<view class="item-form readonly" v-else>
 				<view class="form-row">
-					<text class="form-label">完成状态</text>
-					<text class="form-value">{{ item.isCompleted === 1 ? '已完成' : '未完成' }}</text>
+					<text class="form-label">{{ $t('warehouse.completeStatus') }}</text>
+					<text class="form-value">{{ item.isCompleted === 1 ? $t('warehouse.completed') : $t('warehouse.notCompleted') }}</text>
 				</view>
 				<view class="form-row">
-					<text class="form-label">执行结果</text>
+					<text class="form-label">{{ $t('warehouse.executeResultLabel') }}</text>
 					<text class="form-value" :class="item.executeResult === 'FAIL' ? 'abnormal-text' : 'normal-text'">
-						{{ item.executeResult === 'SUCCESS' ? '正常' : item.executeResult === 'FAIL' ? '异常' : '--' }}
+						{{ item.executeResult === 'SUCCESS' ? $t('warehouse.normal') : item.executeResult === 'FAIL' ? $t('warehouse.abnormal') : '--' }}
 					</text>
 				</view>
 				<view class="form-row" v-if="item.actualMinutes !== null && item.actualMinutes !== undefined">
-					<text class="form-label">实际耗时</text>
-					<text class="form-value">{{ item.actualMinutes }} 分钟</text>
+					<text class="form-label">{{ $t('warehouse.actualMinutes') }}</text>
+					<text class="form-value">{{ item.actualMinutes }} {{ $t('warehouse.minutes') }}</text>
 				</view>
 				<view class="form-row remark-row" v-if="item.remark">
-					<text class="form-label remark-label">备注</text>
+					<text class="form-label remark-label">{{ $t('warehouse.remark') }}</text>
 					<text class="form-value remark-value">{{ item.remark }}</text>
 				</view>
 			</view>
 		</view>
 
 		<!-- 总体结果 -->
-		<view class="section-title">总体结果</view>
+		<view class="section-title">{{ $t('warehouse.overallResult') }}</view>
 		<view class="overall-card">
 			<view class="form-row">
-				<text class="form-label">保养结果</text>
+				<text class="form-label">{{ $t('warehouse.maintainResult') }}</text>
 				<view class="radio-group" v-if="!readonly">
 					<view
 						class="radio-item"
 						:class="{ active: overallResult === 'SUCCESS' }"
 						@click="overallResult = 'SUCCESS'"
 					>
-						<text>正常</text>
+						<text>{{ $t('warehouse.normal') }}</text>
 					</view>
 					<view
 						class="radio-item abnormal"
 						:class="{ active: overallResult === 'FAIL' }"
 						@click="overallResult = 'FAIL'"
 					>
-						<text>异常</text>
+						<text>{{ $t('warehouse.abnormal') }}</text>
 					</view>
 				</view>
 				<text class="form-value" v-else :class="overallResult === 'FAIL' ? 'abnormal-text' : 'normal-text'">
-					{{ overallResult === 'SUCCESS' ? '正常' : overallResult === 'FAIL' ? '异常' : '--' }}
+					{{ overallResult === 'SUCCESS' ? $t('warehouse.normal') : overallResult === 'FAIL' ? $t('warehouse.abnormal') : '--' }}
 				</text>
 			</view>
 			<view class="form-row column remark-row" v-if="!readonly || overallRemark">
-				<text class="form-label remark-label">执行备注</text>
+				<text class="form-label remark-label">{{ $t('warehouse.executeRemark') }}</text>
 				<textarea
 					v-if="!readonly"
 					class="form-textarea"
 					v-model="overallRemark"
-					placeholder="请输入备注"
+					:placeholder="$t('warehouse.inputRemark')"
 				/>
 				<text class="form-value remark-value" v-else>{{ overallRemark }}</text>
 			</view>
@@ -163,10 +163,10 @@
 	<!-- 底部按钮（仅待执行显示） -->
 	<view class="bottom-bar" v-if="!readonly">
 		<view class="btn-reset" @click="onReset">
-			<text>重置</text>
+			<text>{{ $t('common.reset') }}</text>
 		</view>
 		<view class="btn-submit" :class="{ 'btn-disabled': submitting }" @click="!submitting && onSubmit()">
-			<text>{{ submitting ? '提交中...' : '确认提交' }}</text>
+			<text>{{ submitting ? $t('warehouse.submittingText') : $t('warehouse.confirmSubmit') }}</text>
 		</view>
 	</view>
 
@@ -174,7 +174,7 @@
 	<view class="loading-mask" v-if="loading">
 		<view class="loading-content">
 			<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-			<text class="loading-text">加载中...</text>
+			<text class="loading-text">{{ $t('warehouse.loadingDots') }}</text>
 		</view>
 	</view>
 	</view>
@@ -226,14 +226,14 @@
 						this.overallRemark = data.remark || ''
 					} else {
 						showBeautyToast({
-							title: res.msg || '加载失败',
+							title: res.msg || this.$t('warehouse.loadFail'),
 							icon: 'none'
 						})
 					}
 				}).catch(() => {
 					this.loading = false
 					showBeautyToast({
-						title: '加载失败',
+						title: this.$t('warehouse.loadFail'),
 						icon: 'none'
 					})
 				})
@@ -260,14 +260,14 @@
 				const hasEmpty = this.formItems.some(item => item.isCompleted === undefined || !item.executeResult)
 				if (hasEmpty) {
 					showBeautyToast({
-						title: '请填写所有保养项的完成状态和执行结果',
+						title: this.$t('warehouse.inputAllMaintainResult'),
 						icon: 'none'
 					})
 					return
 				}
 				if (!this.overallResult) {
 					showBeautyToast({
-						title: '请选择总体结果',
+						title: this.$t('warehouse.selectOverallResult'),
 						icon: 'none'
 					})
 					return
@@ -313,7 +313,7 @@
 					this.submitting = false
 					if (res.code == 200 || res.code == '200') {
 						showBeautyToast({
-							title: '提交成功',
+							title: this.$t('warehouse.submitSuccess'),
 							icon: 'success'
 						})
 						setTimeout(() => {
@@ -321,14 +321,14 @@
 						}, 1500)
 					} else {
 						showBeautyToast({
-							title: res.msg || '提交失败',
+							title: res.msg || this.$t('warehouse.submitFail'),
 							icon: 'none'
 						})
 					}
 				}).catch(() => {
 					this.submitting = false
 					showBeautyToast({
-						title: '提交失败',
+						title: this.$t('warehouse.submitFail'),
 						icon: 'none'
 					})
 				})

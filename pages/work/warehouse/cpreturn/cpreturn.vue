@@ -3,24 +3,24 @@
 		<view class="box-header">
 			<view class="icon">
 			</view>
-			<text class="title">成品退货</text>
+			<text class="title">{{ $t('warehouse.cpReturnTitle') }}</text>
 		</view>
 		<view class="box-body">
 			<view class="warehouse-detail">
 				<view class="header">
 					<view class="left">
 						<uni-icons type="compose"></uni-icons>
-						<text class="title">退货明细</text>
+						<text class="title">{{ $t('warehouse.returnDetail') }}</text>
 					</view>
 				</view>
 			<view class="header">
 				<view class="left">
 					<uni-icons custom-prefix="iconfont" type="icon-tiaoxingma"></uni-icons>
-					<text class="label">标签：</text>
+					<text class="label">{{ $t('warehouse.labelColon') }}</text>
 				</view>
 			</view>
 			<view class="scan-input-row">
-				<input class="scan-input" v-model="labelInput" :focus="labelFocus" placeholder="请输入或扫描标签" @confirm="onLabelInputConfirm" />
+				<input class="scan-input" v-model="labelInput" :focus="labelFocus" :placeholder="$t('warehouse.labelPlaceholder')" @confirm="onLabelInputConfirm" />
 				<view class="scan-btn" @click="onLabelScan">
 					<uni-icons type="scan" color="#fff" size="16"></uni-icons>
 				</view>
@@ -28,42 +28,42 @@
 				<view class="label-info-container" v-for="label in labelList" :key="label.labelCode">
 					<view class="label-item">
 						<view class="left">
-							<text>标签号</text>
+							<text>{{ $t('warehouse.labelNo') }}</text>
 							<text class="value">{{label.labelCode}}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>产品型号</text>
+							<text>{{ $t('warehouse.productCode') }}</text>
 							<text class="value">{{label.productCode }}</text>
 						</view>
 
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>产品名称</text>
+							<text>{{ $t('warehouse.productName') }}</text>
 							<text class="value">{{label.productName }}</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>计划号</text>
+							<text>{{ $t('warehouse.planCode') }}</text>
 							<text class="value">--</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>客户名称</text>
+							<text>{{ $t('warehouse.customerName') }}</text>
 							<text class="value">--</text>
 						</view>
 					</view>
 					<view class="label-item">
 						<view class="left">
-							<text>包装数量</text>
+							<text>{{ $t('warehouse.packageNumber') }}</text>
 							<text class="value">{{label.number }}</text>
 						</view>
 						<view class="right">
-							<text>退货数量</text>
+							<text>{{ $t('warehouse.returnQty') }}</text>
 							<text class="value">{{label.number }}</text>
 							<!-- <uni-number-box :max="+label.number"
 								v-model="returnCount[`returncount_${label.labelCode}`]"></uni-number-box> -->
@@ -73,7 +73,7 @@
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini" @click="onSubmit">确认提交</button>
+			<button type="primary" size="mini" @click="onSubmit">{{ $t('common.confirmSubmit') }}</button>
 		</view>
 	</view>
 </template>
@@ -102,13 +102,13 @@
 						const codeType = getCodeType(code);
 						if (codeType == CodeType.KQ) {
 							uni.showToast({
-								title: "标签无效！"
+								title: _this.$t('warehouse.tagInvalid')
 							});
 						} else if (codeType == CodeType.CP_Label) {
 							_this.loadLabelInfo(code);
 						} else {
 							uni.showToast({
-								title: "标签无效！"
+								title: _this.$t('warehouse.tagInvalid')
 							});
 						}
 					})
@@ -140,7 +140,7 @@
 					_this.loadLabelInfo(code);
 				}).catch(err => {
 					uni.showToast({
-						title: '出错啦',
+						title: _this.$t('warehouse.error'),
 						icon: 'none'
 					})
 				});
@@ -183,7 +183,7 @@
 				const res = await product.returnProduct(_labelList);
 				if (res.code == 200) {
 					uni.showToast({
-						title: '退货成功'
+						title: _this.$t('warehouse.cpReturnSuccess')
 					})
 					this.labelList = [];
 					this.returnCount = {};

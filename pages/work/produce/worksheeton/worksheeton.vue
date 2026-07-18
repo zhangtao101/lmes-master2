@@ -2,15 +2,15 @@
 	<view class="order-on-container">
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>
-			<text class="common-text">工位：{{workStation.clientCode}}</text>
+			<text class="common-text">{{ $t('ws.workStation') }}{{workStation.clientCode}}</text>
 			<text class="common-right" @click="onWrokStationScan">
-				请扫描
+				{{ $t('common.scan') }}
 			</text>
 		</view>
 		<view class="content-container">
 			<view class="content-item">
 				<text class="content-label">
-					工序：
+					{{ $t('ws.process') }}
 				</text>
 				<text class="content-value">
 					{{workStation.processName}}
@@ -18,7 +18,7 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					设备：
+					{{ $t('ws.equipment') }}
 				</text>
 				<text class="content-value">
 					{{workStation.equipmentName}}
@@ -27,15 +27,15 @@
 		</view>
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-gongdanhao" size="18"></uni-icons>
-			<text class="common-text">工单号：{{workSheet.workSheetCode}}</text>
+			<text class="common-text">{{ $t('ws.workSheet') }}{{workSheet.workSheetCode}}</text>
 			<text class="common-right" @click="onWorksheetScan">
-				扫描或选择
+				{{ $t('common.scanOrSelect') }}
 			</text>
 		</view>
 		<view class="content-container">
 			<view class="content-item">
 				<text class="content-label">
-					产品编号：
+					{{ $t('ws.productCode') }}
 				</text>
 				<text class="content-value">
 					{{workSheet.productCode}}
@@ -43,7 +43,7 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					产品名称：
+					{{ $t('ws.productName') }}
 				</text>
 				<text class="content-value">
 					{{workSheet.productName}}
@@ -51,7 +51,7 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					计划数量：
+					{{ $t('ws.planQty') }}
 				</text>
 				<text class="content-value">
 					{{workSheet.workSheetPlanNumber}}
@@ -59,7 +59,7 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					上线数量：
+					{{ $t('ws.onlineQty') }}
 				</text>
 				<view class="content-value">
 					<uni-number-box :max="workSheet.workSheetPlanNumber" v-model="onlineNumber"></uni-number-box>
@@ -68,86 +68,86 @@
 		</view>
 		<view class="common-container-header">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-2610605" size="18"></uni-icons>
-			<text class="common-text">人员校验：</text>
+			<text class="common-text">{{ $t('ws.userCheck') }}</text>
 			<text class="common-right" @click="onToWorker">
-				校验
+				{{ $t('common.check') }}
 			</text>
 		</view>
 		<view class="content-container">
 			<view class="content-item">
 				<text class="content-label">
-					校验结果：
+					{{ $t('ws.checkResult') }}
 				</text>
 				<view class="content-value right" :style="userValidate?'color:#4cd964':'color:#dd524d'">
 					<uni-icons v-if="userValidate" color="#4cd964" type="checkbox-filled" size="20"></uni-icons>
 					<uni-icons v-else color="#dd524d" type="clear" size="20"></uni-icons>
-					{{userValidate? '合格':'不合格'}}
+					{{userValidate? $t('common.pass'):$t('common.fail')}}
 
 				</view>
 			</view>
 		</view>
 		<view class="common-container-header">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-shebeidianjian" size="18"></uni-icons>
-			<text class="common-text">设备点检：</text>
+			<text class="common-text">{{ $t('ws.equipCheck') }}</text>
 			<text class="common-right" @click="onDeviceCheck">
-				校验
+				{{ $t('common.check') }}
 			</text>
 		</view>
 		<view class="content-container">
 			<view class="content-item">
 				<text class="content-label">
-					校验结果：
+					{{ $t('ws.checkResult') }}
 				</text>
 				<view class="content-value right" :style="equipmentValidate?'color:#4cd964':'color:#dd524d'">
 					<uni-icons v-if="equipmentValidate" color="#4cd964" type="checkbox-filled" size="20"></uni-icons>
 					<uni-icons v-else color="#dd524d" type="clear" size="20"></uni-icons>
-					{{equipmentValidate? '合格':'不合格'}}
+					{{equipmentValidate? $t('common.pass'):$t('common.fail')}}
 
 				</view>
 			</view>
 		</view>
 		<view class="common-container-header">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-wuliaoguanli-" size="18"></uni-icons>
-			<text class="common-text">物料校验：</text>
+			<text class="common-text">{{ $t('ws.materialCheck') }}</text>
 			<text class="common-right" @click="onMaterialCheck">
-				校验
+				{{ $t('common.check') }}
 			</text>
 		</view>
 		<view class="content-container">
 			<view class="content-item">
-				<view class="content-label">
-					校验结果：
-				</view>
+				<text class="content-label">
+					{{ $t('ws.checkResult') }}
+				</text>
 				<view class="content-value right" :style="materialValidate?'color:#4cd964':'color:#dd524d'">
 					<uni-icons v-if="materialValidate" color="#4cd964" type="checkbox-filled" size="20"></uni-icons>
 					<uni-icons v-else color="#dd524d" type="clear" size="20"></uni-icons>
-					{{materialValidate? '合格':'不合格'}}
+					{{materialValidate? $t('common.pass'):$t('common.fail')}}
 
 				</view>
 			</view>
 		</view>
 		<view class="common-container-header" v-if="false">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xitongcanshu" size="18"></uni-icons>
-			<text class="common-text">参数校验：</text>
+			<text class="common-text">{{ $t('ws.paramCheck') }}</text>
 			<view class="common-right">
-				校验
+				{{ $t('common.check') }}
 			</view>
 		</view>
 		<view class="content-container" v-if="false">
 			<view class="content-item">
 				<view class="content-label">
-					校验结果：
+					{{ $t('ws.checkResult') }}
 				</view>
 				<view class="content-value right" :style="paramsValidate?'color:#4cd964':'color:#dd524d'">
 					<uni-icons v-if="paramsValidate" color="#4cd964" type="checkbox-filled" size="20"></uni-icons>
 					<uni-icons v-else color="#dd524d" type="clear" size="20"></uni-icons>
-					{{paramsValidate? '合格':'不合格'}}
+					{{paramsValidate? $t('common.pass'):$t('common.fail')}}
 
 				</view>
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini" @click="onWorksheetOn">确认进站</button>
+			<button type="primary" size="mini" @click="onWorksheetOn">{{ $t('common.confirmIn') }}</button>
 		</view>
 	</view>
 </template>
@@ -248,7 +248,7 @@
 					.workStation.lineId, this.workStation.processCode, 1);
 				if (res.code === 200) {
 					uni.showToast({
-						title: "上线成功"
+						title: this.$t('common.onlineSuccess')
 					});
 					this.workSheet = {};
 					this.workStation = {};

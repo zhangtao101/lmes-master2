@@ -59,7 +59,7 @@
 						<view class="left">
 							<text>备注：</text>
 							<uni-easyinput type="textarea" autoHeight v-model="value"
-								placeholder="请输入内容"></uni-easyinput>
+								:placeholder="$t('common.inputContent')"></uni-easyinput>
 						</view>
 
 					</view>
@@ -81,7 +81,7 @@
 						</view>
 						<view class="right">
 							<uni-file-picker v-model="value">
-								<button type="primary" size="mini" @click="upload">上传图片</button>
+								<button type="primary" size="mini" @click="upload">{{ $t('common.uploadImage') }}</button>
 							</uni-file-picker>
 						</view>
 					</view>
@@ -89,9 +89,9 @@
 			</view>
 		</view>
 		<view class="operator-button more-button">
-			<button type="primary" size="mini">问题关闭</button>
-			<button type="primary" size="mini">转交上级</button>
-			<button type="primary" size="mini">问题撤回</button>
+			<button type="primary" size="mini">{{ $t('andon.problemClose') }}</button>
+			<button type="primary" size="mini">{{ $t('andon.transferSuperior') }}</button>
+			<button type="primary" size="mini">{{ $t('andon.problemWithdraw') }}</button>
 		</view>
 	</view>
 </template>

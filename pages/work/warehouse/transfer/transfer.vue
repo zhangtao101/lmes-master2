@@ -3,14 +3,14 @@
 		<!-- 调拨方式选择 -->
 		<view class="floor-selector" v-if="!transferType">
 			<view class="floor-header">
-				<text class="floor-title">请选择调拨方式</text>
+				<text class="floor-title">{{ $t('warehouse.selectTransferType') }}</text>
 			</view>
 			<view class="floor-list">
 				<view class="floor-item" @click="selectTransferType('1')">
-					<text>仓内调拨</text>
+					<text>{{ $t('warehouse.innerTransfer') }}</text>
 				</view>
 				<view class="floor-item" @click="selectTransferType('2')">
-					<text>跨楼层调拨</text>
+					<text>{{ $t('warehouse.crossFloorTransfer') }}</text>
 				</view>
 			</view>
 		</view>
@@ -19,7 +19,7 @@
 		<template v-else>
 			<view class="box-header">
 				<view class="icon"></view>
-				<text class="title">调拨查询</text>
+				<text class="title">{{ $t('warehouse.transferQuery') }}</text>
 			</view>
 			<view class="box-body">
 				<!-- 货架码输入区域 -->
@@ -27,12 +27,12 @@
 					<view class="header">
 						<view class="left">
 							<uni-icons type="home" color="#fff" size="18"></uni-icons>
-							<text>货架码：{{ shelfCode || '待输入' }}</text>
+							<text>{{ $t('warehouse.shelfCode') }}{{ shelfCode || $t('warehouse.pendingInput') }}</text>
 						</view>
 						<view class="right">
 							<view class="action-btn scan-btn" @click="onScanCode">
 								<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-								<text>请扫描</text>
+								<text>{{ $t('common.scan') }}</text>
 							</view>
 						</view>
 					</view>
@@ -40,7 +40,7 @@
 						<input
 							class="search-input"
 							v-model="codeInput"
-							placeholder="请输入货架号或储位码后按回车查询"
+							:placeholder="$t('warehouse.shelfPlaceholder')"
 							@confirm="onInputConfirm"
 						/>
 						<view class="search-btn" @click="onScanCode">
@@ -54,7 +54,7 @@
 					<view class="header">
 						<view class="left">
 							<uni-icons type="list" color="#fff" size="18"></uni-icons>
-							<text class="title">货架信息</text>
+							<text class="title">{{ $t('warehouse.shelfInfo') }}</text>
 						</view>
 						<view class="right result-count">
 							<text>{{ shelfInfo.statusName }}</text>
@@ -64,15 +64,15 @@
 					<!-- 货架基本信息 -->
 					<view class="info-section">
 						<view class="info-row">
-							<text class="info-label">货架号</text>
+							<text class="info-label">{{ $t('warehouse.shelfNo') }}</text>
 							<text class="info-value">{{ shelfInfo.rqCode || '-' }}</text>
 						</view>
 						<view class="info-row">
-							<text class="info-label">所在地码</text>
+							<text class="info-label">{{ $t('warehouse.locationCodeLabel') }}</text>
 							<text class="info-value">{{ shelfInfo.locationCode || '-' }}</text>
 						</view>
 						<view class="info-row">
-							<text class="info-label">状态</text>
+							<text class="info-label">{{ $t('warehouse.status') }}</text>
 							<text class="info-value" :class="shelfInfo.statusName === '在库' ? 'status-in' : 'status-out'">
 								{{ shelfInfo.statusName || '-' }}
 							</text>
@@ -82,38 +82,38 @@
 					<!-- 物料列表 -->
 					<view class="material-section" v-if="materialList.length > 0">
 						<view class="section-title">
-							<text>物料明细</text>
-							<text class="count">共 {{ materialList.length }} 条</text>
+							<text>{{ $t('warehouse.materialDetail') }}</text>
+							<text class="count">{{ $t('warehouse.materialCount', { count: materialList.length }) }}</text>
 						</view>
 						<view class="material-list">
 							<view class="material-item" v-for="(item, index) in materialList" :key="index">
 								<view class="material-grid">
 									<view class="material-row">
-										<text class="material-label">标签码</text>
+										<text class="material-label">{{ $t('warehouse.tagCode') }}</text>
 										<text class="material-value">{{ item.labelCode || '-' }}</text>
 									</view>
 									<view class="material-row">
-										<text class="material-label">料号</text>
+										<text class="material-label">{{ $t('warehouse.code') }}</text>
 										<text class="material-value">{{ item.materialCode || '-' }}</text>
 									</view>
 								</view>
 								<view class="material-grid">
 									<view class="material-row">
-										<text class="material-label">物料名称</text>
+										<text class="material-label">{{ $t('warehouse.materialName') }}</text>
 										<text class="material-value">{{ item.materialName || '-' }}</text>
 									</view>
 									<view class="material-row">
-										<text class="material-label">批次号</text>
+										<text class="material-label">{{ $t('warehouse.batchCode') }}</text>
 										<text class="material-value">{{ item.batchCode || '-' }}</text>
 									</view>
 								</view>
 								<view class="material-grid">
 									<view class="material-row">
-										<text class="material-label">数量</text>
+										<text class="material-label">{{ $t('warehouse.qty') }}</text>
 										<text class="material-value highlight">{{ item.number }}</text>
 									</view>
 									<view class="material-row">
-										<text class="material-label">储位</text>
+										<text class="material-label">{{ $t('warehouse.storage') }}</text>
 										<text class="material-value">{{ item.storageCode || '-' }}</text>
 									</view>
 								</view>
@@ -127,14 +127,14 @@
 					<view class="empty-state">
 						<template v-if="loading">
 							<view class="loading-spinner"></view>
-							<text>查询中...</text>
+							<text>{{ $t('warehouse.querying') }}</text>
 						</template>
 						<template v-else>
 							<view class="empty-icon-wrapper">
 								<uni-icons type="list" size="64" color="#e0e0e0"></uni-icons>
 							</view>
-							<text>暂无查询结果</text>
-							<text class="sub-text">请输入正确的货架号或储位码进行查询</text>
+							<text>{{ $t('warehouse.noResult') }}</text>
+							<text class="sub-text">{{ $t('warehouse.correctShelfHint') }}</text>
 						</template>
 					</view>
 				</view>
@@ -145,7 +145,7 @@
 						<view class="empty-icon-wrapper">
 							<uni-icons type="search" size="64" color="#e0e0e0"></uni-icons>
 						</view>
-						<text>请输入货架号或储位码进行查询</text>
+						<text>{{ $t('warehouse.enterShelfHint') }}</text>
 					</view>
 				</view>
 			</view>
@@ -157,14 +157,14 @@
 					@click="onCallAgv"
 					:disabled="!shelfInfo.rqCode"
 				>
-					呼叫AGV
+					{{ $t('warehouse.callAgv') }}
 				</button>
 				<button
 					class="btn btn-secondary"
 					@click="onTransfer"
 					:disabled="!shelfInfo.rqCode"
 				>
-					调拨作业
+					{{ $t('warehouse.transferWork') }}
 				</button>
 			</view>
 		</template>
@@ -231,7 +231,7 @@ export default {
 				_this.codeInput = '';
 				if (!code) {
 					uni.showToast({
-						title: '请输入货架号或储位码',
+						title: _this.$t('warehouse.enterShelfTip'),
 						icon: 'none'
 					});
 					return;
@@ -271,7 +271,7 @@ export default {
 					}
 				} else {
 					uni.showToast({
-						title: resp.msg || '查询失败',
+						title: resp.msg || this.$t('warehouse.queryFailed'),
 						icon: 'none'
 					});
 				}
@@ -279,7 +279,7 @@ export default {
 				this.loading = false;
 				console.error(error);
 				uni.showToast({
-					title: '查询失败,请重试',
+					title: this.$t('warehouse.queryFailedRetry'),
 					icon: 'none'
 				});
 			}
@@ -288,14 +288,14 @@ export default {
 		onCallAgv: async function() {
 			if (!this.shelfInfo.rqCode || !this.shelfInfo.locationCode) {
 				uni.showToast({
-					title: '请先查询货架信息',
+					title: this.$t('warehouse.queryShelfFirst'),
 					icon: 'none'
 				});
 				return;
 			}
 
 			try {
-				uni.showLoading({ title: '呼叫中...' });
+				uni.showLoading({ title: this.$t('warehouse.calling') });
 				const resp = await transferApi.submitDBContainer(
 					this.shelfInfo.rqCode,
 					this.shelfInfo.locationCode
@@ -304,19 +304,19 @@ export default {
 
 				if (resp.code == '200') {
 					uni.showToast({
-						title: 'AGV呼叫成功',
+						title: this.$t('warehouse.agvCallSuccess'),
 						icon: 'success'
 					});
 				} else {
 					uni.showToast({
-						title: resp.msg || '呼叫失败',
+						title: resp.msg || this.$t('warehouse.callFailed'),
 						icon: 'none'
 					});
 				}
 			} catch (error) {
 				uni.hideLoading();
 				uni.showToast({
-					title: '呼叫失败',
+					title: this.$t('warehouse.callFailed'),
 					icon: 'none'
 				});
 			}

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		我的
+		{{ $t('profile.title') }}
 	</view>
 </template>
 

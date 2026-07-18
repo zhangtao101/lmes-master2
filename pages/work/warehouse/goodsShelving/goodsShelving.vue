@@ -3,16 +3,16 @@
 		<!-- 模式选择页面 -->
 		<view class="mode-selector" v-if="!shelvingMode">
 			<view class="mode-header">
-				<text class="mode-title">请选择上架方式</text>
+				<text class="mode-title">{{$t('warehouse.selectShelvingMode')}}</text>
 			</view>
 			<view class="mode-list">
 				<view class="mode-item" @click="onModeSwitch('normal')">
 					<uni-icons type="list" color="#667eea" size="28"></uni-icons>
-					<text>货架上架</text>
+					<text>{{$t('warehouse.shelvingNormal')}}</text>
 				</view>
 				<view class="mode-item" @click="onModeSwitch('smart')">					<uni-icons type="list" color="#667eea" size="28"></uni-icons>
 					<uni-icons type="list" color="#667eea" size="28"></uni-icons>
-					<text>智能货架上架</text>
+					<text>{{$t('warehouse.shelvingSmart')}}</text>
 				</view>
 			</view>
 		</view>
@@ -24,7 +24,7 @@
 				<view class="card-header">
 					<view class="header-left">
 						<uni-icons type="paperplane-filled" color="#fff" size="18"></uni-icons>
-						<text class="header-title">单据扫码</text>
+						<text class="header-title">{{$t('warehouse.formScanTitle')}}</text>
 					</view>
 				</view>
 				<view class="card-content">
@@ -35,25 +35,25 @@
 								v-model="formCode"
 								:inputBorder="false"
 								placeholderStyle="color: #999;"
-								placeholder="请扫描或输入单据号"
+								:placeholder="$t('warehouse.scanOrInputForm')"
 								@confirm="onFormCodeConfirm"
 								class="main-input"
 							></uni-easyinput>
 						</view>
 						<view class="scan-btn" @click="onFormCodeScan">
 							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-							<text>扫码</text>
+							<text>{{$t('warehouse.scan')}}</text>
 						</view>
 					</view>
 					<!-- 订单信息 -->
 					<view class="order-info" v-if="orderLoaded">
 						<view class="table-wrapper">
 							<view class="table-row table-header">
-								<view class="table-cell" style="flex: 1.5;">标签码</view>
-								<view class="table-cell" style="flex: 1.5;">料号</view>
-								<view class="table-cell" style="flex: 2;">物料名称</view>
-								<view class="table-cell" style="flex: 1;">数量</view>
-								<view class="table-cell" style="flex: 1;">状态</view>
+								<view class="table-cell" style="flex: 1.5;">{{$t('warehouse.tagCode')}}</view>
+								<view class="table-cell" style="flex: 1.5;">{{$t('warehouse.code')}}</view>
+								<view class="table-cell" style="flex: 2;">{{$t('warehouse.materialName')}}</view>
+								<view class="table-cell" style="flex: 1;">{{$t('warehouse.qty')}}</view>
+								<view class="table-cell" style="flex: 1;">{{$t('warehouse.status')}}</view>
 							</view>
 							<view class="table-row" v-for="item in materialList" :key="item.labelCode">
 								<view class="table-cell" style="flex: 1.5;">{{item.labelCode || '--'}}</view>
@@ -61,13 +61,13 @@
 								<view class="table-cell" style="flex: 2;">{{item.materialName || '--'}}</view>
 								<view class="table-cell highlight" style="flex: 1;">{{item.number || '--'}}</view>
 								<view class="table-cell" style="flex: 1;" :class="item.finishFlag == -1 ? 'text-warn' : 'text-success'">
-									{{item.finishFlag == -1 ? '未上架' : '已上架'}}
+									{{item.finishFlag == -1 ? $t('warehouse.notShelved') : $t('warehouse.shelved')}}
 								</view>
 							</view>
 						</view>
 					</view>
 					<view class="empty-info" v-if="!orderLoaded && formCode">
-						<text class="empty-text">点击扫码或按回车键查询单据</text>
+						<text class="empty-text">{{$t('warehouse.clickScanOrEnterForm')}}</text>
 					</view>
 				</view>
 			</view>
@@ -77,7 +77,7 @@
 				<view class="card-header">
 					<view class="header-left">
 						<uni-icons type="scan" color="#fff" size="18"></uni-icons>
-						<text class="header-title">上架扫码</text>
+						<text class="header-title">{{$t('warehouse.shelvingScanTitle')}}</text>
 					</view>
 				</view>
 				<view class="card-content">
@@ -88,14 +88,14 @@
 								v-model="storageCode"
 								:inputBorder="false"
 								placeholderStyle="color: #999;"
-								placeholder="请扫描或输入货架码"
+								:placeholder="$t('warehouse.scanOrInputShelf')"
 								@confirm="onStorageCodeConfirm"
 								class="main-input"
 							></uni-easyinput>
 						</view>
 						<view class="scan-btn" @click="onStorageCodeScan">
 							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-							<text>扫码</text>
+							<text>{{$t('warehouse.scan')}}</text>
 						</view>
 					</view>
 					<view class="input-row" v-if="labelInputEnabled">
@@ -106,27 +106,27 @@
 								:inputBorder="false"
 								:focus="labelFocusFlag"
 								placeholderStyle="color: #999;"
-								placeholder="请扫描或输入标签码"
+								:placeholder="$t('warehouse.scanOrInputLabel')"
 								@confirm="onLabelCodeConfirm"
 								class="main-input"
 							></uni-easyinput>
 						</view>
 						<view class="scan-btn" @click="onLabelCodeScan">
 							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-							<text>扫码</text>
+							<text>{{$t('warehouse.scan')}}</text>
 						</view>
 					</view>
 					<!-- 智能模式亮灯提示 -->
 					<view class="light-tip" v-if="shelvingMode === 'smart' && storageCode && !lightSuccess && !lightLoading">
-						<text>请按回车键触发货架亮灯</text>
+						<text>{{$t('warehouse.pressEnterLight')}}</text>
 					</view>
 					<view class="light-tip loading" v-if="lightLoading">
 						<uni-icons type="spinner-cycle" size="16" color="#667eea" class="loading-icon"></uni-icons>
-						<text>亮灯中...</text>
+						<text>{{$t('warehouse.lightingLoading')}}</text>
 					</view>
 					<view class="add-btn-wrapper-inner" v-if="labelInputEnabled">
 						<button class="add-btn" :class="{ disabled: isChecking }" @click="onCheckAndAdd" :disabled="isChecking">
-							<text>{{ isChecking ? '校验中...' : '校验并添加' }}</text>
+							<text>{{ isChecking ? $t('warehouse.checking') : $t('warehouse.checkAndAdd') }}</text>
 						</button>
 					</view>
 				</view>
@@ -137,7 +137,7 @@
 				<view class="card-header">
 					<view class="header-left">
 						<uni-icons type="list-check" color="#fff" size="18"></uni-icons>
-						<text class="header-title">本次扫码列表</text>
+						<text class="header-title">{{$t('warehouse.scanListTitle')}}</text>
 					</view>
 					<view class="header-right">
 						<text class="count-badge">{{scanList.length}}</text>
@@ -150,19 +150,19 @@
 						</view>
 						<view class="item-info">
 							<view class="item-row">
-								<text class="item-label">标签码</text>
+								<text class="item-label">{{$t('warehouse.tagCode')}}</text>
 								<text class="item-value">{{item.labelCode || '--'}}</text>
 							</view>
 							<view class="item-row">
-								<text class="item-label">料号</text>
+								<text class="item-label">{{$t('warehouse.code')}}</text>
 								<text class="item-value">{{item.materialCode || '--'}}</text>
 							</view>
 							<view class="item-row">
-								<text class="item-label">物料名称</text>
+								<text class="item-label">{{$t('warehouse.materialName')}}</text>
 								<text class="item-value">{{item.materialName || '--'}}</text>
 							</view>
 							<view class="item-row">
-								<text class="item-label">数量</text>
+								<text class="item-label">{{$t('warehouse.qty')}}</text>
 								<text class="item-value">{{item.packageNumber || '--'}}</text>
 							</view>
 						</view>
@@ -179,7 +179,7 @@
 		<!-- 底部确认按钮 -->
 		<view class="submit-btn-wrapper" v-if="scanList.length > 0">
 			<button class="submit-btn" :class="{ disabled: isSubmitting }" @click="onSubmit" :disabled="isSubmitting">
-				<text>{{ isSubmitting ? '提交中...' : '确认上架' }}</text>
+				<text>{{ isSubmitting ? $t('warehouse.submittingText') : $t('warehouse.confirmShelving') }}</text>
 			</button>
 		</view>
 
@@ -187,7 +187,7 @@
 		<view class="loading-mask" v-if="isLoading">
 			<view class="loading-content">
 				<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-				<text class="loading-text">加载中...</text>
+				<text class="loading-text">{{$t('warehouse.loadingDots')}}</text>
 			</view>
 		</view>
 	</view>
@@ -304,7 +304,7 @@
 					_this.formCode = code;
 					_this.loadOrder();
 				}).catch(err => {
-					showBeautyToast({ title: err || '扫码失败', icon: 'none' });
+					showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
 				});
 			},
 
@@ -321,7 +321,7 @@
 			// 加载单据信息
 			loadOrder() {
 				if (!this.formCode) {
-					showBeautyToast({ title: '请输入单据号', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.inputForm'), icon: 'none' });
 					return;
 				}
 				this.isLoading = true;
@@ -340,14 +340,14 @@
 							this.materialList = data;
 							this.orderLoaded = true;
 						} else {
-							showBeautyToast({ title: '未查询到单据信息', icon: 'none' });
+							showBeautyToast({ title: this.$t('warehouse.noFormInfo'), icon: 'none' });
 						}
 					} else {
-						showBeautyToast({ title: resp.msg || '查询失败', icon: 'none' });
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.queryFailed'), icon: 'none' });
 					}
 				}).catch(() => {
 					this.isLoading = false;
-					showBeautyToast({ title: '查询失败', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.queryFailed'), icon: 'none' });
 				});
 			},
 
@@ -361,7 +361,7 @@
 						_this.onTriggerLight();
 					}
 				}).catch(err => {
-					showBeautyToast({ title: err || '扫码失败', icon: 'none' });
+					showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
 				});
 			},
 
@@ -381,7 +381,7 @@
 			onTriggerLight() {
 				if (this.lightLoading) return;
 				if (!this.formCode) {
-					showBeautyToast({ title: '请先扫描单据号', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.scanFormFirst'), icon: 'none' });
 					return;
 				}
 				this.lightLoading = true;
@@ -390,17 +390,17 @@
 					this.lightLoading = false;
 					if (resp.code == 200 || resp.code == '200') {
 						this.lightSuccess = true;
-						showBeautyToast({ title: '亮灯成功，请扫描标签码', icon: 'success' });
+						showBeautyToast({ title: this.$t('warehouse.lightSuccessScanLabel'), icon: 'success' });
 						// 自动聚焦到标签码输入
 						this.$nextTick(() => {
 							this.labelFocusFlag = true;
 						});
 					} else {
-						showBeautyToast({ title: resp.msg || '亮灯失败', icon: 'none' });
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.lightFail'), icon: 'none' });
 					}
 				}).catch(() => {
 					this.lightLoading = false;
-					showBeautyToast({ title: '亮灯失败', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.lightFail'), icon: 'none' });
 				});
 			},
 
@@ -414,7 +414,7 @@
 						_this.onCheckAndAdd();
 					}
 				}).catch(err => {
-					showBeautyToast({ title: err || '扫码失败', icon: 'none' });
+					showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
 				});
 			},
 
@@ -433,22 +433,22 @@
 				if (this.isChecking) return;
 
 				if (!this.formCode) {
-					showBeautyToast({ title: '请先扫描单据号', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.scanFormFirst'), icon: 'none' });
 					return;
 				}
 				if (!this.storageCode) {
-					showBeautyToast({ title: '请扫描或输入货架码', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.scanOrInputShelf'), icon: 'none' });
 					return;
 				}
 				if (!this.labelCode) {
-					showBeautyToast({ title: '请扫描或输入标签码', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.scanOrInputLabel'), icon: 'none' });
 					return;
 				}
 
 				// 检查是否已存在相同标签码
 				const exists = this.scanList.find(item => item.labelCode === this.labelCode);
 				if (exists) {
-					showBeautyToast({ title: '该标签码已扫码', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.labelAlreadyScanned'), icon: 'none' });
 					return;
 				}
 
@@ -466,7 +466,7 @@
 							storageCode: this.storageCode,
 							_data: data
 						});
-						showBeautyToast({ title: '校验成功', icon: 'success' });
+						showBeautyToast({ title: this.$t('warehouse.checkSuccess'), icon: 'success' });
 						// 清空标签码并重新聚焦，准备下一次扫码
 						this.labelCode = '';
 						this.labelFocusFlag = false;
@@ -474,11 +474,11 @@
 							this.labelFocusFlag = true;
 						});
 					} else {
-						showBeautyToast({ title: resp.msg || '校验失败', icon: 'none' });
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.checkFail'), icon: 'none' });
 					}
 				}).catch(() => {
 					this.isChecking = false;
-					showBeautyToast({ title: '校验失败', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.checkFail'), icon: 'none' });
 				});
 			},
 
@@ -501,7 +501,7 @@
 				if (this.isSubmitting) return;
 
 				if (this.scanList.length === 0) {
-					showBeautyToast({ title: '请先扫码添加物料', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.scanAddMaterialFirst'), icon: 'none' });
 					return;
 				}
 
@@ -522,18 +522,18 @@
 				).then(resp => {
 					this.isSubmitting = false;
 					if (resp.code == 200 || resp.code == '200') {
-						showBeautyToast({ title: '上架成功', icon: 'success' });
+						showBeautyToast({ title: this.$t('warehouse.shelvingSuccess'), icon: 'success' });
 						// 清空扫描列表，重新加载单据信息
 						this.scanList = [];
 						this.loadOrder();
 					} else {
 						console.log(resp);
-						showBeautyToast({ title: resp.msg || '上架失败', icon: 'none' });
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.shelvingFail'), icon: 'none' });
 					}
 				}).catch((error) => {
 					console.log(error);
 					this.isSubmitting = false;
-					showBeautyToast({ title: '上架失败', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.shelvingFail'), icon: 'none' });
 				});
 			}
 		}

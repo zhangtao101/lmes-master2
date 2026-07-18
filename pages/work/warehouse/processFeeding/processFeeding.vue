@@ -7,14 +7,14 @@
 					<view class="left">
 						<view class="input-group">
 							<uni-icons type="document" color="#fff" size="18"></uni-icons>
-							<text>工单码：</text>
+							<text>{{$t('warehouse.workOrderCode')}}</text>
 							<uni-easyinput
 								v-model="worksheetCode"
 								:inputBorder="false"
 								placeholderStyle="color: rgba(255,255,255,0.7);"
 								@confirm="onWorksheetConfirm"
 								class="code-input"
-								placeholder="请输入或扫描工单码"
+								:placeholder="$t('warehouse.workOrderPlaceholder')"
 								:disabled="loadingWorksheet"
 							></uni-easyinput>
 						</view>
@@ -22,30 +22,30 @@
 					<view class="right" :class="{ disabled: loadingWorksheet }" @click="onWorksheetScan">
 						<template v-if="loadingWorksheet">
 							<uni-icons type="spinner-cycle" color="#fff" size="16" class="loading-icon"></uni-icons>
-							<text>加载中</text>
+							<text>{{$t('warehouse.loading')}}</text>
 						</template>
 						<template v-else>
 							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-							<text>请扫描</text>
+							<text>{{$t('common.scan')}}</text>
 						</template>
 					</view>
 				</view>
 				<view class="info-grid" v-if="worksheetInfo.workSheetCode">
 					<view class="info-item">
-						<view class="label">工单编号</view>
+						<view class="label">{{$t('warehouse.workSheetCodeLabel')}}</view>
 						<view class="value">{{worksheetInfo.workSheetCode || '--'}}</view>
 					</view>
 					<view class="info-item">
-						<view class="label">工单名称</view>
+						<view class="label">{{$t('warehouse.workSheetNameLabel')}}</view>
 						<view class="value">{{worksheetInfo.productName || '--'}}</view>
 					</view>
 					<view class="info-item">
-						<view class="label">计划数量</view>
+						<view class="label">{{$t('warehouse.planQtyLabel')}}</view>
 						<view class="value highlight">{{worksheetInfo.workSheetPlanNumber != null ? worksheetInfo.workSheetPlanNumber : '--'}}</view>
 					</view>
 				</view>
 				<view class="empty-tip" v-else-if="!loadingWorksheet">
-					<text>请扫描或输入工单码</text>
+					<text>{{$t('warehouse.scanOrInputWorkOrder')}}</text>
 				</view>
 			</view>
 
@@ -54,14 +54,14 @@
 				<view class="header">
 					<view class="left">
 						<view class="input-group">
-							<text>设备码：</text>
+							<text>{{$t('warehouse.equipmentCode')}}</text>
 							<uni-easyinput
 								v-model="equipCode"
 								:inputBorder="false"
 								placeholderStyle="color: rgba(255,255,255,0.7);"
 								@confirm="onEquipCodeConfirm"
 								class="code-input"
-								placeholder="请输入或扫描设备码"
+								:placeholder="$t('warehouse.equipPlaceholder')"
 								:disabled="loadingEquip"
 							></uni-easyinput>
 						</view>
@@ -69,30 +69,30 @@
 					<view class="right" :class="{ disabled: loadingEquip }" @click="onEquipCodeScan">
 						<template v-if="loadingEquip">
 							<uni-icons type="spinner-cycle" color="#fff" size="16" class="loading-icon"></uni-icons>
-							<text>加载中</text>
+							<text>{{$t('warehouse.loading')}}</text>
 						</template>
 						<template v-else>
 							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-							<text>请扫描</text>
+							<text>{{$t('common.scan')}}</text>
 						</template>
 					</view>
 				</view>
 				<view class="info-grid" v-if="equipInfo.equipCode">
 					<view class="info-item">
-						<view class="label">设备编号</view>
+						<view class="label">{{$t('warehouse.equipCodeLabel')}}</view>
 						<view class="value">{{equipInfo.equipCode || '--'}}</view>
 					</view>
 					<view class="info-item">
-						<view class="label">设备名称</view>
+						<view class="label">{{$t('warehouse.equipmentName')}}</view>
 						<view class="value">{{equipInfo.equipName || '--'}}</view>
 					</view>
 					<view class="info-item">
-						<view class="label">当前工序</view>
+						<view class="label">{{$t('warehouse.currentProcess')}}</view>
 						<view class="value highlight">{{equipInfo.processName || '--'}}</view>
 					</view>
 				</view>
 				<view class="empty-tip" v-else-if="!loadingEquip">
-					<text>请扫描或输入设备码</text>
+					<text>{{$t('warehouse.scanOrInputEquip')}}</text>
 				</view>
 			</view>
 
@@ -101,7 +101,7 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="list-check" color="#fff" size="18"></uni-icons>
-						<text>物料清单</text>
+						<text>{{$t('warehouse.materialList')}}</text>
 					</view>
 					<view class="header-right">
 						<text class="count-badge">{{materialList.length}}</text>
@@ -109,11 +109,11 @@
 				</view>
 				<view class="material-table">
 					<view class="table-row table-header-row">
-						<view class="table-cell" style="flex: 2;">料号</view>
-						<view class="table-cell" style="flex: 2.5;">物料名称</view>
-						<view class="table-cell" style="flex: 1;">站位</view>
-						<view class="table-cell" style="flex: 1.2;">BOM用量</view>
-						<view class="table-cell" style="flex: 1.2;">已投入量</view>
+						<view class="table-cell" style="flex: 2;">{{$t('warehouse.code')}}</view>
+						<view class="table-cell" style="flex: 2.5;">{{$t('warehouse.materialName')}}</view>
+						<view class="table-cell" style="flex: 1;">{{$t('warehouse.station')}}</view>
+						<view class="table-cell" style="flex: 1.2;">{{$t('warehouse.bomDosage')}}</view>
+						<view class="table-cell" style="flex: 1.2;">{{$t('warehouse.fedQty')}}</view>
 					</view>
 					<view class="table-row"
 						v-for="(item, index) in materialList"
@@ -131,19 +131,19 @@
 					</view>
 				</view>
 				<view class="empty-tip" v-if="materialList.length === 0 && !loadingMaterial">
-					<text>暂未加载物料清单</text>
+					<text>{{$t('warehouse.materialListNotLoaded')}}</text>
 				</view>
 			</view>
 			<view class="scan-section" v-else-if="worksheetInfo.workSheetCode && equipInfo.equipCode && loadingMaterial">
 				<view class="header">
 					<view class="left">
 						<uni-icons type="list-check" color="#fff" size="18"></uni-icons>
-						<text>物料清单</text>
+						<text>{{$t('warehouse.materialList')}}</text>
 					</view>
 				</view>
 				<view class="empty-tip">
 					<uni-icons type="spinner-cycle" size="16" color="#667eea" class="loading-icon"></uni-icons>
-					<text>加载中...</text>
+					<text>{{$t('warehouse.loadingDots')}}</text>
 				</view>
 			</view>
 
@@ -152,7 +152,7 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="gift" color="#fff" size="18"></uni-icons>
-						<text>标签上料</text>
+						<text>{{$t('warehouse.labelFeeding')}}</text>
 					</view>
 				</view>
 				<view class="feeding-body">
@@ -165,42 +165,42 @@
 								:inputBorder="false"
 								:focus="labelFocusFlag"
 								placeholderStyle="color: #999;"
-								placeholder="请扫描或输入标签码"
+								:placeholder="$t('warehouse.scanOrInputLabel')"
 								@confirm="onLabelCodeConfirm"
 								class="code-input"
 							></uni-easyinput>
 						</view>
 						<view class="scan-btn" @click="onLabelCodeScan">
 							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-							<text>扫码</text>
+							<text>{{$t('warehouse.scan')}}</text>
 						</view>
 					</view>
 					<!-- 校验状态 -->
 					<view class="check-status" v-if="checkStatus === 'loading'">
 						<uni-icons type="spinner-cycle" size="16" color="#667eea" class="loading-icon"></uni-icons>
-						<text>校验中...</text>
+						<text>{{$t('warehouse.checking')}}</text>
 					</view>
 					<view class="check-status error" v-if="checkStatus === 'error'">
 						<uni-icons type="close" size="18" color="#ff4d4f"></uni-icons>
-						<text>{{checkErrorMsg || '校验失败'}}</text>
+						<text>{{checkErrorMsg || $t('warehouse.checkFail')}}</text>
 					</view>
 					<!-- 校验成功后显示物料信息 -->
 					<view class="selected-info" v-if="checkStatus === 'success'">
 						<view class="info-item">
-							<view class="label">料号</view>
+							<view class="label">{{$t('warehouse.code')}}</view>
 							<view class="value">{{selectedItem.materialCode || '--'}}</view>
 						</view>
 						<view class="info-item">
-							<view class="label">物料名称</view>
+							<view class="label">{{$t('warehouse.materialName')}}</view>
 							<view class="value">{{selectedItem.materialName || '--'}}</view>
 						</view>
 						<view class="info-item">
-							<view class="label">上料数量</view>
+							<view class="label">{{$t('warehouse.feedQtyLabel')}}</view>
 							<view class="value highlight">{{feedNumber || '--'}}</view>
 						</view>
 						<view class="check-status success">
 							<uni-icons type="checkmarkempty" size="18" color="#52c41a"></uni-icons>
-							<text>校验成功</text>
+							<text>{{$t('warehouse.checkSuccess')}}</text>
 						</view>
 					</view>
 				</view>
@@ -214,7 +214,7 @@
 				@click="onReset"
 			>
 				<uni-icons type="refresh" size="18"></uni-icons>
-				<text>重置</text>
+				<text>{{$t('common.reset')}}</text>
 			</button>
 			<button
 				class="submit-btn"
@@ -223,7 +223,7 @@
 				:disabled="!canSubmit"
 			>
 				<uni-icons type="checkmarkempty" size="18"></uni-icons>
-				<text>{{ isSubmitting ? '提交中...' : '确认提交' }}</text>
+				<text>{{ isSubmitting ? $t('warehouse.submittingText') : $t('warehouse.confirmSubmit') }}</text>
 			</button>
 		</view>
 
@@ -231,7 +231,7 @@
 		<view class="loading-mask" v-if="isLoading">
 			<view class="loading-content">
 				<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-				<text class="loading-text">加载中...</text>
+				<text class="loading-text">{{$t('warehouse.loadingDots')}}</text>
 			</view>
 		</view>
 	</view>
@@ -324,7 +324,7 @@ export default {
 				_this.worksheetCode = code;
 				_this.loadWorksheet();
 			}).catch(err => {
-				showBeautyToast({ title: err || '扫码失败', icon: 'none' });
+				showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
 			});
 		},
 
@@ -339,7 +339,7 @@ export default {
 
 		loadWorksheet() {
 			if (!this.worksheetCode) {
-				showBeautyToast({ title: '请输入工单码', icon: 'none' });
+				showBeautyToast({ title: this.$t('warehouse.inputWorkOrderCode'), icon: 'none' });
 				return;
 			}
 			this.loadingWorksheet = true;
@@ -360,14 +360,14 @@ export default {
 					const data = resp.data;
 					this.worksheetInfo = Array.isArray(data) ? (data[0] || {}) : (data || {});
 					if (!this.worksheetInfo.workSheetCode) {
-						showBeautyToast({ title: '未查询到工单信息', icon: 'none' });
+						showBeautyToast({ title: this.$t('warehouse.noWorkSheetInfo'), icon: 'none' });
 					}
 				} else {
-					showBeautyToast({ title: resp.msg || '工单查询失败', icon: 'none' });
+					showBeautyToast({ title: resp.msg || this.$t('warehouse.workSheetQueryFail'), icon: 'none' });
 				}
 			}).catch(() => {
 				this.loadingWorksheet = false;
-				showBeautyToast({ title: '工单查询失败', icon: 'none' });
+				showBeautyToast({ title: this.$t('warehouse.workSheetQueryFail'), icon: 'none' });
 			});
 		},
 
@@ -379,7 +379,7 @@ export default {
 				_this.equipCode = code;
 				_this.loadEquipInfo();
 			}).catch(err => {
-				showBeautyToast({ title: err || '扫码失败', icon: 'none' });
+				showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
 			});
 		},
 
@@ -394,11 +394,11 @@ export default {
 
 		loadEquipInfo() {
 			if (!this.equipCode) {
-				showBeautyToast({ title: '请输入设备码', icon: 'none' });
+				showBeautyToast({ title: this.$t('warehouse.inputEquipCodeTip'), icon: 'none' });
 				return;
 			}
 			if (!this.worksheetCode) {
-				showBeautyToast({ title: '请先扫描工单码', icon: 'none' });
+				showBeautyToast({ title: this.$t('warehouse.scanWorkOrderFirst'), icon: 'none' });
 				return;
 			}
 			this.loadingEquip = true;
@@ -418,14 +418,14 @@ export default {
 						// 工单和设备都加载成功后，自动加载物料清单
 						this.loadMaterialList();
 					} else {
-						showBeautyToast({ title: '未查询到设备信息', icon: 'none' });
+						showBeautyToast({ title: this.$t('warehouse.noEquipInfo'), icon: 'none' });
 					}
 				} else {
-					showBeautyToast({ title: resp.msg || '设备查询失败', icon: 'none' });
+					showBeautyToast({ title: resp.msg || this.$t('warehouse.equipQueryFailed'), icon: 'none' });
 				}
 			}).catch(() => {
 				this.loadingEquip = false;
-				showBeautyToast({ title: '设备查询失败', icon: 'none' });
+				showBeautyToast({ title: this.$t('warehouse.equipQueryFailed'), icon: 'none' });
 			});
 		},
 
@@ -433,7 +433,7 @@ export default {
 		loadMaterialList() {
 			const { functionId, bindingId, workstationCode } = this.equipInfo;
 			if (!functionId || !bindingId) {
-				showBeautyToast({ title: '缺少工步或绑定信息', icon: 'none' });
+				showBeautyToast({ title: this.$t('warehouse.lackStepOrBind'), icon: 'none' });
 				return;
 			}
 			this.loadingMaterial = true;
@@ -450,11 +450,11 @@ export default {
 					const data = resp.data;
 					this.materialList = (data && data.list) ? data.list : [];
 				} else {
-					showBeautyToast({ title: resp.msg || '物料清单查询失败', icon: 'none' });
+					showBeautyToast({ title: resp.msg || this.$t('warehouse.materialListQueryFail'), icon: 'none' });
 				}
 			}).catch(() => {
 				this.loadingMaterial = false;
-				showBeautyToast({ title: '物料清单查询失败', icon: 'none' });
+				showBeautyToast({ title: this.$t('warehouse.materialListQueryFail'), icon: 'none' });
 			});
 		},
 
@@ -481,7 +481,7 @@ export default {
 				_this.labelCode = code;
 				_this.checkLabelCode();
 			}).catch(err => {
-				showBeautyToast({ title: err || '扫码失败', icon: 'none' });
+				showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
 			});
 		},
 
@@ -496,11 +496,11 @@ export default {
 
 		checkLabelCode() {
 			if (!this.labelCode) {
-				showBeautyToast({ title: '请扫描或输入标签码', icon: 'none' });
+				showBeautyToast({ title: this.$t('warehouse.scanOrInputLabel'), icon: 'none' });
 				return;
 			}
 			if (!this.selectedItem || !this.selectedItem.materialCode) {
-				showBeautyToast({ title: '请先选择物料', icon: 'none' });
+				showBeautyToast({ title: this.$t('warehouse.selectMaterialFirst'), icon: 'none' });
 				return;
 			}
 			this.checkStatus = 'loading';
@@ -515,13 +515,13 @@ export default {
 					this.feedNumber = (this.checkResult.labelNumber != null) ? String(this.checkResult.labelNumber) : '';
 				} else {
 					this.checkStatus = 'error';
-					this.checkErrorMsg = resp.msg || '校验失败';
-					showBeautyToast({ title: resp.msg || '校验失败', icon: 'none' });
+					this.checkErrorMsg = resp.msg || this.$t('warehouse.checkFail');
+					showBeautyToast({ title: resp.msg || this.$t('warehouse.checkFail'), icon: 'none' });
 				}
 			}).catch(() => {
 				this.checkStatus = 'error';
-				this.checkErrorMsg = '校验失败';
-				showBeautyToast({ title: '校验失败', icon: 'none' });
+				this.checkErrorMsg = this.$t('warehouse.checkFail');
+				showBeautyToast({ title: this.$t('warehouse.checkFail'), icon: 'none' });
 			});
 		},
 
@@ -543,7 +543,7 @@ export default {
 			).then(resp => {
 				this.isSubmitting = false;
 				if (resp.code == 200 || resp.code == '200') {
-					showBeautyToast({ title: '上料成功', icon: 'success' });
+					showBeautyToast({ title: this.$t('warehouse.feedSuccess'), icon: 'success' });
 					// 重新加载物料清单，刷新已投入量
 					this.labelCode = '';
 					this.feedNumber = '';
@@ -551,11 +551,11 @@ export default {
 					this.checkResult = {};
 					this.loadMaterialList();
 				} else {
-					showBeautyToast({ title: resp.msg || '上料失败', icon: 'none' });
+					showBeautyToast({ title: resp.msg || this.$t('warehouse.feedFail'), icon: 'none' });
 				}
 			}).catch(() => {
 				this.isSubmitting = false;
-				showBeautyToast({ title: '上料失败', icon: 'none' });
+				showBeautyToast({ title: this.$t('warehouse.feedFail'), icon: 'none' });
 			});
 		},
 
@@ -577,7 +577,7 @@ export default {
 			this.checkResult = {};
 			this.checkErrorMsg = '';
 			this.isSubmitting = false;
-			showBeautyToast({ title: '已重置', icon: 'none' });
+			showBeautyToast({ title: this.$t('warehouse.reseted'), icon: 'none' });
 		}
 	}
 }

@@ -2,21 +2,21 @@
 	<view class="order-on-container">
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-liebiao" size="18"></uni-icons>
-			<text class="common-text">工单号：</text>
+			<text class="common-text">{{ $t('ws.workSheet') }}</text>
 			<view class="common-right" @click="onScan">
-				请扫描
+				{{ $t('common.scan') }}
 			</view>
 		</view>
 		<view class="content-container">
 			<view class="content-item">
 				<text class="content-label">
-					工序：
+					{{ $t('ws.process') }}
 				</text>
 				<text class="content-value">
 					123
 				</text>
 				<text class="content-label">
-					设备：
+					{{ $t('ws.equipment') }}
 				</text>
 				<text class="content-value">
 					456
@@ -24,13 +24,13 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					产品编号：
+					{{ $t('ws.productCode') }}
 				</text>
 				<text class="content-value">
 
 				</text>
 				<text class="content-label">
-					计划数量：
+					{{ $t('ws.planQty') }}
 				</text>
 				<text class="content-value">
 
@@ -38,7 +38,7 @@
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					产品名称：
+					{{ $t('ws.productName') }}
 				</text>
 				<text class="content-value">
 				</text>
@@ -46,39 +46,39 @@
 		</view>
 		<view class="common-container-header">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-erweima" size="18"></uni-icons>
-			<text class="common-text">物料明细</text>
+			<text class="common-text">{{ $t('produce.xialiao.materialDetail') }}</text>
 			<view class="common-right">
-				扫描
+				{{ $t('produce.shangliao.scan') }}
 			</view>
 		</view>
 		<view class="content-container">
 			<view class="content-item">
 				<text class="content-label">
-					料号：
+					{{ $t('produce.worksheetoff.materialCode') }}
 				</text>
 				<text class="content-value">
 				</text>
 				<text class="content-label">
-					站位：
-				</text>
-				<text class="content-value">
-				</text>
-			</view>
-			<view class="content-item">
-				<text class="content-label">
-					物料名称：
+					{{ $t('produce.shangliao.station') }}
 				</text>
 				<text class="content-value">
 				</text>
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					当前数量：
+					{{ $t('produce.worksheetoff.materialName') }}
+				</text>
+				<text class="content-value">
+				</text>
+			</view>
+			<view class="content-item">
+				<text class="content-label">
+					{{ $t('produce.touliao.currentQty') }}
 				</text>
 				<text class="content-value">
 				</text>
 				<text class="content-label">
-					最小安全数量：
+					{{ $t('produce.shangliao.safeQty') }}
 				</text>
 				<text class="content-value">
 				</text>
@@ -86,7 +86,7 @@
 		</view>
 		<view class="common-container-header">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-erweima" size="18"></uni-icons>
-			<text class="common-text">物料下料</text>
+			<text class="common-text">{{ $t('produce.xialiao.materialOff') }}</text>
 			<view class="common-right">
 
 			</view>
@@ -94,38 +94,38 @@
 		<view class="content-container">
 			<view class="content-item">
 				<text class="content-label">
-					料号：
+					{{ $t('produce.worksheetoff.materialCode') }}
 				</text>
 				<text class="content-value">
 				</text>
 				<text class="content-label">
-					站位：
-				</text>
-				<text class="content-value">
-				</text>
-			</view>
-			<view class="content-item">
-				<text class="content-label">
-					物料名称：
+					{{ $t('produce.shangliao.station') }}
 				</text>
 				<text class="content-value">
 				</text>
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					当前数量：
-				</text>
-				<text class="content-value">
-				</text>
-				<text class="content-label">
-					最小安全数量：
+					{{ $t('produce.worksheetoff.materialName') }}
 				</text>
 				<text class="content-value">
 				</text>
 			</view>
 			<view class="content-item">
 				<text class="content-label">
-					下料数量：
+					{{ $t('produce.touliao.currentQty') }}
+				</text>
+				<text class="content-value">
+				</text>
+				<text class="content-label">
+					{{ $t('produce.shangliao.safeQty') }}
+				</text>
+				<text class="content-value">
+				</text>
+			</view>
+			<view class="content-item">
+				<text class="content-label">
+					{{ $t('produce.xialiao.offQty') }}
 				</text>
 				<view class="content-value">
 					<uni-number-box :max="10000" v-model="take_number" :width="100"></uni-number-box>
@@ -133,7 +133,7 @@
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini">确认下料</button>
+			<button type="primary" size="mini" @click="onConfirmOff">{{ $t('produce.xialiao.confirm') }}</button>
 		</view>
 
 	</view>
@@ -160,7 +160,7 @@
 					fail() {
 						// 用户拒绝授权
 						uni.showToast({
-							title: '您拒绝了授权',
+							title: this.$t('common.scanAuthDenied'),
 							icon: 'none'
 						});
 					}
@@ -183,7 +183,7 @@
 						} else {
 							// 扫描失败
 							uni.showToast({
-								title: '扫描失败',
+								title: this.$t('common.scanFailed'),
 								icon: 'none'
 							});
 						}
@@ -191,11 +191,14 @@
 					fail() {
 						// 调用相机失败
 						uni.showToast({
-							title: '调用相机失败',
+							title: this.$t('common.cameraFailed'),
 							icon: 'none'
 						});
 					}
 				});
+			},
+			onConfirmOff: function() {
+				// 确认下料逻辑
 			}
 
 

@@ -3,21 +3,21 @@
 		<view class="box-header">
 			<view class="icon">
 			</view>
-			<view class="title">不良品快修
+			<view class="title">{{ $t('produce.blpkuaixiu.title') }}
 			</view>
 		</view>
 		<view class="box-content">
 			<view class="common-container-header radius">
 				<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>
-				<text class="common-text">工位：{{workStation.clientCode}}</text>
+				<text class="common-text">{{ $t('ws.workStation') }}{{workStation.clientCode}}</text>
 				<view class="common-right" @click="onWrokStationScan">
-					请扫描
+					{{ $t('common.scan') }}
 				</view>
 			</view>
 			<view class="content-container">
 				<view class="content-item">
 					<view class="content-label">
-						工序：
+						{{ $t('ws.process') }}
 						<text class="content-value">
 							{{workStation.processName}}
 						</text>
@@ -25,7 +25,7 @@
 				</view>
 				<view class="content-item">
 					<view class="content-label">
-						设备：<text class="content-value">
+						{{ $t('ws.equipment') }}<text class="content-value">
 							{{workStation.equipmentName}}
 						</text>
 					</view>
@@ -34,35 +34,35 @@
 			</view>
 			<view class="common-container-header radius">
 				<uni-icons color="#fff" custom-prefix="iconfont" type="icon-gongdanhao" size="18"></uni-icons>
-				<text class="common-text">工单号：{{workSheet.workSheetCode}}</text>
+				<text class="common-text">{{ $t('ws.workSheet') }}{{workSheet.workSheetCode}}</text>
 				<view class="common-right" @click="onWorksheetScan">
-					扫描或选择
+					{{ $t('common.scanOrSelect') }}
 				</view>
 			</view>
 			<view class="content-container">
 				<view class="content-item">
 					<view class="content-label">
-						产品编号：<text class="content-value">
+						{{ $t('ws.productCode') }}<text class="content-value">
 							{{workSheet.productCode}}
 						</text>
 					</view>
 				</view>
 				<view class="content-item">
 					<view class="content-label">
-						产品名称：<text class="content-value">
+						{{ $t('ws.productName') }}<text class="content-value">
 							{{workSheet.productName}}
 						</text>
 					</view>
 				</view>
 				<view class="content-item">
 					<view class="content-label">
-						计划数量：
+						{{ $t('ws.planQty') }}
 					</view>
 					<view class="content-value">
 						{{workSheet.workSheetPlanNumber}}
 					</view>
 					<view class="content-label">
-						维修数量：
+						{{ $t('produce.blpkuaixiu.repairQty') }}
 					</view>
 					<view class="content-value">
 						<uni-number-box :max="10000" v-model="repairCount"></uni-number-box>
@@ -73,24 +73,24 @@
 				<view class="header">
 					<view class="">
 						<uni-icons type="compose" size="24"></uni-icons>
-						<text>载具码：{{vehicleCode}}</text>
+						<text>{{ $t('produce.blpkuaixiu.vehicleCode') }}{{vehicleCode}}</text>
 					</view>
-					<text @click="onVehicleCodeScan">请扫描</text>
+					<text @click="onVehicleCodeScan">{{ $t('common.scan') }}</text>
 				</view>
 				<view class="defect-item">
-					<text>维修明细</text>
+					<text>{{ $t('produce.blpkuaixiu.repairDetail') }}</text>
 				</view>
 				<view class="defect-box">
 					<view class="defect-item">
-						<text style="min-width: 120rpx;">不良记录:</text>
+						<text style="min-width: 120rpx;">{{ $t('produce.blpkuaixiu.defectRecord') }}</text>
 						<uni-data-select style="max-width: 480rpx;" v-model="value" :localdata="qrCodeList"
 							@change="onQrChange"></uni-data-select>
 					</view>
 					<view class="defect-list">
 						<uni-row>
-							<uni-col :span="6">缺陷编号</uni-col>
-							<uni-col :span="12">缺陷名称</uni-col>
-							<uni-col :span="6">不良数</uni-col>
+							<uni-col :span="6">{{ $t('produce.blpjilu.defectCode') }}</uni-col>
+							<uni-col :span="12">{{ $t('produce.blpjilu.defectName') }}</uni-col>
+							<uni-col :span="6">{{ $t('produce.blpjilu.defectNumber') }}</uni-col>
 						</uni-row>
 						<uni-row style="border-top:1px solid #fff; padding:10rpx 0;"
 							v-for="item in defectRecord.detailList" :key="item.defectCode">
@@ -101,49 +101,49 @@
 					</view>
 				</view>
 				<view class="defect-item">
-					<text>维修物料</text>
-					<text style="color: #0099ff;" @click="onOpenDetailPop">物料明细</text>
+					<text>{{ $t('produce.blpkuaixiu.repairMaterial') }}</text>
+					<text style="color: #0099ff;" @click="onOpenDetailPop">{{ $t('produce.blpkuaixiu.materialDetail') }}</text>
 				</view>
 				<view class="defect-item">
-					<text>维修结果</text>
+					<text>{{ $t('produce.blpkuaixiu.repairResult') }}</text>
 					<view>
 						<radio-group @change="onResultSelect">
 							<label class="radio">
-								<radio value="1" style="transform: scale(0.7);" />合格
+								<radio value="1" style="transform: scale(0.7);" />{{ $t('common.pass') }}
 							</label>
 							<label class="radio">
-								<radio style="transform: scale(0.7);" value="2" />返工
+								<radio style="transform: scale(0.7);" value="2" />{{ $t('produce.blpkuaixiu.rework') }}
 							</label>
 							<label class="radio">
-								<radio style="transform: scale(0.7);" value="3" />报废
+								<radio style="transform: scale(0.7);" value="3" />{{ $t('produce.blpkuaixiu.scrap') }}
 							</label>
 						</radio-group>
 					</view>
 				</view>
 			</view>
 			<view class="operator-button">
-				<button @click="onSubmit" type="primary" size="mini">确认提交</button>
+				<button @click="onSubmit" type="primary" size="mini">{{ $t('common.confirmSubmit') }}</button>
 			</view>
 		</view>
 		<uni-popup background-color="#fff" ref="popup" type="center">
 			<view class="bom-pop-container">
 				<view class="common-container-header">
 					<uni-icons color="#fff" custom-prefix="iconfont" type="icon-gongdanhao" size="18"></uni-icons>
-					<text class="common-text">物料明细</text>
+					<text class="common-text">{{ $t('produce.blpkuaixiu.materialDetail') }}</text>
 
 				</view>
 				<view class="bom-content-container">
 					<view class="bom-content-item" v-for="(item,index) in materialList">
 						<uni-row>
-							<uni-col :span="4">料号：</uni-col>
+							<uni-col :span="4">{{ $t('produce.worksheetoff.materialCode') }}</uni-col>
 							<uni-col :span="4">{{item.materialCode}}</uni-col>
-							<uni-col :span="6">物料名称：</uni-col>
+							<uni-col :span="6">{{ $t('produce.worksheetoff.materialName') }}</uni-col>
 							<uni-col :span="10">{{item.materialName}}</uni-col>
 						</uni-row>
 						<uni-row>
-							<uni-col :span="5">转换数：</uni-col>
+							<uni-col :span="5">{{ $t('produce.blpkuaixiu.conversionFactor') }}</uni-col>
 							<uni-col :span="3">{{item.conversionFaction}}</uni-col>
-							<uni-col :span="6">维修用量：</uni-col>
+							<uni-col :span="6">{{ $t('produce.blpkuaixiu.repairUsage') }}</uni-col>
 							<uni-col :span="10">
 								<uni-number-box :max="10000"
 									v-model="vModels[`usecount_${item.materialCode}`]"></uni-number-box>
@@ -151,7 +151,7 @@
 						</uni-row>
 					</view>
 					<view class="confirm-button">
-						<button type="primary" size="mini" @click="onMaterialConfirm">确认</button>
+						<button type="primary" size="mini" @click="onMaterialConfirm">{{ $t('common.confirm') }}</button>
 					</view>
 				</view>
 			</view>
@@ -296,25 +296,25 @@
 			onSubmit: async function() {
 				if (!this.repairCount) {
 					uni.showToast({
-						title: "请输入维修数量"
+						title: this.$t('produce.blpkuaixiu.inputRepairQtyTip')
 					})
 					return;
 				}
 				if (!this.vehicleCode) {
 					uni.showToast({
-						title: "请扫描载具码"
+						title: this.$t('produce.blpkuaixiu.scanVehicleTip')
 					})
 					return;
 				}
 				if (!this.qrCode) {
 					uni.showToast({
-						title: "请选择不良记录"
+						title: this.$t('produce.blpkuaixiu.selectDefectTip')
 					})
 					return;
 				}
 				if (!this.repairResult) {
 					uni.showToast({
-						title: "请选择维修结果"
+						title: this.$t('produce.blpkuaixiu.selectResultTip')
 					})
 					return;
 				}
@@ -342,7 +342,7 @@
 					.defectRecord.discoveryProcessCode, this.vehicleCode, this.repairResult, defList, mList);
 				if (res.code == 200) {
 					uni.showToast({
-						title: '提交成功'
+						title: this.$t('produce.blpkuaixiu.success')
 					});
 					this.workStation = {};
 					this.workSheet = {};

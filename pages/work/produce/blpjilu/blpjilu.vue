@@ -3,27 +3,27 @@
 		<view class="box-header">
 			<view class="icon">
 			</view>
-			<view class="title">不良品快录
+			<view class="title">{{ $t('produce.blpjilu.title') }}
 			</view>
 		</view>
 		<view class="box-content">
 			<view class="common-container-header radius">
 				<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>
-				<text class="common-text">工位：{{workStation.clientCode}}</text>
+				<text class="common-text">{{ $t('ws.workStation') }}{{workStation.clientCode}}</text>
 				<view class="common-right" @click="onWrokStationScan">
-					请扫描
+					{{ $t('common.scan') }}
 				</view>
 			</view>
 			<view class="content-container">
 				<view class="content-item">
 					<view class="content-label">
-						工序：
+						{{ $t('ws.process') }}
 					</view>
 					<view class="content-value">
 						{{workStation.processName}}
 					</view>
 					<view class="content-label">
-						设备：
+						{{ $t('ws.equipment') }}
 					</view>
 					<view class="content-value">
 						{{workStation.equipmentName}}
@@ -35,15 +35,15 @@
 			</view>
 			<view class="common-container-header radius">
 				<uni-icons color="#fff" custom-prefix="iconfont" type="icon-gongdanhao" size="18"></uni-icons>
-				<text class="common-text">工单号：{{workSheet.workSheetCode}}</text>
+				<text class="common-text">{{ $t('ws.workSheet') }}{{workSheet.workSheetCode}}</text>
 				<view class="common-right" @click="onWorksheetScan">
-					扫描或选择
+					{{ $t('common.scanOrSelect') }}
 				</view>
 			</view>
 			<view class="content-container">
 				<view class="content-item">
 					<view class="content-label">
-						产品编号：
+						{{ $t('ws.productCode') }}
 					</view>
 					<view class="content-value">
 						{{workSheet.productCode}}
@@ -52,7 +52,7 @@
 				</view>
 				<view class="content-item">
 					<view class="content-label">
-						产品名称：
+						{{ $t('ws.productName') }}
 					</view>
 					<view class="content-value">
 						{{workSheet.productName}}
@@ -60,13 +60,13 @@
 				</view>
 				<view class="content-item">
 					<view class="content-label">
-						计划数量：
+						{{ $t('ws.planQty') }}
 					</view>
 					<view class="content-value">
 						{{workSheet.workSheetPlanNumber}}
 					</view>
 					<view class="content-label">
-						不良数量：
+						{{ $t('produce.blpjilu.defectQty') }}
 					</view>
 					<view class="content-value">
 						<uni-number-box :max="workSheet.workSheetPlanNumber" v-model="defectNumber"></uni-number-box>
@@ -84,22 +84,22 @@
 				</view>
 				<view class="defect-body" v-for="(defect,idx) in defectDataList">
 					<view class="defect-item">
-						<text class="content-label">缺陷编号</text>
-						<uni-combox :candidates="defectCodeList" placeholder="输入缺陷编号"
+						<text class="content-label">{{ $t('produce.blpjilu.defectCode') }}</text>
+						<uni-combox :candidates="defectCodeList" :placeholder="$t('produce.blpjilu.defectCodePlaceholder')"
 							:v-model="defect[`defectCode_${idx+1}`]" @input="onDefectQuery($event,idx)"></uni-combox>
 					</view>
 					<view class="defect-item">
-						<text>缺陷名称</text>
+						<text>{{ $t('produce.blpjilu.defectName') }}</text>
 						<text>{{defect[`defectName_${idx+1}`]}}</text>
 					</view>
 					<view class="defect-item">
-						<text>不良数</text>
+						<text>{{ $t('produce.blpjilu.defectNumber') }}</text>
 						<uni-number-box v-model="defect[`defectNumber_${idx+1}`]"></uni-number-box>
 					</view>
 				</view>
 			</view>
 			<view class="operator-button" style="margin-top:20rpx">
-				<button type="primary" @click="onSubmit" size="mini">确认提交</button>
+				<button type="primary" @click="onSubmit" size="mini">{{ $t('common.confirmSubmit') }}</button>
 			</view>
 		</view>
 	</view>
@@ -235,7 +235,7 @@
 					.productCode, this.workSheet.productName, this.defectNumber, list);
 				if (res.code == 200) {
 					uni.showToast({
-						title: "录入成功"
+						title: this.$t('produce.blpjilu.success')
 					})
 					this.workSheet = {};
 					this.workStation = {};

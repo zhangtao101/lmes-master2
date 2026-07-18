@@ -6,7 +6,7 @@
 					<view class="left">
 						<view class="input-group">
 							<uni-icons type="home" color="#fff" size="18"></uni-icons>
-							<text>储位：</text>
+							<text>{{$t('warehouse.storageCodeColon')}}</text>
 							<uni-easyinput v-model="wareLocationCode" :inputBorder="false"
 								placeholderStyle="color: #999;" @confirm="onManualInput"
 								class="warehouse-input"></uni-easyinput>
@@ -14,24 +14,24 @@
 					</view>
 					<view class="right" @click="onLocationScan">
 						<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-						<text>请扫描</text>
+						<text>{{$t('warehouse.pleaseScan')}}</text>
 					</view>
 				</view>
 				<view class="info-grid">
 					<view class="info-item">
-						<view class="label">料号</view>
+						<view class="label">{{$t('warehouse.code')}}</view>
 						<view class="value">{{warehouse.materialCode || '--'}}</view>
 					</view>
 					<view class="info-item">
-						<view class="label">物料名称</view>
+						<view class="label">{{$t('warehouse.materialName')}}</view>
 						<view class="value">{{warehouse.materialName || '--'}}</view>
 					</view>
 					<view class="info-item">
-						<view class="label">单据需求量</view>
+						<view class="label">{{$t('warehouse.demandQty')}}</view>
 						<view class="value highlight">{{warehouse.formNumber || '--'}}</view>
 					</view>
 					<view class="info-item">
-						<view class="label">{{ type == 1 ? '已入数量' : '取货数量' }}</view>
+						<view class="label">{{ type == 1 ? $t('warehouse.inQty') : $t('warehouse.pickupQty') }}</view>
 						<view class="value success">{{warehouse.opNumber || '--'}}</view>
 					</view>
 				</view>
@@ -40,7 +40,7 @@
 				<view class="header">
 					<view class="left">
 						<uni-icons type="compose" color="#fff" size="16"></uni-icons>
-						<text class="title"> {{ type == 1 ? '入库明细' : '出库明细' }}</text>
+						<text class="title"> {{ type == 1 ? $t('warehouse.inDetail') : $t('warehouse.outDetail') }}</text>
 						<text class="count">({{labelList.length}})</text>
 					</view>
 				</view>
@@ -54,54 +54,54 @@
 										placeholderStyle="color: #999;" @confirm="onLabelManualInput(labelInfo)"
 										:disabled="!wareLocationCode" class="label-input"
 										:class="{ disabled: !wareLocationCode }"
-										placeholder="请输入或扫描标签码"></uni-easyinput>
+										:placeholder="$t('warehouse.labelCodePlaceholder2')"></uni-easyinput>
 								</view>
 							</view>
 							<view class="scan-btn" :class="{ disabled: !wareLocationCode }"
 								@click="onLabelScan(labelInfo)">
 								<uni-icons type="scan" size="16"></uni-icons>
-								<text>扫码</text>
+								<text>{{ $t('common.scan') }}</text>
 							</view>
 						</view>
 						<view class="card-body">
 							<view class="info-row-group">
 								<view class="info-row">
-									<text class="label">料号：</text>
-									<text class="value">{{labelInfo.materialCode || '--'}}</text>
-								</view>
-								<view class="info-row">
-									<text class="label">物料名称：</text>
-									<text class="value">{{labelInfo.materialName || '--'}}</text>
-								</view>
+								<text class="label">{{$t('warehouse.code')}}：</text>
+								<text class="value">{{labelInfo.materialCode || '--'}}</text>
 							</view>
-							<view class="info-row-group">
-								<view class="info-row">
-									<text class="label">批次号：</text>
-									<text class="value">{{labelInfo.batchCode || '--'}}</text>
-								</view>
-								<view class="info-row">
-									<text class="label">数量：</text>
+							<view class="info-row">
+								<text class="label">{{$t('warehouse.materialName')}}：</text>
+								<text class="value">{{labelInfo.materialName || '--'}}</text>
+							</view>
+						</view>
+						<view class="info-row-group">
+							<view class="info-row">
+								<text class="label">{{$t('warehouse.batchCode')}}：</text>
+								<text class="value">{{labelInfo.batchCode || '--'}}</text>
+							</view>
+							<view class="info-row">
+								<text class="label">{{$t('warehouse.qtyColon')}}</text>
 									<input class="uni-input number-input" type="digit" v-model="labelInfo.number"
-										placeholder="请输入数量" />
+										:placeholder="$t('warehouse.qtyInputPlaceholder')" />
 								</view>
 							</view>
 						</view>
 						<view class="card-footer">
 							<view class="delete-btn" @click="removeLabel(index)">
 								<uni-icons type="trash" size="20" color="#fff"></uni-icons>
-								<text>删除</text>
+								<text>{{$t('warehouse.delete')}}</text>
 							</view>
 						</view>
 					</view>
 				</view>
 				<view class="empty-state" v-else>
 					<uni-icons type="inbox" size="60" color="#ccc"></uni-icons>
-					<text>暂无入库明细</text>
+					<text>{{$t('warehouse.noDetail')}}</text>
 				</view>
 				<view class="add-btn-wrapper">
 					<button class="add-btn" @click="addRow">
 						<uni-icons type="plus" size="16" color="#fff"></uni-icons>
-						<text>新增{{ type == 1 ? '入库项' : '出库项' }}</text>
+						<text>{{ type == 1 ? $t('warehouse.addInItem') : $t('warehouse.addOutItem') }}</text>
 					</button>
 				</view>
 			</view>
@@ -110,18 +110,18 @@
 			<button class="submit-btn" type="primary" :class="{ disabled: isSubmitting || isReturning }"
 				@click="shelfReturn">
 				<uni-icons type="loop" size="18"></uni-icons>
-				<text>{{ isReturning ? '处理中...' : '货架回库' }}</text>
+				<text>{{ isReturning ? $t('warehouse.returning') : $t('warehouse.shelfReturn') }}</text>
 			</button>
 			<button class="submit-btn" type="primary" :class="{ disabled: isSubmitting || isReturning }"
 				@click="onSubmit">
 				<uni-icons type="checkmarkempty" size="18"></uni-icons>
-				<text>{{ isSubmitting ? '处理中...' : '确认提交' }}</text>
+				<text>{{ isSubmitting ? $t('warehouse.returning') : $t('warehouse.confirmSubmit') }}</text>
 			</button>
 		</view>
 		<view class="loading-mask" v-if="isLoading">
 			<view class="loading-content">
 				<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-				<text class="loading-text">加载中...</text>
+				<text class="loading-text">{{$t('warehouse.loading')}}</text>
 			</view>
 		</view>
 	</view>
@@ -169,7 +169,7 @@
 							_this.loadLabelInfo(code, _this.currentLabelItem || {});
 						} else {
 							showBeautyToast({
-								title: "标签无效！",
+								title: this.$t('warehouse.tagInvalid'),
 								icon: 'error'
 							});
 						}
@@ -256,7 +256,7 @@
 			onLabelScan: function(item) {
 				if (!this.wareLocationCode) {
 					showBeautyToast({
-						title: '请先扫描库位',
+						title: this.$t('warehouse.scanLocationFirst'),
 						icon: 'warn'
 					});
 					return;
@@ -280,7 +280,7 @@
 				// 验证储位码
 				if (!this.wareLocationCode) {
 					showBeautyToast({
-						title: '请先扫描储位码 ',
+						title: this.$t('warehouse.scanStorageFirst'),
 						icon: 'warn'
 					})
 					return;
@@ -288,7 +288,7 @@
 				// 验证明细数据
 				if (this.labelList.length === 0) {
 					showBeautyToast({
-						title: '请至少添加一个入库明细',
+						title: this.$t('warehouse.addDetailFirst'),
 						icon: 'warn'
 					})
 					return;
@@ -298,14 +298,14 @@
 					const label = this.labelList[i];
 					if (!label.labelCode) {
 						showBeautyToast({
-							title: `第${i + 1}个明细未扫描标签码`,
+							title: this.$t('warehouse.detailNoLabel', { index: i + 1 }),
 							icon: 'warn'
 						})
 						return;
 					}
 					if (!label.number || label.number <= 0) {
 						showBeautyToast({
-							title: `第${i + 1}个明细数量无效`,
+							title: this.$t('warehouse.detailInvalidQty', { index: i + 1 }),
 							icon: 'warn'
 						})
 						return;
@@ -333,7 +333,7 @@
 
 					if (res.code == 200) {
 						showBeautyToast({
-							title: this.type == 1 ? '入库成功' : '出库成功',
+							title: this.type == 1 ? this.$t('warehouse.inboundSuccess') : this.$t('warehouse.outboundSuccess'),
 							icon: 'success'
 						})
 						// 清空当前页面数据
@@ -357,10 +357,10 @@
 				}
 
 				if (!this.wareLocationCode) {
-					showBeautyToast({
-						title: '请先扫描储位码',
-						icon: 'warn'
-					})
+				showBeautyToast({
+					title: this.$t('warehouse.scanStorageFirst'),
+					icon: 'warn'
+				})
 					return;
 				}
 
@@ -374,7 +374,7 @@
 					});
 					if (res.code == 200) {
 						showBeautyToast({
-							title: '货架回库成功',
+							title: this.$t('warehouse.shelfReturnSuccess'),
 							icon: 'success'
 						})
 						// 清空当前页面数据

@@ -3,11 +3,11 @@
 		<view class="check-device">
 			<uni-icons style="margin-right:10rpx" color="#676767" custom-prefix="iconfont" type="icon-xianshiqi"
 				size="18"></uni-icons>
-			<text class="label">设备编号：</text>
+			<text class="label">{{ $t('produce.devicecheck.equipmentCode') }}</text>
 			<text class="value label">{{workStation.equipmentCode }}</text>
-			<text class="label">设备名称：</text>
+			<text class="label">{{ $t('produce.devicecheck.equipmentName') }}</text>
 			<text class="value label">{{workStation.equipmentName }}</text>
-			<text class="label">点检计划编号：</text>
+			<text class="label">{{ $t('produce.devicecheck.planCode') }}</text>
 			<text class="value label"></text>
 		</view>
 		<view class="splitor"></view>
@@ -18,12 +18,12 @@
 						{{idx+1}}、{{item.checkItemName}}
 					</text>
 					<text class="item-right">
-						范围值：{{item.minNum}}~{{item.maxNum}}
+						{{ $t('produce.devicecheck.rangeValue') }}{{item.minNum}}~{{item.maxNum}}
 					</text>
 				</view>
 				<view class="check-item">
 					<text class="item-left">
-						记录数值
+						{{ $t('produce.devicecheck.recordValue') }}
 					</text>
 					<view class="item-right">
 						<uni-easyinput type="digit" :disabled="item.standardNum == null"
@@ -34,19 +34,19 @@
 				<view class="check-item">
 					<view class="item-left" style="display: flex;">
 						<text>
-							缺陷程度
+							{{ $t('produce.devicecheck.defectLevel') }}
 						</text>
 						<radio-group @change="onDefectChange($event,item.checkItemCode)">
-							<radio style="transform:scale(0.7)" :value="1" />致命
-							<radio style="transform:scale(0.7)" :value="2" />严重
-							<radio style="transform:scale(0.7)" :value="3" />轻微
-							<radio style="transform:scale(0.7)" :value="4" checked="true" />无
+							<radio style="transform:scale(0.7)" :value="1" />{{ $t('produce.devicecheck.fatal') }}
+							<radio style="transform:scale(0.7)" :value="2" />{{ $t('produce.devicecheck.serious') }}
+							<radio style="transform:scale(0.7)" :value="3" />{{ $t('produce.devicecheck.minor') }}
+							<radio style="transform:scale(0.7)" :value="4" checked="true" />{{ $t('produce.devicecheck.none') }}
 						</radio-group>
 					</view>
 				</view>
 				<view class="check-item">
 					<text class="item-left">
-						判定结果
+						{{ $t('produce.devicecheck.judgeResult') }}
 					</text>
 					<view class="item-right">
 						<view :style="vModel[`checkresult_${item.checkItemCode}`]==1?'color:#4cd964':'color:#dd524d'"
@@ -54,7 +54,7 @@
 							<uni-icons v-if="vModel[`checkresult_${item.checkItemCode}`]==1" color="#4cd964"
 								type="checkbox-filled" size="20"></uni-icons>
 							<uni-icons v-else color="#dd524d" type="clear" size="20"></uni-icons>
-							{{vModel[`checkresult_${item.checkItemCode}`]==1? '合格':'不合格'}}
+							{{vModel[`checkresult_${item.checkItemCode}`]==1? $t('common.pass'):$t('common.fail')}}
 						</view>
 					</view>
 				</view>
@@ -64,7 +64,7 @@
 		<view class="check-pass">
 			<view class="check-item">
 				<text class="item-left">
-					合格判定
+					{{ $t('produce.devicecheck.passJudge') }}
 				</text>
 				<view class="item-right" style="text-align: right;">
 					<switch @change="onResultJudge" style="transform:scale(0.8)" checked color="#4cd964" />
@@ -72,7 +72,7 @@
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" @click="onSure" size="mini">确定</button>
+			<button type="primary" @click="onSure" size="mini">{{ $t('produce.devicecheck.confirm') }}</button>
 		</view>
 	</view>
 </template>
@@ -142,7 +142,7 @@
 				)
 				if (res.code === 200) {
 					uni.showToast({
-						title: "已点检"
+						title: this.$t('produce.devicecheck.success')
 					});
 					const pages = getCurrentPages();
 					const prePages = pages.filter(p => p.route == 'pages/work/produce/worksheeton/worksheeton');

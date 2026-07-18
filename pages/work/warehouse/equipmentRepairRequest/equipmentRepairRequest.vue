@@ -8,14 +8,14 @@
 				:class="{ active: assetType === 'EQUIP' }"
 				@click="onAssetTypeChange('EQUIP')"
 			>
-				<text>设备报修</text>
+				<text>{{$t('warehouse.equipRepairReport')}}</text>
 			</view>
 			<view
 				class="asset-type-item"
 				:class="{ active: assetType === 'MOLD' }"
 				@click="onAssetTypeChange('MOLD')"
 			>
-				<text>模具报修</text>
+				<text>{{$t('warehouse.moldRepairReport')}}</text>
 			</view>
 		</view>
 
@@ -23,28 +23,28 @@
 		<view class="scan-section">
 			<view class="scan-btn" @click="onScanCode">
 				<uni-icons type="scan" size="24" color="#667eea"></uni-icons>
-				<text>扫码获取{{ assetType === 'EQUIP' ? '设备' : '模具' }}信息</text>
+				<text>{{ $t('warehouse.scanGetInfo', { asset: assetType === 'EQUIP' ? $t('warehouse.assetEquip') : $t('warehouse.assetMold') }) }}</text>
 			</view>
 			<view class="manual-input" v-if="assetType === 'EQUIP'">
 				<input
 					class="input-field"
 					v-model="equipmentCode"
-					placeholder="手动输入设备编码"
+					:placeholder="$t('warehouse.manualInputEquipCode')"
 					@confirm="onQueryEquipment"
 				/>
 				<view class="query-btn" @click="onQueryEquipment">
-					<text>查询</text>
+					<text>{{$t('warehouse.query')}}</text>
 				</view>
 			</view>
 			<view class="manual-input" v-else>
 				<input
 					class="input-field"
 					v-model="moldCode"
-					placeholder="手动输入模具编码"
+					:placeholder="$t('warehouse.manualInputMoldCode')"
 					@confirm="onQueryMold"
 				/>
 				<view class="query-btn" @click="onQueryMold">
-					<text>查询</text>
+					<text>{{$t('warehouse.query')}}</text>
 				</view>
 			</view>
 		</view>
@@ -52,23 +52,23 @@
 		<!-- 基本信息展示 -->
 		<view class="info-card" v-if="assetInfo.id">
 			<view class="info-header">
-				<text class="info-title">{{ assetType === 'EQUIP' ? '设备信息' : '模具信息' }}</text>
+				<text class="info-title">{{ assetType === 'EQUIP' ? $t('warehouse.equipInfo') : $t('warehouse.moldInfo') }}</text>
 			</view>
 			<view class="info-body">
 				<view class="info-row" v-if="assetInfo.equipmentCode || assetInfo.moldCode">
-					<text class="label">{{ assetType === 'EQUIP' ? '设备编码' : '模具编码' }}</text>
+					<text class="label">{{ assetType === 'EQUIP' ? $t('warehouse.equipmentCodeText') : $t('warehouse.moldCodeNo') }}</text>
 					<text class="value">{{ assetInfo.equipmentCode || assetInfo.moldCode }}</text>
 				</view>
 				<view class="info-row" v-if="assetInfo.equipmentName || assetInfo.moldName">
-					<text class="label">{{ assetType === 'EQUIP' ? '设备名称' : '模具名称' }}</text>
+					<text class="label">{{ assetType === 'EQUIP' ? $t('warehouse.equipmentName') : $t('warehouse.moldName') }}</text>
 					<text class="value">{{ assetInfo.equipmentName || assetInfo.moldName }}</text>
 				</view>
 				<view class="info-row" v-if="assetInfo.statusName">
-					<text class="label">状态</text>
+					<text class="label">{{$t('warehouse.status')}}</text>
 					<text class="value">{{ assetInfo.statusName }}</text>
 				</view>
 				<view class="info-row" v-if="assetInfo.currentStatusName">
-					<text class="label">业务状态</text>
+					<text class="label">{{$t('warehouse.bizStatus')}}</text>
 					<text class="value">{{ assetInfo.currentStatusName }}</text>
 				</view>
 			</view>
@@ -76,11 +76,11 @@
 
 		<!-- 报修填报 -->
 		<view class="form-section">
-			<view class="section-title">报修信息</view>
+			<view class="section-title">{{$t('warehouse.repairInfo')}}</view>
 			
 			<view class="form-card">
 				<view class="form-row">
-					<text class="form-label">报修类型</text>
+					<text class="form-label">{{$t('warehouse.repairType')}}</text>
 					<picker
 						class="form-picker"
 						:value="repairTypeIndex"
@@ -89,14 +89,14 @@
 						@change="onRepairTypeChange"
 					>
 						<view class="picker-value">
-							<text>{{ repairTypeIndex >= 0 ? repairTypeList[repairTypeIndex].configName : '请选择报修类型' }}</text>
+							<text>{{ repairTypeIndex >= 0 ? repairTypeList[repairTypeIndex].configName : $t('warehouse.selectRepairType') }}</text>
 							<uni-icons type="arrowdown" size="14" color="#999"></uni-icons>
 						</view>
 					</picker>
 				</view>
 
 				<view class="form-row">
-					<text class="form-label">报修事项</text>
+					<text class="form-label">{{$t('warehouse.repairItem')}}</text>
 					<picker
 						class="form-picker"
 						:value="repairItemIndex"
@@ -105,28 +105,28 @@
 						@change="onRepairItemChange"
 					>
 						<view class="picker-value">
-							<text>{{ repairItemIndex >= 0 ? repairItemList[repairItemIndex].configName : '请选择报修事项' }}</text>
+							<text>{{ repairItemIndex >= 0 ? repairItemList[repairItemIndex].configName : $t('warehouse.selectRepairItem') }}</text>
 							<uni-icons type="arrowdown" size="14" color="#999"></uni-icons>
 						</view>
 					</picker>
 				</view>
 
 				<view class="form-row">
-					<text class="form-label">受理周期(小时)</text>
+					<text class="form-label">{{$t('warehouse.acceptPeriodHour')}}</text>
 					<input
 						class="form-input"
 						type="number"
 						v-model="acceptPeriod"
-						placeholder="请输入受理周期"
+						:placeholder="$t('warehouse.inputAcceptPeriod')"
 					/>
 				</view>
 
 				<view class="form-row column">
-					<text class="form-label">报修内容</text>
+					<text class="form-label">{{$t('warehouse.repairContent')}}</text>
 					<textarea
 						class="form-textarea"
 						v-model="repairContent"
-						placeholder="请输入报修内容"
+						:placeholder="$t('warehouse.inputRepairContent')"
 					/>
 				</view>
 			</view>
@@ -136,10 +136,10 @@
 	<!-- 底部按钮 -->
 	<view class="bottom-bar">
 		<view class="btn-reset" @click="onReset">
-			<text>重置</text>
+			<text>{{$t('common.reset')}}</text>
 		</view>
 		<view class="btn-submit" @click="onSubmit">
-			<text>确认提交</text>
+			<text>{{$t('warehouse.confirmSubmit')}}</text>
 		</view>
 	</view>
 
@@ -147,7 +147,7 @@
 	<view class="loading-mask" v-if="loading">
 		<view class="loading-content">
 			<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-			<text class="loading-text">加载中...</text>
+			<text class="loading-text">{{$t('warehouse.loadingDots')}}</text>
 		</view>
 	</view>
 	</view>
@@ -190,7 +190,7 @@
 					}
 				}).catch(() => {
 					showBeautyToast({
-						title: '加载报修类型失败',
+						title: this.$t('warehouse.loadRepairTypeFail'),
 						icon: 'none'
 					})
 				})
@@ -205,7 +205,7 @@
 					}
 				}).catch(() => {
 					showBeautyToast({
-						title: '加载报修事项失败',
+						title: this.$t('warehouse.loadRepairItemFail'),
 						icon: 'none'
 					})
 				})
@@ -233,7 +233,7 @@
 					},
 					fail: () => {
 						showBeautyToast({
-							title: '扫码失败',
+							title: this.$t('warehouse.scanFail'),
 							icon: 'none'
 						})
 					}
@@ -246,7 +246,7 @@
 				setTimeout(function() {
 					if (!_this.equipmentCode) {
 						showBeautyToast({
-							title: '请输入设备编码',
+							title: _this.$t('warehouse.inputEquipCode'),
 							icon: 'none'
 						})
 						return
@@ -262,14 +262,14 @@
 							_this.assetInfo = res.data || {}
 						} else {
 							showBeautyToast({
-								title: res.msg || '查询设备信息失败',
+								title: res.msg || _this.$t('warehouse.queryEquipFail'),
 								icon: 'none'
 							})
 						}
 					}).catch(() => {
 						_this.loading = false
 						showBeautyToast({
-							title: '查询设备信息失败',
+							title: _this.$t('warehouse.queryEquipFail'),
 							icon: 'none'
 						})
 					})
@@ -282,7 +282,7 @@
 				setTimeout(function() {
 					if (!_this.moldCode) {
 						showBeautyToast({
-							title: '请输入模具编码',
+							title: _this.$t('warehouse.inputMoldCode'),
 							icon: 'none'
 						})
 						return
@@ -297,14 +297,14 @@
 							_this.assetInfo = res.data || {}
 						} else {
 							showBeautyToast({
-								title: res.msg || '查询模具信息失败',
+								title: res.msg || _this.$t('warehouse.queryMoldFail'),
 								icon: 'none'
 							})
 						}
 					}).catch(() => {
 						_this.loading = false
 						showBeautyToast({
-							title: '查询模具信息失败',
+							title: _this.$t('warehouse.queryMoldFail'),
 							icon: 'none'
 						})
 					})
@@ -348,7 +348,7 @@
 				// 验证
 				if (!this.assetInfo.id) {
 					showBeautyToast({
-						title: '请先选择或扫码获取' + (this.assetType === 'EQUIP' ? '设备' : '模具') + '信息',
+						title: this.$t('warehouse.selectOrScanFirst', { asset: this.assetType === 'EQUIP' ? this.$t('warehouse.assetEquip') : this.$t('warehouse.assetMold') }),
 						icon: 'none'
 					})
 					return
@@ -356,7 +356,7 @@
 
 				if (this.repairTypeIndex < 0) {
 					showBeautyToast({
-						title: '请选择报修类型',
+						title: this.$t('warehouse.selectRepairType'),
 						icon: 'none'
 					})
 					return
@@ -364,7 +364,7 @@
 
 				if (this.repairItemIndex < 0) {
 					showBeautyToast({
-						title: '请选择报修事项',
+						title: this.$t('warehouse.selectRepairItem'),
 						icon: 'none'
 					})
 					return
@@ -398,7 +398,7 @@
 					this.submitting = false
 					if (res.code == 200 || res.code == '200') {
 						showBeautyToast({
-							title: '提交成功',
+							title: this.$t('warehouse.submitSuccess'),
 							icon: 'success'
 						})
 						// 提交成功后重置当前页面，不返回上一页
@@ -407,14 +407,14 @@
 						}, 1500)
 					} else {
 						showBeautyToast({
-							title: res.msg || '提交失败',
+							title: res.msg || this.$t('warehouse.submitFail'),
 							icon: 'none'
 						})
 					}
 				}).catch(() => {
 					this.submitting = false
 					showBeautyToast({
-						title: '提交失败',
+						title: this.$t('warehouse.submitFail'),
 						icon: 'none'
 					})
 				})

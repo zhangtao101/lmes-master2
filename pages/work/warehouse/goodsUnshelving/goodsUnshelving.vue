@@ -3,16 +3,16 @@
 		<!-- 模式选择页面 -->
 		<view class="mode-selector" v-if="!unshelvingMode">
 			<view class="mode-header">
-				<text class="mode-title">请选择下架方式</text>
+				<text class="mode-title">{{$t('warehouse.selectUnshelvingMode')}}</text>
 			</view>
 			<view class="mode-list">
 				<view class="mode-item" @click="onModeSwitch('normal')">
 					<uni-icons type="list" color="#667eea" size="28"></uni-icons>
-					<text>货物下架</text>
+					<text>{{$t('warehouse.unshelvingNormal')}}</text>
 				</view>
 				<view class="mode-item" @click="onModeSwitch('smart')">
 					<uni-icons type="list" color="#52c41a" size="28"></uni-icons>
-					<text>智能货架下架</text>
+					<text>{{$t('warehouse.unshelvingSmart')}}</text>
 				</view>
 			</view>
 		</view>
@@ -24,7 +24,7 @@
 				<view class="card-header">
 					<view class="header-left">
 						<uni-icons type="paperplane-filled" color="#fff" size="18"></uni-icons>
-						<text class="header-title">单据扫码</text>
+						<text class="header-title">{{$t('warehouse.formScanTitle')}}</text>
 					</view>
 				</view>
 				<view class="card-content">
@@ -35,25 +35,25 @@
 								v-model="formCode"
 								:inputBorder="false"
 								placeholderStyle="color: #999;"
-								placeholder="请扫描或输入单据号"
+								:placeholder="$t('warehouse.scanOrInputForm')"
 								@confirm="onFormCodeConfirm"
 								class="main-input"
 							></uni-easyinput>
 						</view>
 						<view class="scan-btn" @click="onFormCodeScan">
 							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-							<text>扫码</text>
+							<text>{{$t('warehouse.scan')}}</text>
 						</view>
 					</view>
 					<!-- 订单信息 -->
 					<view class="order-info" v-if="orderLoaded">
 						<view class="table-wrapper">
 							<view class="table-row table-header">
-								<view class="table-cell" style="flex: 1.5;">标签码</view>
-								<view class="table-cell" style="flex: 1.5;">料号</view>
-								<view class="table-cell" style="flex: 2;">物料名称</view>
-								<view class="table-cell" style="flex: 1;">数量</view>
-								<view class="table-cell" style="flex: 1;">状态</view>
+								<view class="table-cell" style="flex: 1.5;">{{$t('warehouse.tagCode')}}</view>
+								<view class="table-cell" style="flex: 1.5;">{{$t('warehouse.code')}}</view>
+								<view class="table-cell" style="flex: 2;">{{$t('warehouse.materialName')}}</view>
+								<view class="table-cell" style="flex: 1;">{{$t('warehouse.qty')}}</view>
+								<view class="table-cell" style="flex: 1;">{{$t('warehouse.status')}}</view>
 							</view>
 							<view class="table-row"
 								v-for="item in materialList"
@@ -69,13 +69,13 @@
 								<view class="table-cell" style="flex: 2;">{{item.materialName || '--'}}</view>
 								<view class="table-cell highlight" style="flex: 1;">{{item.number || '--'}}</view>
 								<view class="table-cell" style="flex: 1;" :class="item.finishFlag == -1 ? 'text-warn' : 'text-success'">
-									{{item.finishFlag == -1 ? '未上架' : '已上架'}}
+									{{item.finishFlag == -1 ? $t('warehouse.notShelved') : $t('warehouse.shelved')}}
 								</view>
 							</view>
 						</view>
 					</view>
 					<view class="empty-info" v-if="!orderLoaded && formCode">
-						<text class="empty-text">点击扫码或按回车键查询单据</text>
+						<text class="empty-text">{{$t('warehouse.clickScanOrEnterForm')}}</text>
 					</view>
 				</view>
 			</view>
@@ -102,7 +102,7 @@
 		<view class="loading-mask" v-if="isLoading">
 			<view class="loading-content">
 				<uni-icons type="spinner-cycle" size="40" color="#667eea" class="loading-icon"></uni-icons>
-				<text class="loading-text">加载中...</text>
+				<text class="loading-text">{{$t('warehouse.loadingDots')}}</text>
 			</view>
 		</view>
 	</view>
@@ -189,7 +189,7 @@
 					_this.formCode = code;
 					_this.loadOrder();
 				}).catch(err => {
-					showBeautyToast({ title: err || '扫码失败', icon: 'none' });
+					showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
 				});
 			},
 
@@ -206,7 +206,7 @@
 			// 加载单据信息
 			loadOrder() {
 				if (!this.formCode) {
-					showBeautyToast({ title: '请输入单据号', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.inputForm'), icon: 'none' });
 					return;
 				}
 				this.isLoading = true;
@@ -222,14 +222,14 @@
 							this.materialList = data;
 							this.orderLoaded = true;
 						} else {
-							showBeautyToast({ title: '未查询到单据信息', icon: 'none' });
+							showBeautyToast({ title: this.$t('warehouse.noFormInfo'), icon: 'none' });
 						}
 					} else {
-						showBeautyToast({ title: resp.msg || '查询失败', icon: 'none' });
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.queryFailed'), icon: 'none' });
 					}
 				}).catch(() => {
 					this.isLoading = false;
-					showBeautyToast({ title: '查询失败', icon: 'none' });
+					showBeautyToast({ title: this.$t('warehouse.queryFailed'), icon: 'none' });
 				});
 			},
 

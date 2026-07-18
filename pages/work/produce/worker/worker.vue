@@ -3,8 +3,8 @@
 		<view class="work-content">
 			<view class="work-item">
 				<view class="work-label">
-					<uni-icons style="margin-right:10rpx" color="#676767" custom-prefix="iconfont" type="icon-xianshiqi"
-						size="18"></uni-icons><text>工位：</text>
+				<uni-icons style="margin-right:10rpx" color="#676767" custom-prefix="iconfont" type="icon-xianshiqi"
+					size="18"></uni-icons><text>{{ $t('ws.workStation') }}</text>
 				</view>
 				<text class="work-value">
 					{{workStation.clientCode}}
@@ -14,13 +14,13 @@
 				<view class="work-label">
 					<uni-icons style="margin-right:10rpx" color="#676767" custom-prefix="iconfont"
 						type="icon-shebeidianjian" size="18"></uni-icons>
-					<text>设备：</text>
+					<text>{{ $t('ws.equipment') }}</text>
 					<text class="work-value">
 						{{workStation.equipmentName}}
 					</text>
 				</view>
 				<text class="work-label">
-					工序：
+					{{ $t('ws.process') }}
 				</text>
 				<text class="work-value">
 					{{workStation.processName}}
@@ -28,13 +28,13 @@
 			</view>
 			<view class="work-item">
 				<text class="work-label">
-					工单号：
+					{{ $t('ws.workSheet') }}
 				</text>
 				<text class="work-value">
 					{{workSheet.workSheetCode}}
 				</text>
 				<text class="work-label">
-					计划数量：
+					{{ $t('ws.planQty') }}
 				</text>
 				<text class="work-value">
 					{{workSheet.workSheetPlanNumber}}
@@ -42,7 +42,7 @@
 			</view>
 			<view class="work-item">
 				<text class="work-label">
-					产品编号：
+					{{ $t('ws.productCode') }}
 				</text>
 				<text class="work-value">
 					{{workSheet.productCode}}
@@ -50,7 +50,7 @@
 			</view>
 			<view class="work-item">
 				<text class="work-label">
-					产品名称：
+					{{ $t('ws.productName') }}
 				</text>
 				<text class="work-value">
 					{{workSheet.productName}}
@@ -60,20 +60,20 @@
 		<view class="worker-info">
 			<view class="common-container-header">
 				<uni-icons color="#fff" custom-prefix="iconfont" type="icon-yuangonghuangye" size="18"></uni-icons>
-				<text class="common-text">员工卡号：</text>
-				<text class="common-right" @click="onWorknumberScan">
-					请扫描或输入
-				</text>
+				<text class="common-text">{{ $t('produce.worker.cardNo') }}</text>
+			<text class="common-right" @click="onWorknumberScan">
+				{{ $t('produce.worker.scanOrInput') }}
+			</text>
 			</view>
 			<view class="work-item">
 				<text class="work-label">
-					员工姓名：
+					{{ $t('produce.worker.name') }}
 				</text>
 				<text class="work-value">
 					{{workerInfo.perName}}
 				</text>
 				<text class="work-label">
-					所属岗位：
+					{{ $t('produce.worker.post') }}
 				</text>
 				<text class="work-value">
 					{{workerInfo.discription}}
@@ -81,7 +81,7 @@
 			</view>
 			<view class="work-item">
 				<text class="work-label">
-					上工时间：
+					{{ $t('produce.worker.onTime') }}
 				</text>
 				<text class="work-value">
 					{{opTime}}
@@ -91,10 +91,10 @@
 		<view class="splitor">
 		</view>
 		<view class="last-record">
-			<text class="record-title">前次记录</text>
+			<text class="record-title">{{ $t('produce.worker.lastRecord') }}</text>
 			<view class="work-item">
 				<text class="work-label">
-					上工人员：
+					{{ $t('produce.worker.lastPerson') }}
 				</text>
 				<text class="work-value">
 					{{upRecord.perName}}
@@ -102,7 +102,7 @@
 			</view>
 			<view class="work-item">
 				<text class="work-label">
-					上工时间：
+					{{ $t('produce.worker.onTime') }}
 				</text>
 				<text class="work-value">
 					{{upRecord.opTime}}
@@ -110,7 +110,7 @@
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini" @click="onWork">确认上工</button>
+			<button type="primary" size="mini" @click="onWork">{{ $t('produce.worker.confirm') }}</button>
 		</view>
 	</view>
 </template>
@@ -177,14 +177,14 @@
 				this.workNumber = '100005';
 				if (!this.workNumber) {
 					uni.showToast({
-						title: '请扫描或输入员工卡号'
+						title: this.$t('produce.worker.scanCardTip')
 					})
 					return;
 				}
 				const res = await produce.userUp(this.workStation.clientCode, this.workNumber);
 				if (res.code === 200) {
 					uni.showToast({
-						title: "上工成功"
+						title: this.$t('produce.worker.success')
 					});
 					const pages = getCurrentPages();
 					const prePages = pages.filter(p => p.route == 'pages/work/produce/worksheeton/worksheeton');

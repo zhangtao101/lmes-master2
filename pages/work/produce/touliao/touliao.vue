@@ -2,54 +2,54 @@
 	<view class="baogong-container">
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>
-			<text class="common-text">工位：{{workStation.clientCode}}</text>
+			<text class="common-text">{{ $t('ws.workStation') }}{{workStation.clientCode}}</text>
 			<view class="common-right" @click="onWrokStationScan">
-				请扫描
+				{{ $t('common.scan') }}
 			</view>
 		</view>
 		<view class="baogong-content">
 			<view class="baogong-item">
-				<text class="label">工序：</text>
+				<text class="label">{{ $t('ws.process') }}</text>
 				<text class="value">{{workStation.processName}}</text>
-				<text class="label">设备：</text>
+				<text class="label">{{ $t('ws.equipment') }}</text>
 				<text class="value">{{workStation.equipmentName}}</text>
 			</view>
 		</view>
 		<view class="common-container-header radius">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>
-			<text class="common-text">工单号：{{workSheet.workSheetCode}}</text>
+			<text class="common-text">{{ $t('ws.workSheet') }}{{workSheet.workSheetCode}}</text>
 			<view class="common-right" @click="onWorksheetScan">
-				请扫描
+				{{ $t('common.scan') }}
 			</view>
 		</view>
 		<view class="baogong-content">
 			<view class="baogong-item">
-				<text class="label">产品编号：</text>
+				<text class="label">{{ $t('ws.productCode') }}</text>
 				<text class="value">{{workSheet.productCode}}</text>
 			</view>
 			<view class="baogong-item">
-				<text class="label">产品名称：</text>
+				<text class="label">{{ $t('ws.productName') }}</text>
 				<text class="value">{{workSheet.productName}}</text>
 			</view>
 		</view>
 		<view class="common-container-header">
 			<uni-icons color="#fff" custom-prefix="iconfont" type="icon-erweima" size="18"></uni-icons>
-			<text class="common-text">物料上料</text>
+			<text class="common-text">{{ $t('produce.touliao.title') }}</text>
 			<view class="common-right" @click="onMaterialScan">
-				扫描
+				{{ $t('common.scan') }}
 			</view>
 		</view>
 		<view class="baogong-content" style="margin-bottom:20rpx;" v-for="item in materialList"
 			:key="item.materialCode">
 			<view class="baogong-item">
 				<text class="label">
-					物料标签：
+					{{ $t('produce.touliao.materialLabel') }}
 				</text>
 				<text class="value">
 					{{item.labelCode}}
 				</text>
 				<text class="label">
-					料号：
+					{{ $t('produce.touliao.materialCode') }}
 				</text>
 				<text class="value">
 					{{item.materialCode}}
@@ -57,7 +57,7 @@
 			</view>
 			<view class="baogong-item">
 				<text class="label">
-					物料名称：
+					{{ $t('produce.touliao.materialName') }}
 				</text>
 				<text class="value">
 					{{item.materialName}}
@@ -65,13 +65,13 @@
 			</view>
 			<view class="baogong-item">
 				<text class="label">
-					当前数量：
+					{{ $t('produce.touliao.currentQty') }}
 				</text>
 				<text class="value">
 					{{item.packageNumber }}
 				</text>
 				<text class="label">
-					物料单位：
+					{{ $t('produce.touliao.materialUnit') }}
 				</text>
 				<text class="value">
 					{{item.unit }}
@@ -79,7 +79,7 @@
 			</view>
 			<view class="baogong-item">
 				<text class="label">
-					供应商：
+					{{ $t('produce.touliao.supplier') }}
 				</text>
 				<text class="value">
 					{{item.manufacturerName }}
@@ -87,7 +87,7 @@
 			</view>
 			<view class="baogong-item">
 				<text class="label">
-					上料数量：
+					{{ $t('produce.touliao.feedQty') }}
 				</text>
 				<view class="value">
 					<uni-number-box :max="1000000" v-model="vModel[`takenumber_${item.materialCode}`]"
@@ -98,10 +98,10 @@
 		<view class="bottom-container">
 			<!-- <view class="left">
 				<uni-icons type="redo"></uni-icons>
-				<text>跳转操作</text>
+				<text>{{ $t('produce.jumpOperation') }}</text>
 			</view> -->
 			<view class="right">
-				<button type="primary" size="mini" @click="onSureTouliao">确认投料</button>
+				<button type="primary" size="mini" @click="onSureTouliao">{{ $t('produce.touliao.confirm') }}</button>
 			</view>
 		</view>
 	</view>
@@ -163,7 +163,7 @@
 				const exists = this.materialList.filter(item => item.materialCode == res.data.materialCode);
 				if (exists.length) {
 					uni.showToast({
-						title: "不能重复扫描"
+						title: this.$t('produce.touliao.dupTip')
 					})
 					return;
 				}
@@ -224,7 +224,7 @@
 					this.workSheet = {};
 					this.workStation = {};
 					uni.showToast({
-						title: "已投料"
+						title: this.$t('produce.touliao.success')
 					})
 				} else {
 					uni.showToast({
