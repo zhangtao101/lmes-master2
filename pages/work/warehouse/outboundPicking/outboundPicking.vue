@@ -246,7 +246,7 @@
 					return;
 				}
 				uni.navigateTo({
-					url: '/pages/work/warehouse/operationPage/operationPage?formDetailId=' + this.formDetailId +'&type=-1'
+					url: '/pages/work/warehouse/operationPage/operationPage?formDetailId=' + this.formDetailId +'&type=-1' + '&lcCode='+ this.lcCode
 				});
 			},
 			tTableClick: function({
