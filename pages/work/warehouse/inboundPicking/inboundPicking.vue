@@ -218,7 +218,7 @@
 						title: resp.msg || resp.error,
 						icon: 'error'
 					})
-					this.wareLocationCode = '';
+					// this.wareLocationCode = '';
 				}
 			},
 			onLocationScan: function() {
