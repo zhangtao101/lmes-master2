@@ -190,7 +190,7 @@
 			},
 		// 发货单输入框回车确认
 	onFormInputConfirm: function() {
-		this.formInput = '';
+		// this.formInput = '';
 		const _this = this;
 		setTimeout(function() {
 			const code = _this.formInput.trim();
@@ -215,11 +215,10 @@
 			},
 		// 标签输入框回车确认
 	onLabelInputConfirm: function() {
-		this.labelInput = '';
+		// this.labelInput = '';
 		const _this = this;
 		setTimeout(function() {
 			const code = _this.labelInput.trim();
-			_this.labelInput = '';
 			if (code) {
 				_this.loadLabelInfo(code).then(function() {
 					// 接口调用完成后清空输入框并重新获取焦点

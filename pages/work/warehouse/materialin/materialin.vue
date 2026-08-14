@@ -204,7 +204,7 @@
 			},
 		// 库位输入框回车确认
 		onLocationInputConfirm: function() {
-			this.locationInput = '';
+			// this.locationInput = '';
 			// 延迟取码，避免扫码枪HID输入过快导致v-model未完成同步
 			const _this = this;
 			setTimeout(function() {
@@ -229,12 +229,11 @@
 			},
 		// 标签输入框回车确认
 		onLabelInputConfirm: function() {
-			this.labelInput = '';
+			// this.labelInput = '';
 			// 延迟取码，避免扫码枪HID输入过快导致v-model未完成同步
 			const _this = this;
 			setTimeout(function() {
 				const code = _this.labelInput.trim();
-				_this.labelInput = '';
 				if (code) {
 					_this.loadLabelInfo(code).then(function() {
 						// 接口调用完成后清空输入框并重新获取焦点

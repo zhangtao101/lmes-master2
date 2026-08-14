@@ -202,13 +202,13 @@
 			},
 		// 库位输入框回车确认
 	onLocationInputConfirm: function() {
-		this.locationInput = '';
+		// this.locationInput = '';
 		const _this = this;
 		setTimeout(function() {
 			const code = _this.locationInput.trim();
-			_this.locationInput = '';
 			if (code) {
 				_this.loadWarehouse(code);
+			_this.locationInput = '';
 			}
 		}, 200);
 	},
@@ -226,11 +226,10 @@
 			},
 		// 标签输入框回车确认
 	onLabelInputConfirm: function() {
-		this.labelInput = '';
+		// this.labelInput = '';
 		const _this = this;
 		setTimeout(function() {
 			const code = _this.labelInput.trim();
-			_this.labelInput = '';
 			if (code) {
 				_this.loadLabelInfo(code).then(function() {
 					// 接口调用完成后清空输入框并重新获取焦点
