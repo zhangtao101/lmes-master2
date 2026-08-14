@@ -13,12 +13,13 @@
 						<text>{{ $t('warehouse.requisition') }}{{formCode}}</text>
 					</view>
 				</view>
-			<view class="scan-input-row">
-				<input class="scan-input" v-model="formInput" :placeholder="$t('warehouse.requisitionPlaceholder')" @confirm="onFormInputConfirm" />
-				<view class="scan-btn" @click="onFormScan">
-					<uni-icons type="scan" color="#fff" size="16"></uni-icons>
+				<view class="scan-input-row">
+					<input class="scan-input" v-model="formInput" :placeholder="$t('warehouse.requisitionPlaceholder')"
+						@confirm="onFormInputConfirm" />
+					<view class="scan-btn" @click="onFormScan">
+						<uni-icons type="scan" color="#fff" size="16"></uni-icons>
+					</view>
 				</view>
-			</view>
 				<view class="body-header" v-if="formData.details && formData.details.length > 0">
 					<view class="body-header-row body-header-title">
 						<view class="body-header-cell">{{ $t('warehouse.materialCode') }}</view>
@@ -42,18 +43,19 @@
 						<text class="title">{{ $t('warehouse.outboundDetail') }}</text>
 					</view>
 				</view>
-			<view class="header">
-				<view class="left">
-					<uni-icons custom-prefix="iconfont" type="icon-tiaoxingma"></uni-icons>
-					<text class="label">{{ $t('warehouse.labelColon') }}</text>
+				<view class="header">
+					<view class="left">
+						<uni-icons custom-prefix="iconfont" type="icon-tiaoxingma"></uni-icons>
+						<text class="label">{{ $t('warehouse.labelColon') }}</text>
+					</view>
 				</view>
-			</view>
-			<view class="scan-input-row">
-				<input class="scan-input" v-model="labelInput" :focus="labelFocus" :placeholder="$t('warehouse.labelPlaceholder')" @confirm="onLabelInputConfirm" />
-				<view class="scan-btn" @click="onLabelScan">
-					<uni-icons type="scan" color="#fff" size="16"></uni-icons>
+				<view class="scan-input-row">
+					<input class="scan-input" v-model="labelInput" :focus="labelFocus"
+						:placeholder="$t('warehouse.labelPlaceholder')" @confirm="onLabelInputConfirm" />
+					<view class="scan-btn" @click="onLabelScan">
+						<uni-icons type="scan" color="#fff" size="16"></uni-icons>
+					</view>
 				</view>
-			</view>
 				<view class="label-info-container" v-for="label in labelList" :key="label.labelCode">
 					<view class="label-item">
 						<view class="left">
@@ -161,20 +163,20 @@
 				const res = await material.storeRequisitionInfo(this.formCode);
 				if (res.code == 200) {
 					this.formData = res.data
-			} else {
+				} else {
 					uni.showToast({
 						title: res.msg,
 						icon: 'none'
 					})
 				}
 
-		},
+			},
 			loadLabelInfo: async function(code) {
-				//动态生成响应式变量
-				this.takeCount[`takecount_${code}`] = 0;
 				const res = await material.getLabelInfo(code, OperateType.materialOut, this.formCode);
 				console.log(res)
-			if (res.code == 200) {
+				if (res.code == 200) {
+					//动态生成响应式变量
+					this.takeCount[`takecount_${code}`] = res.data.packageNumber;
 					this.labelList.push(res.data)
 				} else {
 					uni.showToast({
@@ -184,7 +186,7 @@
 				}
 				return res;
 
-		},
+			},
 			// 领料单扫码
 			onFormScan: function() {
 				const _this = this;
@@ -197,18 +199,17 @@
 					})
 				});
 			},
-		// 领料单输入框回车确认
-		onFormInputConfirm: function() {
-			this.formInput = '';
-			const _this = this;
-			setTimeout(function() {
-				const code = _this.formInput.trim();
-				_this.formInput = '';
-				if (code) {
-					_this.loadStoreRequisitionInfo(code);
-				}
-			}, 200);
-		},
+			// 领料单输入框回车确认
+			onFormInputConfirm: function() {
+				const _this = this;
+				setTimeout(function() {
+					const code = _this.formInput.trim();
+					_this.formInput = '';
+					if (code) {
+						_this.loadStoreRequisitionInfo(code);
+					}
+				}, 200);
+			},
 			// 标签扫码
 			onLabelScan: function() {
 				const _this = this;
@@ -221,26 +222,23 @@
 					})
 				});
 			},
-		// 标签输入框回车确认
-		onLabelInputConfirm: function() {
-			this.labelInput = '';
-			const _this = this;
-			setTimeout(function() {
-				const code = _this.labelInput.trim();
-				_this.labelInput = '';
-				console.log(code);
-				if (code) {
-					_this.loadLabelInfo(code).then(function() {
-						// 接口调用完成后清空输入框并重新获取焦点
-						_this.labelInput = '';
-						_this.labelFocus = false;
-						_this.$nextTick(function() {
-							_this.labelFocus = true;
+			// 标签输入框回车确认
+			onLabelInputConfirm: function() {
+				const _this = this;
+				setTimeout(function() {
+					const code = _this.labelInput.trim();
+					if (code) {
+						_this.loadLabelInfo(code).then(function() {
+							// 接口调用完成后清空输入框并重新获取焦点
+							_this.labelInput = '';
+							_this.labelFocus = false;
+							_this.$nextTick(function() {
+								_this.labelFocus = true;
+							});
 						});
-					});
-				}
-			}, 200);
-		},
+					}
+				}, 200);
+			},
 			onSubmit: async function() {
 				const _this = this;
 				const _labelList = [];
