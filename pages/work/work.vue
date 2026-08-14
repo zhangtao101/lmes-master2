@@ -354,6 +354,18 @@
 					nameKey: "pages.warehouse.repairTask",
 					url: "/pages/work/warehouse/repairTask/repairTask"
 				},
+				{
+				// 工单查询
+					img: "../../static/images/gongdanchaxun.png",
+					nameKey: "pages.warehouse.workOrderQuery",
+					url: "/pages/work/warehouse/workOrderQuery/workOrderQuery"
+				},
+				{
+				// 物料查询
+					img: "../../static/images/wuliaochaxun.png",
+					nameKey: "pages.warehouse.materialQuery",
+					url: "/pages/work/warehouse/materialQuery/materialQuery"
+				},
 				// {
 				// 	img: "../../static/images/chengpin_diaobo.png",
 				// 	nameKey: "pages.warehouse.printTest",

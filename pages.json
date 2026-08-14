@@ -458,6 +458,18 @@
 			"style": {
 				"navigationBarTitleText": "%pages.warehouse.operationPageNotAGV%"
 			}
+		},
+		{
+			"path": "pages/work/warehouse/workOrderQuery/workOrderQuery",
+			"style": {
+				"navigationBarTitleText": "%pages.warehouse.workOrderQuery%"
+			}
+		},
+		{
+			"path": "pages/work/warehouse/materialQuery/materialQuery",
+			"style": {
+				"navigationBarTitleText": "%pages.warehouse.materialQuery%"
+			}
 		}
 	],
 	"globalStyle": {
