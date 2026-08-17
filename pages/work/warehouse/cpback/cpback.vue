@@ -202,7 +202,6 @@
 			},
 		// 库位输入框回车确认
 	onLocationInputConfirm: function() {
-		this.locationInput = '';
 		const _this = this;
 		setTimeout(function() {
 			const code = _this.locationInput.trim();
@@ -212,21 +211,20 @@
 			}
 		}, 200);
 	},
-			// 标签扫码
-			onLabelScan: function() {
-				const _this = this;
-				scanCode().then((code) => {
-					_this.labelInput = code;
-					_this.loadLabelInfo(code);
-				}).catch(err => {
-					uni.showToast({
-						title: err
-					})
-				});
-			},
-		// 标签输入框回车确认
+	// 标签扫码
+	onLabelScan: function() {
+		const _this = this;
+		scanCode().then((code) => {
+			_this.labelInput = code;
+			_this.loadLabelInfo(code);
+		}).catch(err => {
+			uni.showToast({
+				title: err
+			})
+		});
+	},
+	// 标签输入框回车确认
 	onLabelInputConfirm: function() {
-		this.labelInput = '';
 		const _this = this;
 		setTimeout(function() {
 			const code = _this.labelInput.trim();

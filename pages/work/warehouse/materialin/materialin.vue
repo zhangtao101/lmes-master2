@@ -203,12 +203,11 @@
 				});
 			},
 		// 库位输入框回车确认
-		onLocationInputConfirm: function() {
-			this.locationInput = '';
-			// 延迟取码，避免扫码枪HID输入过快导致v-model未完成同步
-			const _this = this;
-			setTimeout(function() {
-				const code = _this.locationInput.trim();
+	onLocationInputConfirm: function() {
+		// 延迟取码，避免扫码枪HID输入过快导致v-model未完成同步
+		const _this = this;
+		setTimeout(function() {
+			const code = _this.locationInput.trim();
 				_this.locationInput = '';
 				if (code) {
 					_this.loadWarehouseInfo(code);
@@ -229,7 +228,6 @@
 			},
 	// 标签输入框回车确认
 	onLabelInputConfirm: function() {
-		this.labelInput = '';
 		// 延迟取码，避免扫码枪HID输入过快导致v-model未完成同步
 		const _this = this;
 		setTimeout(function() {

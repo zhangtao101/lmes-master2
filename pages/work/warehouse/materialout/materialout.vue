@@ -199,7 +199,6 @@
 			},
 		// 领料单输入框回车确认
 	onFormInputConfirm: function() {
-		this.formInput = '';
 		const _this = this;
 		setTimeout(function() {
 			const code = _this.formInput.trim();
@@ -223,7 +222,6 @@
 			},
 		// 标签输入框回车确认
 	onLabelInputConfirm: function() {
-		this.labelInput = '';
 		const _this = this;
 		setTimeout(function() {
 			const code = _this.labelInput.trim();

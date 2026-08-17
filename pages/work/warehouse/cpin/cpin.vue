@@ -200,7 +200,6 @@
 			},
 		// 库位输入框回车确认
 	onLocationInputConfirm: function() {
-		this.locationInput = '';
 		const _this = this;
 		setTimeout(function() {
 			const code = _this.locationInput.trim();
@@ -225,7 +224,6 @@
 			},
 		// 标签输入框回车确认
 	onLabelInputConfirm: function() {
-		this.labelInput = '';
 		const _this = this;
 		setTimeout(function() {
 			const code = _this.labelInput.trim();
