@@ -1,80 +1,35 @@
 <template>
 	<view class="work-container">
+		<!-- 当前模块标题 -->
 		<view class="box-header">
 			<view class="icon">
 			</view>
 			<view class="title">
-				{{ $t('work.produce') }}
+				{{ $t(activeModuleMeta.titleKey) }}
 			</view>
 		</view>
+
+		<!-- 当前模块功能入口 -->
 		<view class="work-box">
-			<view class="work-item" v-for="item in product" :key="item.nameKey">
+			<view class="work-item" v-for="item in activeModuleItems" :key="item.nameKey">
 				<navigator style="display:flex;flex-direction: column;align-items: center;" :url="item.url">
 					<image style="width:56rpx;height:56rpx;" :src="item.img" mode=""></image>
 					<text>{{ $t(item.nameKey) }}</text>
 				</navigator>
 			</view>
 		</view>
-		<view class="box-header">
-			<view class="icon">
-			</view>
-			<view class="title">
-				{{ $t('work.quality') }}
-			</view>
-		</view>
-		<view class="work-box">
-			<view class="work-item" v-for="item in quality" :key="item.nameKey">
-				<navigator style="display:flex;flex-direction: column;align-items: center;" :url="item.url">
-					<image style="width:56rpx;height:56rpx" :src="item.img" mode=""></image>
-					<text>{{ $t(item.nameKey) }}</text>
-				</navigator>
-			</view>
-		</view>
-		<view class="box-header">
-			<view class="icon">
-			</view>
-			<view class="title">
-				{{ $t('work.warehouse') }}
-			</view>
-		</view>
-		<view class="work-box">
-			<view class="work-item" v-for="item in warehouse" :key="item.nameKey">
-				<navigator style="display:flex;flex-direction: column;align-items: center;" :url="item.url">
-					<image style="width:56rpx;height:56rpx;" :src="item.img" mode=""></image>
-					<text>{{ $t(item.nameKey) }}</text>
-				</navigator>
-			</view>
-		</view>
-		<!-- <view class="box-header">
-			<view class="icon">
-			</view>
-			<view class="title">
-				{{ $t('work.device') }}
-			</view>
-		</view>
-		<view class="work-box">
-			<view class="work-item" v-for="item in devices" :key="item.nameKey">
-				<navigator style="display:flex;flex-direction: column;align-items: center;" :url="item.url">
-					<image style="width:56rpx;height:56rpx;" :src="item.img" mode=""></image>
-					<text>{{ $t(item.nameKey) }}</text>
-				</navigator>
-			</view>
-		</view>
-		<view class="box-header">
-			<view class="icon">
-			</view>
-			<view class="title">
-				{{ $t('work.andon') }}
-			</view>
-		</view>
-		<view class="work-box">
-			<view class="work-item" v-for="item in andon" :key="item.nameKey">
-				<navigator style="display:flex;flex-direction: column;align-items: center;" :url="item.url">
-					<image style="width:56rpx;height:56rpx;" :src="item.img" mode=""></image>
-					<text>{{ $t(item.nameKey) }}</text>
-				</navigator>
-			</view>
-		</view> -->
+
+		<!-- 底部模块切换 -->
+		<uv-tabbar :value="activeModule" activeColor="#667eea" inactiveColor="#969799" @change="onModuleChange">
+			<uv-tabbar-item
+				v-for="tab in moduleTabs"
+				:key="tab.name"
+				:name="tab.name"
+				:icon="tab.icon"
+				:iconSize="22"
+				:text="$t(tab.titleKey)"
+			></uv-tabbar-item>
+		</uv-tabbar>
 		<scan></scan>
 	</view>
 </template>
@@ -87,6 +42,14 @@
 		},
 		data() {
 			return {
+			activeModule: 'produce', // 底部导航当前选中的模块
+			moduleTabs: [
+				{ name: 'produce', listKey: 'product', titleKey: 'work.produce', icon: 'file-text' },
+				{ name: 'quality', listKey: 'quality', titleKey: 'work.quality', icon: 'checkmark-circle' },
+				{ name: 'warehouse', listKey: 'warehouse', titleKey: 'work.warehouse', icon: 'grid' }
+				// { name: 'device', listKey: 'devices', titleKey: 'work.device', icon: 'setting' },
+				// { name: 'andon', listKey: 'andon', titleKey: 'work.andon', icon: 'bell' }
+			],
 			product: Object.freeze([{
 				// 工单进站
 					img: '../../static/images/gongdan_online.png',
@@ -413,8 +376,21 @@
 			])
 			}
 		},
+		computed: {
+			// 当前底部导航选中的模块元信息
+			activeModuleMeta() {
+				return this.moduleTabs.find(tab => tab.name === this.activeModule) || this.moduleTabs[0]
+			},
+			// 当前模块对应的功能入口列表
+			activeModuleItems() {
+				return this[this.activeModuleMeta.listKey] || []
+			}
+		},
 		methods: {
-
+			// 底部导航切换模块
+			onModuleChange(name) {
+				this.activeModule = name
+			}
 		}
 	}
 </script>
