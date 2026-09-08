@@ -154,7 +154,7 @@ export default {
 	 * @param {string} feedNumber - 投入量
 	 * @param {string} materialCode - 料号
 	 */
-	smtFeed: (workstationCode, worksheetCode, functionId, bindingId, labelCode, feedNumber, materialCode) => {
+	smtFeed: (workstationCode, worksheetCode, functionId, bindingId, labelCode, feedNumber, materialCode, location) => {
 		return request({
 			url: `${prefixUrl2}workstation/opfunction/feed`,
 			method: "POST",
@@ -165,7 +165,8 @@ export default {
 				bindingId,
 				labelCode,
 				feedNumber,
-				materialCode
+				materialCode,
+				location
 			}
 		});
 	},

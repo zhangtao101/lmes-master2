@@ -539,7 +539,8 @@ export default {
 				bindingId,
 				this.labelCode,
 				String(this.feedNumber),
-				this.selectedItem.materialCode
+				this.selectedItem.materialCode,
+				this.selectedItem.location
 			).then(resp => {
 				this.isSubmitting = false;
 				if (resp.code == 200 || resp.code == '200') {
