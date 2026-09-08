@@ -88,7 +88,10 @@
 					</view>
 					<view class="info-item">
 						<view class="label">{{$t('warehouse.currentProcess')}}</view>
-						<view class="value highlight">{{equipInfo.processName || '--'}}</view>
+						<view class="value highlight process-value" @click="onCurrentProcessTap">
+							<text>{{equipInfo.processName || '--'}}</text>
+							<uni-icons v-if="processList.length > 1" type="compose" color="#667eea" size="14"></uni-icons>
+						</view>
 					</view>
 				</view>
 				<view class="empty-tip" v-else-if="!loadingEquip">
@@ -175,6 +178,21 @@
 						</view>
 					</view>
 
+					<!-- 不良品数量 -->
+					<view class="form-item">
+						<view class="form-label">{{$t('produce.baogong.unqualityQty')}}</view>
+						<view class="form-value">
+							<uni-easyinput
+								v-model="unqualityNumber"
+								:inputBorder="false"
+								type="number"
+								placeholderStyle="color: #999;"
+								:placeholder="$t('produce.baogong.inputUnqualityQtyTip')"
+								class="form-input"
+							></uni-easyinput>
+						</view>
+					</view>
+
 					<!-- 当前工时（只读显示） -->
 					<view class="form-item" v-if="equipInfo.equipTime != null">
 						<view class="form-label">{{$t('warehouse.currentWorkHours')}}</view>
@@ -206,6 +224,31 @@
 			</button>
 		</view>
 
+		<!-- 工序选择弹窗（设备多工序时从底部弹出单选） -->
+		<uv-popup ref="processPopup" mode="bottom" bgColor="#ffffff" :round="24" closeable :closeOnClickOverlay="false" @maskClick="handleMaskClick" custom-style="height: 60vh;padding: 10rpx 20rpx">
+			<view class="process-picker">
+				<view class="process-picker-title">{{$t('warehouse.processSelectTitle')}}</view>
+				<uv-radio-group
+					v-model="selectedBindingId"
+					placement="column"
+					iconPlacement="right"
+					activeColor="#667eea"
+					@change="onProcessRadioChange"
+				>
+					<uv-radio
+						v-for="item in processList"
+						:key="item.bindingId"
+						:name="item.bindingId"
+					>
+						<view class="process-option-text">
+							<text class="process-option-name">{{item.processName}}</text>
+							<text v-if="item.processCode" class="process-option-code">{{item.processCode}}</text>
+						</view>
+					</uv-radio>
+				</uv-radio-group>
+			</view>
+		</uv-popup>
+
 		<!-- 加载遮罩 -->
 		<view class="loading-mask" v-if="isLoading">
 			<view class="loading-content">
@@ -232,6 +275,8 @@ export default {
 			// 设备扫码
 			equipCode: '',
 			equipInfo: {},
+			processList: [],  // 设备工序列表（多工序时需单选）
+			selectedBindingId: null, // 工序弹窗当前选中项的工序绑定ID
 			loadingEquip: false,
 
 			// 基本信息填写
@@ -239,6 +284,7 @@ export default {
 			personTime: '',     // 作业人数
 			equipTime: '',      // 时间工时
 			reportNumber: '',   // 报工数量
+			unqualityNumber: 0, // 不良品数量
 
 			// 状态
 			isLoading: false,
@@ -316,9 +362,12 @@ export default {
 			// 清除下游数据
 			this.equipCode = '';
 			this.equipInfo = {};
+			this.processList = [];
 			this.personTime = '';
 			this.equipTime = '';
 			this.reportNumber = '';
+			this.unqualityNumber = 0;
+			this.closeProcessPopup();
 
 			moldMountingApi.getWorksheetByCode(this.worksheetCode).then(resp => {
 				this.loadingWorksheet = false;
@@ -369,14 +418,28 @@ export default {
 			}
 			this.loadingEquip = true;
 			this.equipInfo = {};
+			this.processList = [];
 			this.personTime = '';
 			this.equipTime = '';
 			this.reportNumber = '';
+			this.unqualityNumber = 0;
+			// this.closeProcessPopup();
 
 			moldMountingApi.getBindingByCode(this.equipCode, this.worksheetCode, 2).then(resp => {
 				this.loadingEquip = false;
 				if (resp.code == 200 || resp.code == '200') {
 					this.equipInfo = resp.data || {};
+					this.processList = (this.equipInfo.processList && Array.isArray(this.equipInfo.processList)) ? this.equipInfo.processList : [];
+					// 工序处理：忽略外层 processCode/processName，以 processList 为准
+					if (this.processList.length === 1) {
+						// 唯一工序：直接应用
+						this.applyProcessItem(this.processList[0]);
+					} else if (this.processList.length > 1) {
+						// 多工序：弹出底部单选，选中后回写外层字段
+						this.$nextTick(() => {
+							this.openProcessPopup();
+						});
+					}
 					if (!this.equipInfo.equipCode) {
 						showBeautyToast({ title: this.$t('warehouse.noEquipInfo'), icon: 'none' });
 					}
@@ -389,10 +452,51 @@ export default {
 			});
 		},
 
+		// ========== 工序选择 ==========
+		// 将选中的工序项应用到外层 equipInfo（提交时取 equipInfo.bindingId/functionId）
+		applyProcessItem(item) {
+			if (!item) return;
+			this.equipInfo.processCode = item.processCode;
+			this.equipInfo.processName = item.processName;
+			this.equipInfo.bindingId = item.bindingId;
+			this.equipInfo.functionId = item.functionId;
+		},
+
+		// 打开工序选择弹窗（打开前同步当前选中项，便于回显勾选状态）
+		openProcessPopup() {
+			if (!this.processList || !this.processList.length) return;
+			this.selectedBindingId = this.equipInfo.bindingId;
+			this.$refs.processPopup && this.$refs.processPopup.open('bottom');
+		},
+
+		// 遮罩点击：关闭工序选择弹窗
+		handleMaskClick() {
+			this.closeProcessPopup();
+		},
+
+		// 点击“当前工序”重新选择（仅多工序设备可点）
+		onCurrentProcessTap() {
+			if (this.processList && this.processList.length > 1) {
+				this.openProcessPopup();
+			}
+		},
+
+		// uv-radio 选中工序（radio 的 name 即 bindingId）
+		onProcessRadioChange(bindingId) {
+			const item = this.processList.find(it => it.bindingId === bindingId);
+			if (!item) return;
+			this.applyProcessItem(item);
+			this.closeProcessPopup();
+		},
+
+		// 关闭工序选择弹窗
+		closeProcessPopup() {
+			this.$refs.processPopup && this.$refs.processPopup.close();
+		},
+
 		// ========== 确认报工 ==========
 		onSubmit() {
 			if (!this.canSubmit) return;
-
 			const { bindingId, functionId } = this.equipInfo;
 			if (!bindingId || !functionId) {
 				showBeautyToast({ title: this.$t('warehouse.lackBindOrStep'), icon: 'none' });
@@ -405,7 +509,7 @@ export default {
 				equipTime: Number(this.equipTime),
 				personTime: Number(this.personTime),
 				reportNumber: Number(this.reportNumber),
-				unqualityNumber: 0,
+				unqualityNumber: Number(this.unqualityNumber) || 0,
 				worksheetCode: this.worksheetCode,
 				productCode: this.worksheetInfo.productCode || '',
 				productName: this.worksheetInfo.productName || '',
@@ -433,11 +537,14 @@ export default {
 			this.loadingWorksheet = false;
 			this.equipCode = '';
 			this.equipInfo = {};
+			this.processList = [];
 			this.loadingEquip = false;
+			this.closeProcessPopup();
 			this.classType = 1;
 			this.personTime = '';
 			this.equipTime = '';
 			this.reportNumber = '';
+			this.unqualityNumber = 0;
 			this.isSubmitting = false;
 			showBeautyToast({ title: this.$t('warehouse.reseted'), icon: 'none' });
 		}
@@ -678,6 +785,43 @@ export default {
 		height: 56rpx;
 		font-size: 28rpx;
 		color: #333;
+	}
+}
+
+/* ========== 工序选择弹窗 ========== */
+.process-value {
+	display: flex;
+	align-items: center;
+	gap: 8rpx;
+}
+
+.process-picker {
+	.process-picker-title {
+		padding: 32rpx 88rpx 16rpx 32rpx;
+		font-size: 32rpx;
+		font-weight: 600;
+		color: #333;
+	}
+}
+
+.process-option-text {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+
+	.process-option-name {
+		font-size: 30rpx;
+		color: #333;
+	}
+
+	.process-option-code {
+		flex-shrink: 0;
+		margin-left: 16rpx;
+		padding: 2rpx 12rpx;
+		font-size: 22rpx;
+		color: #667eea;
+		background: rgba(102, 126, 234, 0.1);
+		border-radius: 8rpx;
 	}
 }
 
