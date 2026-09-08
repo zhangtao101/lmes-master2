@@ -59,11 +59,12 @@
 					<uni-icons type="scan" color="#fff" size="16"></uni-icons>
 				</view>
 			</view>
-				<view class="label-info-container" v-for="labelInfo in labelList" :key="labelInfo.labelCode">
-					<view class="label-item">
-						<view class="left">
-							<text>{{ $t('warehouse.labelCode') }}</text>
-							<text class="value">{{labelInfo.labelCode}}</text>
+				<view class="label-info-container" v-for="(labelInfo, index) in labelList" :key="labelInfo.labelCode">
+					<view class="label-card-header">
+						<view class="label-card-index">{{ index + 1 }}</view>
+						<view class="label-card-title">
+							<text class="label-card-label">{{ $t('warehouse.labelCode') }}</text>
+							<text class="label-card-code">{{labelInfo.labelCode}}</text>
 						</view>
 					</view>
 					<view class="label-item">
@@ -181,7 +182,16 @@
 				const res = await material.getLabelInfo(labelCode, OperateType
 					.materialIn);
 			if (res.code == 200) {
-					this.labelList.push(res.data)
+					// 判重：同一标签码重复扫描时不重复加入入库明细
+					const exists = this.labelList.find(item => item.labelCode === res.data.labelCode);
+					if (exists) {
+						uni.showToast({
+							title: this.$t('warehouse.labelAlreadyScanned'),
+							icon: 'none'
+						})
+					} else {
+						this.labelList.push(res.data)
+					}
 				} else {
 					uni.showToast({
 						title: res.msg,
@@ -189,7 +199,7 @@
 					})
 				}
 				return res;
-		},
+			},
 			// 库位扫码
 			onLocationScan: function() {
 				const _this = this;
@@ -229,15 +239,15 @@
 			},
 		// 标签输入框回车确认
 		onLabelInputConfirm: function() {
-			// this.labelInput = '';
 			// 延迟取码，避免扫码枪HID输入过快导致v-model未完成同步
 			const _this = this;
 			setTimeout(function() {
 				const code = _this.labelInput.trim();
+				// 取码后立即清空，避免旧码残留导致重复扫码/误判
+				_this.labelInput = '';
 				if (code) {
 					_this.loadLabelInfo(code).then(function() {
-						// 接口调用完成后清空输入框并重新获取焦点
-						_this.labelInput = '';
+						// 重新获取焦点，便于连续扫码
 						_this.labelFocus = false;
 						_this.$nextTick(function() {
 							_this.labelFocus = true;
@@ -308,6 +318,70 @@
 			align-items: center;
 			justify-content: center;
 			flex-shrink: 0;
+		}
+	}
+
+	// ========== 标签明细卡片：同一标签归组，多标签时区分明显 ==========
+	.warehouse-detail {
+		.label-info-container {
+			margin-bottom: 24rpx;
+			padding: 24rpx 20rpx;
+			background: #fff;
+			border: 2rpx solid #e8eaf0;
+			border-radius: 24rpx;
+			box-shadow: 0 8rpx 24rpx rgba(102, 126, 234, 0.08);
+			overflow: hidden;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		.label-card-header {
+			display: flex;
+			align-items: center;
+			margin-bottom: 16rpx;
+			padding: 14rpx 18rpx;
+			background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.08) 100%);
+			border-radius: 16rpx;
+
+			.label-card-index {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-shrink: 0;
+				width: 48rpx;
+				height: 48rpx;
+				margin-right: 16rpx;
+				border-radius: 50%;
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				color: #fff;
+				font-size: 26rpx;
+				font-weight: 600;
+			}
+
+			.label-card-title {
+				display: flex;
+				align-items: baseline;
+				flex: 1;
+				min-width: 0;
+
+				.label-card-label {
+					flex-shrink: 0;
+					font-size: 24rpx;
+					color: #666;
+				}
+
+				.label-card-code {
+					flex: 1;
+					min-width: 0;
+					margin-left: 12rpx;
+					font-size: 28rpx;
+					font-weight: 600;
+					color: #333;
+					word-break: break-all;
+				}
+			}
 		}
 	}
 </style>
