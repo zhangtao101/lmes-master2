@@ -470,6 +470,48 @@
 			"style": {
 				"navigationBarTitleText": "%pages.warehouse.materialQuery%"
 			}
+		},
+		{
+			"path": "pages/work/sanyan/workOrderQuery/workOrderQuery",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.workOrderQuery%"
+			}
+		},
+		{
+			"path": "pages/work/sanyan/weighPalletLoad/weighPalletLoad",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.weighPalletLoad%"
+			}
+		},
+		{
+			"path": "pages/work/sanyan/mixWaterManualStartEnd/mixWaterManualStartEnd",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.mixWaterManualStartEnd%"
+			}
+		},
+		{
+			"path": "pages/work/sanyan/mixWorkRunning/mixWorkRunning",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.mixWorkRunning%"
+			}
+		},
+		{
+			"path": "pages/work/sanyan/mixerWeighPalletInput/mixerWeighPalletInput",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.mixerWeighPalletInput%"
+			}
+		},
+		{
+			"path": "pages/work/sanyan/materialQuery/materialQuery",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.materialQuery%"
+			}
+		},
+		{
+			"path": "pages/work/sanyan/warehouseQuery/warehouseQuery",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.warehouseQuery%"
+			}
 		}
 	],
 	"globalStyle": {

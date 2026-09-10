@@ -46,7 +46,8 @@
 			moduleTabs: [
 				{ name: 'produce', listKey: 'product', titleKey: 'work.produce', icon: 'file-text' },
 				{ name: 'quality', listKey: 'quality', titleKey: 'work.quality', icon: 'checkmark-circle' },
-				{ name: 'warehouse', listKey: 'warehouse', titleKey: 'work.warehouse', icon: 'grid' }
+				{ name: 'warehouse', listKey: 'warehouse', titleKey: 'work.warehouse', icon: 'grid' },
+				{ name: 'sanyan', listKey: 'sanyan', titleKey: 'work.sanyan', icon: 'home' }
 				// { name: 'device', listKey: 'devices', titleKey: 'work.device', icon: 'setting' },
 				// { name: 'andon', listKey: 'andon', titleKey: 'work.andon', icon: 'bell' }
 			],
@@ -373,7 +374,51 @@
 					nameKey: "pages.andon.trigger",
 					url: "/pages/work/andon/trigger/trigger"
 				},
-			])
+			]),
+			sanyan: Object.freeze([
+				{
+					// 工单查询
+					img: "../../static/images/gongdanchaxun.png",
+					nameKey: "pages.sanyan.workOrderQuery",
+					url: "/pages/work/sanyan/workOrderQuery/workOrderQuery"
+				},
+				{
+					// 称量PALLET装载
+					img: "../../static/images/wuliaozhuangzai.png",
+					nameKey: "pages.sanyan.weighPalletLoad",
+					url: "/pages/work/sanyan/weighPalletLoad/weighPalletLoad"
+				},
+				{
+					// 混合水Manual开始/结束
+					img: "../../static/images/kaishi_jieshu.png",
+					nameKey: "pages.sanyan.mixWaterManualStartEnd",
+					url: "/pages/work/sanyan/mixWaterManualStartEnd/mixWaterManualStartEnd"
+				},
+				{
+					// 混合工作进行
+					img: "../../static/images/hunhe.png",
+					nameKey: "pages.sanyan.mixWorkRunning",
+					url: "/pages/work/sanyan/mixWorkRunning/mixWorkRunning"
+				},
+				{
+					// 混合机称量托盘投入
+					img: "../../static/images/chengzhong.png",
+					nameKey: "pages.sanyan.mixerWeighPalletInput",
+					url: "/pages/work/sanyan/mixerWeighPalletInput/mixerWeighPalletInput"
+				},
+				{
+					// 物料查询
+					img: "../../static/images/wuliaochaxun.png",
+					nameKey: "pages.sanyan.materialQuery",
+					url: "/pages/work/sanyan/materialQuery/materialQuery"
+				},
+				{
+					// 仓库查询
+					img: "../../static/images/cangkucahxun.png",
+					nameKey: "pages.sanyan.warehouseQuery",
+					url: "/pages/work/sanyan/warehouseQuery/warehouseQuery"
+				},
+			]),
 			}
 		},
 		computed: {
@@ -405,7 +450,7 @@
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: flex-start;
-			align-items: center;
+			align-items: flex-start;
 
 			& .work-item {
 				flex: 0 1 25%;
