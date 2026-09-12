@@ -165,7 +165,7 @@
 
 <style lang="less" scoped>
 	.material-query-page {
-		height: 100vh;
+		height: 95vh;
 		box-sizing: border-box;
 		padding-bottom: 160rpx;
 		background: #f5f7fa;

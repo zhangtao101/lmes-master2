@@ -290,7 +290,7 @@
 
 <style lang="less" scoped>
 	.work-query-page {
-		height: 100vh;
+		height: 95vh;
 		box-sizing: border-box;
 		padding-bottom: 160rpx;
 		background: #f5f7fa;

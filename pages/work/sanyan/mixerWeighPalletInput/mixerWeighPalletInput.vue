@@ -338,7 +338,7 @@
 
 <style lang="scss" scoped>
 	.weigh-page {
-		height: 100vh;
+		height: 95vh;
 		box-sizing: border-box;
 		padding-bottom: 180rpx;
 		background: #f5f7fa;
