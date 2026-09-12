@@ -280,7 +280,7 @@
 				const params = {
 					pageNum: _this.page.pageNum,
 					pageSize: _this.page.pageSize,
-					processType: _this.processType
+					processType: _this.processType || undefined
 				};
 				// timeRange 数组格式化为 startTime / endTime
 				if (_this.form.timeRange && _this.form.timeRange.length === 2) {
