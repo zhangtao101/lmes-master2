@@ -418,6 +418,24 @@
 					nameKey: "pages.sanyan.warehouseQuery",
 					url: "/pages/work/sanyan/warehouseQuery/warehouseQuery"
 				},
+				{
+					// 汤料包装台车投入
+					img: "../../static/images/taichetouru.png",
+					nameKey: "pages.sanyan.soupPackingTrolleyInput",
+					url: "/pages/work/sanyan/soupPackingTrolleyInput/soupPackingTrolleyInput"
+				},
+				{
+					// 台车查询及卸载
+					img: "../../static/images/xiezai.png",
+					nameKey: "pages.sanyan.trolleyQueryAndUnload",
+					url: "/pages/work/sanyan/trolleyQueryAndUnload/trolleyQueryAndUnload"
+				},
+				{
+					// 大车LOT变更
+					img: "../../static/images/biangeng.png",
+					nameKey: "pages.sanyan.lotChange",
+					url: "/pages/work/sanyan/lotChange/lotChange"
+				},	
 			]),
 			}
 		},

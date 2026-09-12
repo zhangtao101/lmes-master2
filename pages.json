@@ -512,6 +512,24 @@
 			"style": {
 				"navigationBarTitleText": "%pages.sanyan.warehouseQuery%"
 			}
+		},
+		{
+			"path": "pages/work/sanyan/soupPackingTrolleyInput/soupPackingTrolleyInput",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.soupPackingTrolleyInput%"
+			}
+		},
+		{
+			"path": "pages/work/sanyan/trolleyQueryAndUnload/trolleyQueryAndUnload",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.trolleyQueryAndUnload%"
+			}
+		},
+		{
+			"path": "pages/work/sanyan/lotChange/lotChange",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.lotChange%"
+			}
 		}
 	],
 	"globalStyle": {
