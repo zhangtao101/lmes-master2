@@ -17,6 +17,68 @@
 			</view>
 		</view>
 
+		<!-- 待执行任务清单 -->
+		<view class="box-body" v-else-if="!taskSelected">
+			<view>
+				<view class="card-header">
+					<view class="header-left">
+						<uni-icons type="list" color="#fff" size="18"></uni-icons>
+						<text class="header-title">{{$t('warehouse.pendingTaskList')}}</text>
+					</view>
+					<view class="header-right">
+						<text class="count-badge">{{todoTaskList.length}}</text>
+					</view>
+				</view>
+				<view class="card-content task-list" v-if="todoTaskList.length > 0">
+					<view class="task-item" v-for="(item, index) in todoTaskList" :key="item.id" @click="onSelectTask(item)">
+						<view class="item-index">
+							<view class="index-circle">{{index + 1}}</view>
+						</view>
+						<view class="item-info">
+							<view class="item-row">
+								<text class="item-label">{{$t('warehouse.taskCode')}}</text>
+								<text class="item-value">{{item.taskCode || '--'}}</text>
+							</view>
+							<view class="item-row">
+								<text class="item-label">{{$t('warehouse.formCode')}}</text>
+								<text class="item-value">{{item.formCode || '--'}}</text>
+							</view>
+							<view class="item-row">
+								<text class="item-label">{{$t('warehouse.tagCode')}}</text>
+								<text class="item-value highlight">{{item.labelCode || '--'}}</text>
+							</view>
+							<view class="item-row">
+								<text class="item-label">{{$t('warehouse.code')}}</text>
+								<text class="item-value">{{item.materialCode || '--'}}</text>
+							</view>
+							<view class="item-row">
+								<text class="item-label">{{$t('warehouse.materialName')}}</text>
+								<text class="item-value">{{item.materialName || '--'}}</text>
+							</view>
+							<view class="item-row">
+								<text class="item-label">{{$t('warehouse.qty')}}</text>
+								<text class="item-value">{{item.todoNumber || 0}}</text>
+							</view>
+							<view class="item-row">
+								<text class="item-label">{{$t('warehouse.finishedQty')}}</text>
+								<text class="item-value">{{item.finishNumber || 0}}</text>
+							</view>
+						</view>
+						<view class="item-action">
+							<text class="task-state" :class="item.state == 2 ? 'state-done' : (item.state == 1 ? 'state-doing' : 'state-todo')">
+								{{getTaskStateText(item.state)}}
+							</text>
+						</view>
+					</view>
+				</view>
+				<view class="card-content" v-else>
+					<view class="empty-info">
+						<text class="empty-text">{{$t('warehouse.noPendingTask')}}</text>
+					</view>
+				</view>
+			</view>
+		</view>
+
 		<!-- 正常页面内容 -->
 		<view class="box-body" v-else>
 			<!-- 单据扫码区 -->
@@ -26,25 +88,14 @@
 						<uni-icons type="paperplane-filled" color="#fff" size="18"></uni-icons>
 						<text class="header-title">{{$t('warehouse.formScanTitle')}}</text>
 					</view>
-				</view>
-				<view class="card-content">
-					<view class="input-row">
-						<view class="input-group">
-							<uni-icons type="paperplane" color="#667eea" size="18"></uni-icons>
-							<uni-easyinput
-								v-model="formCode"
-								:inputBorder="false"
-								placeholderStyle="color: #999;"
-								:placeholder="$t('warehouse.scanOrInputForm')"
-								@confirm="onFormCodeConfirm"
-								class="main-input"
-							></uni-easyinput>
-						</view>
-						<view class="scan-btn" @click="onFormCodeScan">
-							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-							<text>{{$t('warehouse.scan')}}</text>
+					<view class="header-right">
+						<view class="back-btn" @click="onBackToSelectTask">
+							<uni-icons type="left" color="#fff" size="14"></uni-icons>
+							<text class="back-text">{{$t('warehouse.backToSelect')}}</text>
 						</view>
 					</view>
+				</view>
+				<view class="card-content">
 					<!-- 订单信息 -->
 					<view class="order-info" v-if="orderLoaded">
 						<view class="table-wrapper">
@@ -74,8 +125,8 @@
 							</view>
 						</view>
 					</view>
-					<view class="empty-info" v-if="!orderLoaded && formCode">
-						<text class="empty-text">{{$t('warehouse.clickScanOrEnterForm')}}</text>
+					<view class="empty-info" v-if="!orderLoaded">
+						<text class="empty-text">{{$t('warehouse.noFormInfo')}}</text>
 					</view>
 				</view>
 			</view>
@@ -109,7 +160,6 @@
 </template>
 
 <script>
-	import scanCode from '/common/scan.js'
 	import goodsShelvingApi from '/api/warehouse/goodsShelving.js'
 	import showBeautyToast from '@/common/beautyToast.js'
 	import NormalUnshelving from './components/NormalUnshelving.vue'
@@ -131,6 +181,11 @@
 				selectedIndex: '',
 				selectedItem: null,
 
+				// 上下架待执行任务清单
+				todoTaskList: [],
+				// 是否已选择任务（选择后才显示下架操作区）
+				taskSelected: false,
+
 				// 状态
 				isLoading: false
 			}
@@ -143,11 +198,11 @@
 				if (e.keyCode == 102 || e.keyCode == 103 || e.keyCode == 110) {
 					uni.$off('scan');
 					uni.$on('scan', function(code) {
-						if (!_this.orderLoaded || !_this.formCode) {
-							// 未加载单据时，扫码作为单据号
-							_this.formCode = code;
-							_this.loadOrder();
-						} else if (_this.unshelvingMode === 'normal' && _this.selectedItem) {
+						if (!_this.taskSelected) {
+							// 未选择任务时不处理扫码
+							return;
+						}
+						if (_this.unshelvingMode === 'normal' && _this.selectedItem) {
 							// 货物下架模式：有选中行，扫码作为货架码
 							const child = _this.$refs.normalChild;
 							if (child) {
@@ -180,27 +235,67 @@
 				this.orderLoaded = false;
 				this.selectedIndex = '';
 				this.selectedItem = null;
+				this.todoTaskList = [];
+				this.taskSelected = false;
+				// 获取上下架待执行任务清单
+				this.loadToDoTask();
 			},
 
-			// 单据号扫码
-			onFormCodeScan() {
-				const _this = this;
-				scanCode().then(code => {
-					_this.formCode = code;
-					_this.loadOrder();
-				}).catch(err => {
-					showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
+			// 获取上下架待执行任务清单（opType：上架传 1，下架传 -1）
+			loadToDoTask() {
+				this.isLoading = true;
+				goodsShelvingApi.listToDoTask(-1).then(resp => {
+					this.isLoading = false;
+					if (resp.code == 200 || resp.code == '200') {
+						this.todoTaskList = Array.isArray(resp.data) ? resp.data : [];
+						if (this.todoTaskList.length === 0) {
+							showBeautyToast({ title: this.$t('warehouse.noPendingTask'), icon: 'none' });
+						}
+					} else {
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.queryFailed'), icon: 'none' });
+					}
+				}).catch(() => {
+					this.isLoading = false;
+					showBeautyToast({ title: this.$t('warehouse.queryFailed'), icon: 'none' });
 				});
 			},
 
-			// 单据号回车确认
-			onFormCodeConfirm() {
-				const _this = this;
-				setTimeout(function() {
-					if (_this.formCode) {
-						_this.loadOrder();
-					}
-				}, 200);
+			// 选择待执行任务：单据号取所选任务的 formCode，后续操作与原流程一致
+			onSelectTask(item) {
+				this.taskSelected = true;
+				this.formCode = item.formCode || '';
+				this.materialList = [];
+				this.orderLoaded = false;
+				this.selectedIndex = '';
+				this.selectedItem = null;
+				if (this.formCode) {
+					this.loadOrder();
+				}
+			},
+
+			// 返回待执行任务清单：重置当前任务上下文并重新查询任务列表
+			onBackToSelectTask() {
+				this.taskSelected = false;
+				this.formCode = '';
+				this.materialList = [];
+				this.orderLoaded = false;
+				this.selectedIndex = '';
+				this.selectedItem = null;
+				this.loadToDoTask();
+			},
+
+			// 任务状态文案：-1未执行 1执行中 2执行完成
+			getTaskStateText(state) {
+				if (state == -1) {
+					return this.$t('warehouse.stateNotExec');
+				}
+				if (state == 1) {
+					return this.$t('warehouse.stateInProgress');
+				}
+				if (state == 2) {
+					return this.$t('warehouse.statusDone');
+				}
+				return '--';
 			},
 
 			// 加载单据信息
@@ -340,6 +435,34 @@
 		color: #fff;
 	}
 
+	.header-right {
+		display: flex;
+		align-items: center;
+	}
+
+	.count-badge {
+		background: rgba(255, 255, 255, 0.25);
+		color: #fff;
+		font-size: 24rpx;
+		font-weight: bold;
+		padding: 4rpx 16rpx;
+		border-radius: 20rpx;
+	}
+
+	.back-btn {
+		display: flex;
+		align-items: center;
+		gap: 6rpx;
+		padding: 6rpx 20rpx;
+		background: rgba(255, 255, 255, 0.25);
+		border-radius: 30rpx;
+	}
+
+	.back-text {
+		font-size: 24rpx;
+		color: #fff;
+	}
+
 	.card-content {
 		padding: 24rpx 30rpx;
 	}
@@ -460,6 +583,102 @@
 	.empty-text {
 		font-size: 24rpx;
 		color: #999;
+	}
+
+	/* ========== 待执行任务清单 ========== */
+	.task-list {
+		padding: 20rpx;
+		background: #f5f7fa;
+	}
+
+	.task-item {
+		display: flex;
+		align-items: center;
+		padding: 20rpx 24rpx;
+		background: #fff;
+		border-radius: 16rpx;
+		border-left: 8rpx solid #667eea;
+		box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.08);
+		margin-bottom: 20rpx;
+	}
+
+	.task-item:last-child {
+		margin-bottom: 0;
+	}
+
+	.task-item:active {
+		background: #eef2ff;
+		transform: scale(0.99);
+	}
+
+	.item-index {
+		flex-shrink: 0;
+		margin-right: 20rpx;
+	}
+
+	.index-circle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40rpx;
+		height: 40rpx;
+		border-radius: 50%;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: #fff;
+		font-size: 22rpx;
+		font-weight: bold;
+	}
+
+	.item-info {
+		flex: 1;
+	}
+
+	.item-row {
+		display: flex;
+		align-items: center;
+		padding: 4rpx 0;
+	}
+
+	.item-label {
+		font-size: 22rpx;
+		color: #999;
+		min-width: 110rpx;
+	}
+
+	.item-value {
+		font-size: 24rpx;
+		color: #333;
+		font-weight: 500;
+	}
+
+	.item-action {
+		flex-shrink: 0;
+		margin-left: 16rpx;
+	}
+
+	.task-state {
+		display: inline-block;
+		font-size: 22rpx;
+		font-weight: bold;
+		color: #fff;
+		background: #bfbfbf;
+		padding: 6rpx 18rpx;
+		border-radius: 20rpx;
+	}
+
+	.task-state.state-todo {
+		background: #bfbfbf;
+		color: #fff;
+	}
+
+	.task-state.state-doing {
+		background: #faad14;
+		color: #fff;
+	}
+
+	.task-state.state-done {
+		background: #52c41a;
+		color: #fff;
 	}
 
 	/* ========== 加载遮罩 ========== */

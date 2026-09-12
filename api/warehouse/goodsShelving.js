@@ -12,7 +12,7 @@ export default {
 			}
 		});
 	},
-	// 上架校验
+	// 上/下架校验
 	checkLabelCode: (formCode, labelCode, storageCode) => {
 		return request({
 			url: `${prefixUrl}wms/linehouse/enout/checkLabelCode`,
@@ -67,6 +67,16 @@ export default {
 			data: {
 				formCode,
 				storageCode
+			}
+		});
+	},
+	// 获取上下架待执行任务清单（opType：上架传 1，下架传 -1）
+	listToDoTask: (opType) => {
+		return request({
+			url: `${prefixUrl}wms/linehouse/enout/listToDoTask`,
+			method: "GET",
+			data: {
+				opType
 			}
 		});
 	}
