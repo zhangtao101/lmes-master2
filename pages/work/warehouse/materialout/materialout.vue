@@ -1,10 +1,5 @@
 <template>
 	<view class="ware-house-container">
-		<view class="box-header">
-			<view class="icon">
-			</view>
-			<text class="title">{{ $t('pages.warehouse.materialout') }}</text>
-		</view>
 		<view class="box-body">
 			<view class="warehouse-info">
 				<view class="header">
@@ -21,18 +16,30 @@
 					</view>
 				</view>
 				<view class="body-header" v-if="formData.details && formData.details.length > 0">
-					<view class="body-header-row body-header-title">
-						<view class="body-header-cell">{{ $t('warehouse.materialCode') }}</view>
-						<view class="body-header-cell">{{ $t('produce.worksheetoff.materialName') }}</view>
-						<view class="body-header-cell">{{ $t('warehouse.waitReceiveQty') }}</view>
-						<view class="body-header-cell">{{ $t('warehouse.receivedQty') }}</view>
-					</view>
-					<view class="body-header-row" v-for="form in formData.details" :key="form.id">
-						<view class="body-header-cell">{{form.materialCode}}</view>
-						<view class="body-header-cell">{{form.materialName}}</view>
-						<view class="body-header-cell">{{form.applyNumber}}</view>
-						<view class="body-header-cell">{{form.receiveNumber}}</view>
-					</view>
+					<scroll-view class="body-scroll" scroll-x="true">
+						<view class="body-table">
+							<view class="body-header-row body-header-title">
+								<view class="body-header-cell">{{ $t('warehouse.materialCodeLabel') }}</view>
+								<view class="body-header-cell">{{ $t('warehouse.materialName') }}</view>
+								<view class="body-header-cell">{{ $t('warehouse.lineHouseNumber') }}</view>
+								<view class="body-header-cell">{{ $t('warehouse.lineLockNumber') }}</view>
+								<view class="body-header-cell">{{ $t('warehouse.lineTotalNumber') }}</view>
+								<view class="body-header-cell">{{ $t('warehouse.waitReceiveQty') }}</view>
+								<view class="body-header-cell">{{ $t('warehouse.receivedQty') }}</view>
+							</view>
+							<scroll-view class="body-scroll-y" scroll-y="true">
+								<view class="body-header-row" v-for="form in formData.details" :key="form.id">
+									<view class="body-header-cell">{{form.materialCode}}</view>
+									<view class="body-header-cell">{{form.materialName}}</view>
+									<view class="body-header-cell">{{form.lineHouseNumber}}</view>
+									<view class="body-header-cell">{{form.lineLockNumber}}</view>
+									<view class="body-header-cell">{{form.lineTotalNumber}}</view>
+									<view class="body-header-cell">{{form.applyNumber}}</view>
+									<view class="body-header-cell">{{form.receiveNumber}}</view>
+								</view>
+							</scroll-view>
+						</view>
+					</scroll-view>
 				</view>
 			</view>
 
@@ -316,6 +323,22 @@
 		margin-top: 20rpx;
 		background: #fff;
 
+		// 横向滚动：表格总宽超出屏幕时可左右滑动
+		.body-scroll {
+			width: 100%;
+			white-space: nowrap;
+
+			.body-table {
+				display: inline-block;
+				min-width: 100%;
+			}
+
+			// 竖向滚动：明细行超出最大高度时可上下滑动
+			.body-scroll-y {
+				max-height: 480rpx;
+			}
+		}
+
 		.body-header-row {
 			display: flex;
 			padding: 16rpx 0;
@@ -339,6 +362,7 @@
 
 		.body-header-cell {
 			flex: 1;
+			min-width: 200rpx;
 			text-align: center;
 			font-size: 26rpx;
 			color: #333;
