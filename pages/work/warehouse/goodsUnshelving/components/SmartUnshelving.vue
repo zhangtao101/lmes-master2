@@ -56,8 +56,8 @@
 
 		<!-- 底部取货按钮 -->
 		<view class="submit-btn-wrapper" v-if="lightSuccess && labelCode">
-			<button class="submit-btn" :class="{ disabled: isSubmitting }" @click="onSubmit" :disabled="isSubmitting">
-				<text>{{ isSubmitting ? $t('warehouse.pickupLoading') : $t('warehouse.shelfPickup') }}</text>
+			<button class="submit-btn" :class="{ disabled: isSubmitting || isChecking }" @click="onLabelCheck" :disabled="isSubmitting || isChecking">
+				<text>{{ isSubmitting ? $t('warehouse.pickupLoading') : (isChecking ? $t('warehouse.checking') : $t('warehouse.shelfPickup')) }}</text>
 			</button>
 		</view>
 	</view>
@@ -79,7 +79,8 @@
 				labelCode: '',
 				labelFocusFlag: false,
 				lightSuccess: false,
-				isSubmitting: false
+				isSubmitting: false,
+				isChecking: false
 			}
 		},
 		mounted() {
@@ -139,14 +140,41 @@
 				});
 			},
 
-			// 标签码回车 → 直接取货
+			// 标签码回车 → 先校验，校验通过后才取货
 			onLabelCodeConfirm() {
 				const _this = this;
 				setTimeout(function() {
 					if (_this.labelCode) {
-						_this.onSubmit();
+						_this.onLabelCheck();
 					}
 				}, 200);
+			},
+
+			// 标签码校验：先调用上/下架校验接口，校验通过后才执行取货
+			onLabelCheck() {
+				if (this.isChecking || this.isSubmitting) return;
+				if (!this.labelCode) {
+					showBeautyToast({ title: this.$t('warehouse.scanOrInputLabel'), icon: 'none' });
+					return;
+				}
+				if (!this.storageCode) {
+					showBeautyToast({ title: this.$t('warehouse.scanOrInputShelf'), icon: 'none' });
+					return;
+				}
+
+				this.isChecking = true;
+				goodsShelvingApi.checkLabelCode(this.formCode, this.labelCode, this.storageCode).then(resp => {
+					this.isChecking = false;
+					if (resp.code == 200 || resp.code == '200') {
+						// 校验通过 → 执行取货
+						this.onSubmit();
+					} else {
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.checkFail'), icon: 'none' });
+					}
+				}).catch(() => {
+					this.isChecking = false;
+					showBeautyToast({ title: this.$t('warehouse.checkFail'), icon: 'none' });
+				});
 			},
 
 			// 提交取货
