@@ -1,10 +1,5 @@
 <template>
 	<view class="ware-house-container">
-		<view class="box-header">
-			<view class="icon">
-			</view>
-			<text class="title">{{ $t('warehouse.cpSendTitle') }}</text>
-		</view>
 		<view class="box-body">
 			<view class="warehouse-info">
 				<view class="header">

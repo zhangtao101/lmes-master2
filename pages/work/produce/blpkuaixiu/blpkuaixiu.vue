@@ -1,11 +1,5 @@
 <template>
 	<view class="buliangpin-container">
-		<view class="box-header">
-			<view class="icon">
-			</view>
-			<view class="title">{{ $t('produce.blpkuaixiu.title') }}
-			</view>
-		</view>
 		<view class="box-content">
 			<view class="common-container-header radius">
 				<uni-icons color="#fff" custom-prefix="iconfont" type="icon-xianshiqi" size="18"></uni-icons>

@@ -1,9 +1,5 @@
 <template>
 	<view class="ware-house-container">
-		<view class="box-header">
-			<view class="icon"></view>
-			<text class="title">{{$t('warehouse.ctuCartonTitle')}}</text>
-		</view>
 		<view class="box-body">
 			<!-- 箱码输入区域 -->
 			<view class="warehouse-info">
@@ -752,36 +748,6 @@
 		background: #f5f7fa;
 		min-height: 100vh;
 		padding-bottom: 30rpx;
-	}
-
-	.box-header {
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-		padding: 40rpx 30rpx;
-		text-align: center;
-		position: relative;
-		overflow: hidden;
-
-		&::before {
-			content: '';
-			position: absolute;
-			width: 200rpx;
-			height: 200rpx;
-			background: rgba(255, 255, 255, 0.1);
-			border-radius: 50%;
-			top: -50rpx;
-			right: -50rpx;
-		}
-
-		.icon {
-			margin-bottom: 20rpx;
-		}
-
-		.title {
-			font-size: 36rpx;
-			font-weight: bold;
-			color: #fff;
-			text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
-		}
 	}
 
 	.box-body {
