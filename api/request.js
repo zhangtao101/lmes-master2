@@ -3,7 +3,7 @@
 // const baseURL = 'http://192.168.0.14:8050'
 // const baseURL = 'http://192.168.0.206:8050'
 // const baseURL = 'http://192.168.0.109:8050'
-const baseURL = 'http://192.168.0.121:8060'
+// const baseURL = 'http://192.168.0.121:8060'
 // const baseURL = 'http://10.10.0.220:8060'
 // const baseURL = 'http://192.168.0.136:8060';
 // const baseURL = 'http://192.168.10.2:8060'
@@ -13,6 +13,7 @@ const baseURL = 'http://192.168.0.121:8060'
 // const baseURL = 'http://192.168.79.115:8060'
 // const baseURL = 'http://192.168.31.60:8060'
 // const baseURL = 'http://192.168.0.211:8186'
+const baseURL = 'http://10.10.0.41:8060'
 
 const request = (o) => {
 	const auth = uni.getStorageSync('auth');
