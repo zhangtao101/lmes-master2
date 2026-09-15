@@ -39,21 +39,13 @@ export default {
 		});
 	},
 	// 货架取货（下架）
-	getOutLabel: (formCode, labelCode, materialCode, storageCode, opZnFlag) => {
-		console.log({
-				formCode,
-				labelCode,
-				materialCode,
-				storageCode,
-				opZnFlag
-			})
+	getOutLabel: (formCode, labelCodes, storageCode, opZnFlag) => {
 		return request({
 			url: `${prefixUrl}wms/linehouse/enout/getOutLabel`,
 			method: "POST",
 			data: {
 				formCode,
-				labelCode,
-				materialCode,
+				labelCodes,
 				storageCode,
 				opZnFlag
 			}
@@ -63,6 +55,17 @@ export default {
 	getOutLight: (formCode, storageCode) => {
 		return request({
 			url: `${prefixUrl}wms/linehouse/enout/getOutLight`,
+			method: "GET",
+			data: {
+				formCode,
+				storageCode
+			}
+		});
+	},
+	// 智能货架上架亮灯
+	getInLight: (formCode, storageCode) => {
+		return request({
+			url: `${prefixUrl}wms/linehouse/enout/getInLight`,
 			method: "GET",
 			data: {
 				formCode,

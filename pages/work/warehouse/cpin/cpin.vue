@@ -99,7 +99,7 @@
 			</view>
 		</view>
 		<view class="operator-button">
-			<button type="primary" size="mini" @click="onSubmit">{{ $t('common.confirmSubmit') }}</button>
+			<button type="primary" size="mini" :class="{ disabled: labelList.length === 0 }" :disabled="labelList.length === 0" @click="onSubmit">{{ $t('common.confirmSubmit') }}</button>
 		</view>
 	</view>
 </template>
@@ -310,5 +310,11 @@
 			justify-content: center;
 			flex-shrink: 0;
 		}
+	}
+
+	// 标签列表为空时禁用确认提交按钮
+	.operator-button button.disabled {
+		opacity: 0.6;
+		pointer-events: none;
 	}
 </style>

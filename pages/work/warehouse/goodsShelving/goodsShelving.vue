@@ -488,7 +488,7 @@
 				}
 				this.lightLoading = true;
 				this.lightSuccess = false;
-				goodsShelvingApi.getOutLight(this.formCode, this.storageCode).then(resp => {
+				goodsShelvingApi.getInLight(this.formCode, this.storageCode).then(resp => {
 					this.lightLoading = false;
 					if (resp.code == 200 || resp.code == '200') {
 						this.lightSuccess = true;

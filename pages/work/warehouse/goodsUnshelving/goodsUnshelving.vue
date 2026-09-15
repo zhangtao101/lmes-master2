@@ -203,16 +203,16 @@
 							return;
 						}
 						if (_this.unshelvingMode === 'normal' && _this.selectedItem) {
-							// 货物下架模式：有选中行，扫码作为货架码
+							// 货物下架模式：有选中行，按当前步骤路由（先货架码，再标签码）
 							const child = _this.$refs.normalChild;
 							if (child) {
-								child.setStorageCode(code);
+								child.setScanCode(code);
 							}
 						} else if (_this.unshelvingMode === 'smart') {
-							// 智能下架模式：扫码作为货架码
+							// 智能下架模式：按当前步骤路由（先货架码，亮灯后为标签码）
 							const child = _this.$refs.smartChild;
 							if (child) {
-								child.setStorageCode(code);
+								child.setScanCode(code);
 							}
 						}
 					});
