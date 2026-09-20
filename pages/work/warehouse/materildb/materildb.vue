@@ -172,11 +172,32 @@
 				}
 			},
 			loadLabelInfo: async function(code) {
+				// 已添加过的标签码不再重复添加
+				const exists = this.labelList.find(item => item.labelCode === code);
+				if (exists) {
+					uni.showToast({
+						title: this.$t('warehouse.labelAlreadyScanned'),
+						icon: 'none'
+					});
+					return;
+				}
 				this.diaoboCount[`dbcount_${code}`] = 0;
 				const res = await material.getLabelInfo(code, OperateType
 					.materialDiaobo);
 				if (res.code == 200) {
-					this.labelList.push(res.data)
+					const data = res.data || {};
+					const labelCode = data.labelCode || code;
+					// 接口返回的标签码与入参可能不同，入库前再次判重
+					const duplicate = this.labelList.find(item => item.labelCode === labelCode);
+					if (duplicate) {
+						uni.showToast({
+							title: this.$t('warehouse.labelAlreadyScanned'),
+							icon: 'none'
+						});
+						return res;
+					}
+					this.labelList.push(data)
+					this.diaoboCount[`dbcount_${labelCode}`] = data.packageNumber;
 				} else {
 					uni.showToast({
 						title: res.msg,
