@@ -25,6 +25,16 @@ export default {
 			method: 'GET'
 		});
 	},
+	// 根据工单id查询该工单下所有批次LOT
+	// 返回数组，元素含：id lotId、lineName 子产线名称、lineCode 子产线编号、lotCode 批次LOT ID、
+	// fullUse 纸袋托盘是否投入（1投入 2没有）、fullLabel 纸袋托盘编号、looseUse 分装是否投入、
+	// looseLabel 分装托盘编号、batch 批次数、state 状态（1生产）、weight 数量
+	selectByWorkSheetId: (workSheetId) => {
+		return request({
+			url: `${prefixUrl}workSheet/lot/selectByWorkSheetId/${workSheetId}`,
+			method: 'GET'
+		});
+	},
 	// 大车批次绑定记录查询：按工单号（workSheetCode）查询该工单下大车已投入的记录
 	// 返回数组，元素含：id、workSheetCode、lineCode（子产线编码）、lineName（子产线名称）、
 	// cartCode（大车编号）、cartBindWorkSheetTime（大车投入工单时间）、productCode、productName、

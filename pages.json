@@ -530,6 +530,24 @@
 			"style": {
 				"navigationBarTitleText": "%pages.sanyan.lotChange%"
 			}
+		},
+		{
+			"path": "pages/work/sanyan/materialLoad/materialLoad",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.materialLoad%"
+			}
+		},
+		{
+			"path": "pages/work/sanyan/materialUnload/materialUnload",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.materialUnload%"
+			}
+		},
+		{
+			"path": "pages/work/sanyan/deviceMaterialUnload/deviceMaterialUnload",
+			"style": {
+				"navigationBarTitleText": "%pages.sanyan.deviceMaterialUnload%"
+			}
 		}
 	],
 	"globalStyle": {
