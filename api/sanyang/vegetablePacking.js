@@ -1,8 +1,8 @@
 import request from '/api/request.js';
 
 // TODO: 网关前缀需按三养后端实际部署的服务名确认
-const prefixUrl = 'mes-main-sy/';
-// const prefixUrl = 'mes-main/';
+// const prefixUrl = 'mes-main-sy/';
+const prefixUrl = 'mes-main/';
 
 export default {
 	// 子产线查询：按工序编码（processCode）查询子产线列表
