@@ -16,6 +16,15 @@ export default {
 			}
 		});
 	},
+	// 根据子产线名称获取工单号
+	// 返回数组，元素含：id 工单id、workSheetCode 工单号（另含 palletLabel、priority、lotCode、
+	// productCode、productName、createTime、lineCode、lineName、batch、unit，可能为空）
+	getPlanWorkSheet: (sublineCode) => {
+		return request({
+			url: `${prefixUrl}workSheet/lot/getPlanWorkSheet/${encodeURIComponent(sublineCode || '')}`,
+			method: 'GET'
+		});
+	},
 	// 大车批次绑定记录查询：按工单号（workSheetCode）查询该工单下大车已投入的记录
 	// 返回数组，元素含：id、workSheetCode、lineCode（子产线编码）、lineName（子产线名称）、
 	// cartCode（大车编号）、cartBindWorkSheetTime（大车投入工单时间）、productCode、productName、
