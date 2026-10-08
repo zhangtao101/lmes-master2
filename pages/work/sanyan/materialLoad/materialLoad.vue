@@ -13,7 +13,7 @@
 						</view>
 					</view>
 				</uv-form-item>
-				<!-- 子产线：不可输入，点击铅笔图标弹出产线选择，选中行的 id 作为 lotId -->
+				<!-- 子产线：不可输入，点击铅笔图标弹出产线设备选择，选中行的 equipCode 作为 equipCode -->
 				<uv-form-item :label="$t('sanyan.subLineLabel')">
 					<view class="pick-field">
 						<uv-input class="pick-input" v-model="form.lineName" :readonly="true"
@@ -93,7 +93,7 @@
 		<!-- 作业指示 / 子产线 / 设备 选择弹层 -->
 		<work-instruction-query ref="worksheetPicker" :process-type="2" @select="onWorksheetSelect">
 		</work-instruction-query>
-		<line-query ref="linePicker" :work-sheet-id="workSheetId" @select="onLineSelect"></line-query>
+		<line-equip-query ref="linePicker" :work-sheet-id="workSheetId" @select="onLineSelect"></line-equip-query>
 		<equipment-query ref="equipPicker" @select="onEquipSelect"></equipment-query>
 	</view>
 </template>
@@ -101,7 +101,7 @@
 <script>
 	import materialLoadApi from '/api/sanyang/materialLoad.js';
 	import WorkInstructionQuery from '../utils/workInstructionQuery.vue';
-	import LineQuery from '../utils/lineQuery.vue';
+	import LineEquipQuery from '../utils/lineEquipQuery.vue';
 	import EquipmentQuery from '../utils/equipmentQuery.vue';
 	import scanCode from '/common/scan.js';
 	import showBeautyToast from '@/common/beautyToast.js';
@@ -114,7 +114,7 @@
 		name: 'materialLoad',
 		components: {
 			WorkInstructionQuery,
-			LineQuery,
+			LineEquipQuery,
 			EquipmentQuery
 		},
 		data() {
@@ -125,8 +125,8 @@
 					equipName: '', // 设备名称（仅展示）
 					labelId: '' // LABELID（扫码输入，查询物料用）
 				},
-				workSheetId: null, // 选中的作业指示ID（子产线查询条件）
-				lotId: null, // 选中子产线的ID（装载提交用）
+				workSheetId: null, // 选中的作业指示ID（产线设备查询条件）
+				equipCode: '', // 选中产线行的设备编号（装载提交用）
 				palletLabel: '', // 选中设备的设备编号（装载提交用）
 				rows: [], // 本次扫描的物料列表
 				loadingList: false, // 物料查询中
@@ -134,9 +134,9 @@
 			}
 		},
 		computed: {
-			// 是否可执行装载：已选子产线、已选设备且有扫描数据
+			// 是否可执行装载：已选产线设备、已选设备且有扫描数据
 			canLoad: function() {
-				return this.lotId != null &&
+				return !!this.equipCode &&
 					!!this.palletLabel &&
 					this.rows.length > 0 &&
 					!this.submitting;
@@ -157,14 +157,14 @@
 				this.workSheetId = id;
 				this.form.workSheetCode = row.workSheetCode || '';
 				this.form.lineName = '';
-				this.lotId = null;
+				this.equipCode = '';
 				this.form.labelId = '';
 				this.rows = [];
 			},
 
-			// ========== 子产线选择 ==========
+			// ========== 产线设备选择 ==========
 
-			// 打开子产线选择弹层（需先选择作业指示）
+			// 打开产线设备选择弹层（需先选择作业指示）
 			openLinePicker: function() {
 				if (this.workSheetId == null) {
 					uni.showToast({
@@ -175,10 +175,10 @@
 				}
 				this.$refs.linePicker && this.$refs.linePicker.open();
 			},
-			// 子产线选择完成：选中行的 id 作为装载用的 lotId
+			// 产线设备选择完成：选中行的 equipCode 作为装载用的 equipCode
 			onLineSelect: function(row) {
 				if (!row) return;
-				this.lotId = row.id != null ? row.id : null;
+				this.equipCode = row.equipCode || '';
 				this.form.lineName = row.lineName || row.lineCode || '';
 			},
 
@@ -227,7 +227,7 @@
 				const code = String(label || '').trim();
 				_this.form.labelId = '';
 				if (!code) return;
-				if (_this.lotId == null) {
+				if (!_this.equipCode) {
 					uni.showToast({
 						title: _this.$t('sanyan.noSubLineTip'),
 						icon: 'none'
@@ -294,7 +294,7 @@
 				this.form.equipName = '';
 				this.form.labelId = '';
 				this.workSheetId = null;
-				this.lotId = null;
+				this.equipCode = '';
 				this.palletLabel = '';
 				this.rows = [];
 			},
@@ -305,7 +305,7 @@
 				const items = _this.rows.map(function(r) {
 					return {
 						actualWt: r.actualWt,
-						lotId: _this.lotId,
+						equipCode: _this.equipCode,
 						materialCode: r.materialCode,
 						materialName: r.materialName,
 						scanLabel: r.scanLabel,

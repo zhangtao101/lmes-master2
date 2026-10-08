@@ -35,6 +35,14 @@ export default {
 			method: 'GET'
 		});
 	},
+	// 根据工单id查询该工单下的产线及设备编号
+	// 返回数组，元素含：id、lineCode 产线编号、lineName 产线名称、equipCode 设备编号
+	selectEquip: (workSheetId) => {
+		return request({
+			url: `${prefixUrl}workSheet/lot/selectEquip/${workSheetId}`,
+			method: 'GET'
+		});
+	},
 	// 大车批次绑定记录查询：按工单号（workSheetCode）查询该工单下大车已投入的记录
 	// 返回数组，元素含：id、workSheetCode、lineCode（子产线编码）、lineName（子产线名称）、
 	// cartCode（大车编号）、cartBindWorkSheetTime（大车投入工单时间）、productCode、productName、

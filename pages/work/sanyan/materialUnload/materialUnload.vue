@@ -13,7 +13,7 @@
 						</view>
 					</view>
 				</uv-form-item>
-				<!-- 子产线：不可输入，点击铅笔图标弹出产线选择，选中行的 id 作为 lotId -->
+				<!-- 子产线：不可输入，点击铅笔图标弹出产线设备选择，选中行的 equipCode 作为 equipCode -->
 				<uv-form-item :label="$t('sanyan.subLineLabel')">
 					<view class="pick-field">
 						<uv-input class="pick-input" v-model="form.lineName" :readonly="true"
@@ -42,6 +42,7 @@
 				<view class="table-hinner">
 					<view class="table-row table-header">
 						<view class="table-cell cell-label">{{$t('sanyan.labelIdLabel')}}</view>
+						<view class="table-cell cell-equip">{{$t('sanyan.palletizerCodeCol')}}</view>
 						<view class="table-cell cell-mname">{{$t('sanyan.materialNameCol')}}</view>
 						<view class="table-cell cell-mcode">{{$t('sanyan.materialCodeCol')}}</view>
 						<view class="table-cell cell-qty">{{$t('sanyan.numberLabel')}}</view>
@@ -53,6 +54,7 @@
 								:class="{ selected: selectedRow && selectedRow.id === row.id }"
 								v-for="row in rows" :key="row.id" @click="onRowSelect(row)">
 								<view class="table-cell cell-label highlight">{{row.scanLabel || '--'}}</view>
+								<view class="table-cell cell-equip">{{row.equipCode || '--'}}</view>
 								<view class="table-cell cell-mname">{{row.materialName || '--'}}</view>
 								<view class="table-cell cell-mcode">{{row.materialCode || '--'}}</view>
 								<view class="table-cell cell-qty">{{row.actualWt != null ? row.actualWt : '--'}}</view>
@@ -92,7 +94,7 @@
 		<!-- 作业指示 / 子产线 / 设备 选择弹层 -->
 		<work-instruction-query ref="worksheetPicker" :process-type="2" @select="onWorksheetSelect">
 		</work-instruction-query>
-		<line-query ref="linePicker" :work-sheet-id="workSheetId" @select="onLineSelect"></line-query>
+		<line-equip-query ref="linePicker" :work-sheet-id="workSheetId" @select="onLineSelect"></line-equip-query>
 		<equipment-query ref="equipPicker" @select="onEquipSelect"></equipment-query>
 	</view>
 </template>
@@ -100,7 +102,7 @@
 <script>
 	import materialUnloadApi from '/api/sanyang/materialUnload.js';
 	import WorkInstructionQuery from '../utils/workInstructionQuery.vue';
-	import LineQuery from '../utils/lineQuery.vue';
+	import LineEquipQuery from '../utils/lineEquipQuery.vue';
 	import EquipmentQuery from '../utils/equipmentQuery.vue';
 
 	// 称重记录的包装类型：3单包 4多包 5料包
@@ -110,7 +112,7 @@
 		name: 'materialUnload',
 		components: {
 			WorkInstructionQuery,
-			LineQuery,
+			LineEquipQuery,
 			EquipmentQuery
 		},
 		data() {
@@ -122,8 +124,8 @@
 					palletQty: '' // 托盘数量（默认为选中行的 actualWt，可修改）
 				},
 				workSheetId: null, // 选中的作业指示ID（子产线查询条件）
-				lotId: null, // 选中子产线的ID（记录查询条件）
-				palletLabel: '', // 选中设备的设备编号（记录查询条件 equipCode）
+				equipCode: '', // 选中子产线的设备编号（记录查询条件）
+				palletLabel: '', // 选中设备的设备编号（记录查询条件 palletLabel）
 				rows: [], // 装载记录列表
 				selectedRow: null, // 选中的记录行
 				loadingList: false, // 记录查询中
@@ -169,7 +171,7 @@
 				this.workSheetId = id;
 				this.form.workSheetCode = row.workSheetCode || '';
 				this.form.lineName = '';
-				this.lotId = null;
+				this.equipCode = '';
 				this.resetList();
 			},
 
@@ -186,10 +188,10 @@
 				}
 				this.$refs.linePicker && this.$refs.linePicker.open();
 			},
-			// 子产线选择完成：选中行的 id 作为 lotId，若已选设备则重新查询记录
+			// 子产线选择完成：选中行的 equipCode 作为 equipCode，若已选设备则重新查询记录
 			onLineSelect: function(row) {
 				if (!row) return;
-				this.lotId = row.id != null ? row.id : null;
+				this.equipCode = row.equipCode || '';
 				this.form.lineName = row.lineName || row.lineCode || '';
 				if (this.palletLabel) {
 					this.fetchRecords();
@@ -212,7 +214,7 @@
 
 			// ========== 装载记录查询 ==========
 
-			// 查询装载记录：按子产线 id 与设备编号查询
+			// 查询装载记录：按子产线设备编号、设备编号与作业指示ID查询
 			fetchRecords: function() {
 				const _this = this;
 				if (!_this.palletLabel) {
@@ -224,9 +226,10 @@
 				}
 				_this.loadingList = true;
 				materialUnloadApi.searchRecord({
-					id: _this.lotId,
 					type: PACK_TYPES,
-					equipCode: _this.palletLabel
+					palletLabel: _this.palletLabel,
+					equipCode: _this.equipCode,
+					workSheetId: _this.workSheetId
 				}).then(function(res) {
 					_this.loadingList = false;
 					if (res.code == 200) {
@@ -271,7 +274,7 @@
 				this.form.lineName = '';
 				this.form.equipName = '';
 				this.workSheetId = null;
-				this.lotId = null;
+				this.equipCode = '';
 				this.palletLabel = '';
 				this.rows = [];
 				this.resetList();
@@ -440,6 +443,10 @@
 					color: #667eea;
 					font-weight: bold;
 				}
+			}
+
+			&.cell-equip {
+				flex: 1.2;
 			}
 
 			&.cell-mname {

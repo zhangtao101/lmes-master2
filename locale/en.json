@@ -284,6 +284,7 @@
 	"sanyan.labelIdPlaceholder": "Scan or enter LABELID",
 	"sanyan.materialNameCol": "Material Name",
 	"sanyan.materialCodeCol": "Material Code",
+	"sanyan.palletizerCodeCol": "Palletizer Code",
 	"sanyan.unitLabel": "Unit",
 	"sanyan.noSubLineTip": "Select sub line first",
 	"sanyan.noEquipTip": "Select equipment first",

@@ -284,6 +284,7 @@
 	"sanyan.labelIdPlaceholder": "扫描或输入LABELID",
 	"sanyan.materialNameCol": "物料名称",
 	"sanyan.materialCodeCol": "物料编号",
+	"sanyan.palletizerCodeCol": "码垛机编号",
 	"sanyan.unitLabel": "单位",
 	"sanyan.noSubLineTip": "请先选择子产线",
 	"sanyan.noEquipTip": "请先选择设备",

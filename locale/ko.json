@@ -284,6 +284,7 @@
     "sanyan.labelIdPlaceholder": "LABELID를 스캔하거나 입력하세요",
     "sanyan.materialNameCol": "자재 명",
     "sanyan.materialCodeCol": "자재 코드",
+    "sanyan.palletizerCodeCol": "팔레타이저 코드",
     "sanyan.unitLabel": "단위",
     "sanyan.noSubLineTip": "서브 라인을 먼저 선택하세요",
     "sanyan.noEquipTip": "설비를 먼저 선택하세요",

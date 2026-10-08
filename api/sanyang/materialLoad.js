@@ -17,9 +17,9 @@ export default {
 		});
 	},
 	// 物料装载批量保存
-	// payload 为数组，元素含：actualWt 加载数量、lotId 产线选择的id、materialCode 材料编号、
-	// materialName 材料名称、scanLabel 标签、unit 单位、palletLabel 设备编号、packType 包装类型
-	// （3单包 4多包 5料包）
+	// payload 为数组，元素含：actualWt 加载数量、equipCode 产线选择行的设备编号、
+	// materialCode 材料编号、materialName 材料名称、scanLabel 标签、unit 单位、
+	// palletLabel 设备编号、packType 包装类型（3单包 4多包 5料包）
 	addBatch: (payload) => {
 		return request({
 			url: `${prefixUrl}weight/label/addBatch`,
