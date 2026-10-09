@@ -19,6 +19,28 @@
 
 		<!-- 待执行任务清单 -->
 		<view class="box-body" v-else-if="!taskSelected">
+			<!-- 单据号筛选区 -->
+			<view class="section-card">
+				<view class="card-content">
+					<view class="input-row">
+						<view class="input-group">
+							<uni-icons type="paperplane-filled" color="#667eea" size="18"></uni-icons>
+							<uni-easyinput
+								v-model="todoFormCode"
+								:inputBorder="false"
+								placeholderStyle="color: #999;"
+								:placeholder="$t('warehouse.scanOrInputForm')"
+								@confirm="onTodoFormCodeConfirm"
+								class="main-input"
+							></uni-easyinput>
+						</view>
+						<view class="scan-btn" @click="onTodoFormCodeScan">
+							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
+							<text>{{$t('warehouse.scan')}}</text>
+						</view>
+					</view>
+				</view>
+			</view>
 			<view>
 				<view class="card-header">
 					<view class="header-left">
@@ -160,6 +182,7 @@
 </template>
 
 <script>
+	import scanCode from '/common/scan.js'
 	import goodsShelvingApi from '/api/warehouse/goodsShelving.js'
 	import showBeautyToast from '@/common/beautyToast.js'
 	import NormalUnshelving from './components/NormalUnshelving.vue'
@@ -183,6 +206,8 @@
 
 				// 上下架待执行任务清单
 				todoTaskList: [],
+				// 待执行任务清单的单据号筛选条件
+				todoFormCode: '',
 				// 是否已选择任务（选择后才显示下架操作区）
 				taskSelected: false,
 
@@ -199,7 +224,9 @@
 					uni.$off('scan');
 					uni.$on('scan', function(code) {
 						if (!_this.taskSelected) {
-							// 未选择任务时不处理扫码
+							// 未选择任务时：扫码结果作为单据号筛选条件重新查询清单
+							_this.todoFormCode = code;
+							_this.loadToDoTask();
 							return;
 						}
 						if (_this.unshelvingMode === 'normal' && _this.selectedItem) {
@@ -241,10 +268,10 @@
 				this.loadToDoTask();
 			},
 
-			// 获取上下架待执行任务清单（opType：上架传 1，下架传 -1）
+			// 获取上下架待执行任务清单（opType：上架传 1，下架传 -1，formCode 为单据号筛选条件）
 			loadToDoTask() {
 				this.isLoading = true;
-				goodsShelvingApi.listToDoTask(-1).then(resp => {
+				goodsShelvingApi.listToDoTask(-1, this.todoFormCode).then(resp => {
 					this.isLoading = false;
 					if (resp.code == 200 || resp.code == '200') {
 						this.todoTaskList = Array.isArray(resp.data) ? resp.data : [];
@@ -257,6 +284,25 @@
 				}).catch(() => {
 					this.isLoading = false;
 					showBeautyToast({ title: this.$t('warehouse.queryFailed'), icon: 'none' });
+				});
+			},
+
+			// 单据号回车确认：扫码枪回车极快，延迟 200ms 再取值，避免拿到不完整数据
+			onTodoFormCodeConfirm() {
+				const _this = this;
+				setTimeout(function() {
+					_this.loadToDoTask();
+				}, 200);
+			},
+
+			// 单据号扫码：扫码结果回填后重新查询待执行任务清单
+			onTodoFormCodeScan() {
+				const _this = this;
+				scanCode().then(code => {
+					_this.todoFormCode = code;
+					_this.loadToDoTask();
+				}).catch(err => {
+					showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
 				});
 			},
 

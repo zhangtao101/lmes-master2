@@ -73,13 +73,24 @@ export default {
 			}
 		});
 	},
-	// 获取上下架待执行任务清单（opType：上架传 1，下架传 -1）
-	listToDoTask: (opType) => {
+	// 手动关闭电子料架事务连接（storageCode：料架编号）
+	closeLink: (storageCode) => {
+		return request({
+			url: `${prefixUrl}wms/linehouse/enout/closeLink`,
+			method: "GET",
+			data: {
+				storageCode
+			}
+		});
+	},
+	// 获取上下架待执行任务清单（opType：上架传 1，下架传 -1；formCode：单据号筛选条件，可为空）
+	listToDoTask: (opType, formCode) => {
 		return request({
 			url: `${prefixUrl}wms/linehouse/enout/listToDoTask`,
 			method: "GET",
 			data: {
-				opType
+				opType,
+				formCode
 			}
 		});
 	}

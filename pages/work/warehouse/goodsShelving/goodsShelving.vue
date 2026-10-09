@@ -19,6 +19,28 @@
 
 		<!-- 待执行任务清单 -->
 		<view class="box-body" v-else-if="!taskSelected">
+			<!-- 单据号筛选区 -->
+			<view class="section-card">
+				<view class="card-content">
+					<view class="input-row">
+						<view class="input-group">
+							<uni-icons type="paperplane-filled" color="#667eea" size="18"></uni-icons>
+							<uni-easyinput
+								v-model="todoFormCode"
+								:inputBorder="false"
+								placeholderStyle="color: #999;"
+								:placeholder="$t('warehouse.scanOrInputForm')"
+								@confirm="onTodoFormCodeConfirm"
+								class="main-input"
+							></uni-easyinput>
+						</view>
+						<view class="scan-btn" @click="onTodoFormCodeScan">
+							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
+							<text>{{$t('warehouse.scan')}}</text>
+						</view>
+					</view>
+				</view>
+			</view>
 			<view>
 				<view class="card-header">
 					<view class="header-left">
@@ -225,13 +247,20 @@
 					</view>
 				</view>
 			</view>
-		</view>
 
-		<!-- 底部确认按钮 -->
-		<view class="submit-btn-wrapper" v-if="scanList.length > 0">
-			<button class="submit-btn" :class="{ disabled: isSubmitting }" @click="onSubmit" :disabled="isSubmitting">
-				<text>{{ isSubmitting ? $t('warehouse.submittingText') : $t('warehouse.confirmShelving') }}</text>
-			</button>
+			<!-- 底部按钮：关闭连接 + 确认上架 -->
+			<view class="submit-btn-wrapper">
+				<view class="btn-row">
+					<button class="close-btn" :class="{ disabled: isClosing || !labelCode }" @click="onCloseLink"
+						:disabled="isClosing || !labelCode">
+						<text>{{ isClosing ? $t('warehouse.loadingDots') : $t('warehouse.closeLink') }}</text>
+					</button>
+					<button class="submit-btn" :class="{ disabled: isSubmitting || scanList.length === 0 }" @click="onSubmit"
+						:disabled="isSubmitting || scanList.length === 0">
+						<text>{{ isSubmitting ? $t('warehouse.submittingText') : $t('warehouse.confirmShelving') }}</text>
+					</button>
+				</view>
+			</view>
 		</view>
 
 		<!-- 加载遮罩 -->
@@ -265,6 +294,8 @@
 
 				// 上下架待执行任务清单
 				todoTaskList: [],
+				// 待执行任务清单的单据号筛选条件
+				todoFormCode: '',
 				// 是否已选择任务（选择后才显示上架操作区）
 				taskSelected: false,
 
@@ -279,6 +310,7 @@
 				// 状态
 				isChecking: false,
 				isSubmitting: false,
+				isClosing: false,
 				isLoading: false
 			}
 		},
@@ -329,10 +361,10 @@
 				this.loadToDoTask();
 			},
 
-			// 获取上下架待执行任务清单（opType：上架传 1，下架传 -1）
+			// 获取上下架待执行任务清单（opType：上架传 1，下架传 -1，formCode 为单据号筛选条件）
 			loadToDoTask() {
 				this.isLoading = true;
-				goodsShelvingApi.listToDoTask(1).then(resp => {
+				goodsShelvingApi.listToDoTask(1, this.todoFormCode).then(resp => {
 					this.isLoading = false;
 					if (resp.code == 200 || resp.code == '200') {
 						this.todoTaskList = Array.isArray(resp.data) ? resp.data : [];
@@ -345,6 +377,25 @@
 				}).catch(() => {
 					this.isLoading = false;
 					showBeautyToast({ title: this.$t('warehouse.queryFailed'), icon: 'none' });
+				});
+			},
+
+			// 单据号回车确认：扫码枪回车极快，延迟 200ms 再取值，避免拿到不完整数据
+			onTodoFormCodeConfirm() {
+				const _this = this;
+				setTimeout(function() {
+					_this.loadToDoTask();
+				}, 200);
+			},
+
+			// 单据号扫码：扫码结果回填后重新查询待执行任务清单
+			onTodoFormCodeScan() {
+				const _this = this;
+				scanCode().then(code => {
+					_this.todoFormCode = code;
+					_this.loadToDoTask();
+				}).catch(err => {
+					showBeautyToast({ title: err || _this.$t('warehouse.scanFail'), icon: 'none' });
 				});
 			},
 
@@ -395,7 +446,9 @@
 			// 硬件扫码枪处理 - 根据上下文分发
 			handleHardwareScan(code) {
 				if (!this.taskSelected) {
-					// 未选择任务时不处理扫码
+					// 未选择任务时：扫码结果作为单据号筛选条件重新查询清单
+					this.todoFormCode = code;
+					this.loadToDoTask();
 					return;
 				}
 				if (this.shelvingMode === 'smart') {
@@ -581,6 +634,27 @@
 				}).catch(() => {
 					this.isChecking = false;
 					showBeautyToast({ title: this.$t('warehouse.checkFail'), icon: 'none' });
+				});
+			},
+
+			// 手动关闭电子料架事务连接：按当前货架码关闭
+			onCloseLink() {
+				if (this.isClosing) return;
+				if (!this.storageCode) {
+					showBeautyToast({ title: this.$t('warehouse.scanOrInputShelf'), icon: 'none' });
+					return;
+				}
+				this.isClosing = true;
+				goodsShelvingApi.closeLink(this.storageCode).then(resp => {
+					this.isClosing = false;
+					if (resp.code == 200 || resp.code == '200') {
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.closeLinkSuccess'), icon: 'success' });
+					} else {
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.closeLinkFail'), icon: 'none' });
+					}
+				}).catch(() => {
+					this.isClosing = false;
+					showBeautyToast({ title: this.$t('warehouse.closeLinkFail'), icon: 'none' });
 				});
 			},
 
@@ -1077,8 +1151,34 @@
 		z-index: 100;
 	}
 
+	.btn-row {
+		display: flex;
+		align-items: center;
+		gap: 20rpx;
+	}
+
+	.close-btn {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8rpx;
+		background: #f0f0f0;
+		color: #666;
+		font-size: 28rpx;
+		font-weight: bold;
+		border: none;
+		border-radius: 12rpx;
+		padding: 18rpx 0;
+	}
+
+	.close-btn.disabled {
+		opacity: 0.6;
+		pointer-events: none;
+	}
+
 	.submit-btn {
-		width: 100%;
+		flex: 1;
 		display: flex;
 		align-items: center;
 		justify-content: center;

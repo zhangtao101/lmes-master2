@@ -47,11 +47,11 @@
 						</view>
 						<view class="scan-btn" @click="onLabelCodeScan">
 							<uni-icons type="scan" color="#fff" size="16"></uni-icons>
-						<text>{{$t('warehouse.scan')}}</text>
+							<text>{{$t('warehouse.scan')}}</text>
+						</view>
 					</view>
 				</view>
 			</view>
-		</view>
 		</view>
 
 		<!-- 本次扫码列表 -->
@@ -97,11 +97,18 @@
 			</view>
 		</view>
 
-		<!-- 底部取货按钮 -->
-		<view class="submit-btn-wrapper" v-if="labelList.length > 0">
-			<button class="submit-btn" :class="{ disabled: isSubmitting }" @click="onSubmit" :disabled="isSubmitting">
-				<text>{{ isSubmitting ? $t('warehouse.pickupLoading') : $t('warehouse.shelfPickup') }}</text>
-			</button>
+		<!-- 底部按钮：关闭连接 + 取货 -->
+		<view class="submit-btn-wrapper">
+			<view class="btn-row">
+				<button class="close-btn" :class="{ disabled: isClosing || !labelCode }" @click="onCloseLink"
+					:disabled="isClosing || !labelCode">
+					<text>{{ isClosing ? $t('warehouse.loadingDots') : $t('warehouse.closeLink') }}</text>
+				</button>
+				<button class="submit-btn" :class="{ disabled: isSubmitting || labelList.length === 0 }" @click="onSubmit"
+					:disabled="isSubmitting || labelList.length === 0">
+					<text>{{ isSubmitting ? $t('warehouse.pickupLoading') : $t('warehouse.shelfPickup') }}</text>
+				</button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -125,7 +132,8 @@
 				// 本次扫码标签列表
 				labelList: [],
 				isSubmitting: false,
-				isChecking: false
+				isChecking: false,
+				isClosing: false
 			}
 		},
 		mounted() {
@@ -244,6 +252,27 @@
 				}).catch(() => {
 					this.isChecking = false;
 					showBeautyToast({ title: this.$t('warehouse.checkFail'), icon: 'none' });
+				});
+			},
+
+			// 手动关闭电子料架事务连接：按当前货架码关闭
+			onCloseLink() {
+				if (this.isClosing) return;
+				if (!this.storageCode) {
+					showBeautyToast({ title: this.$t('warehouse.scanOrInputShelf'), icon: 'none' });
+					return;
+				}
+				this.isClosing = true;
+				goodsShelvingApi.closeLink(this.storageCode).then(resp => {
+					this.isClosing = false;
+					if (resp.code == 200 || resp.code == '200') {
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.closeLinkSuccess'), icon: 'success' });
+					} else {
+						showBeautyToast({ title: resp.msg || this.$t('warehouse.closeLinkFail'), icon: 'none' });
+					}
+				}).catch(() => {
+					this.isClosing = false;
+					showBeautyToast({ title: this.$t('warehouse.closeLinkFail'), icon: 'none' });
 				});
 			},
 
@@ -499,8 +528,34 @@
 		z-index: 100;
 	}
 
+	.btn-row {
+		display: flex;
+		align-items: center;
+		gap: 20rpx;
+	}
+
+	.close-btn {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8rpx;
+		background: #f0f0f0;
+		color: #666;
+		font-size: 28rpx;
+		font-weight: bold;
+		border: none;
+		border-radius: 12rpx;
+		padding: 18rpx 0;
+	}
+
+	.close-btn.disabled {
+		opacity: 0.6;
+		pointer-events: none;
+	}
+
 	.submit-btn {
-		width: 100%;
+		flex: 1;
 		display: flex;
 		align-items: center;
 		justify-content: center;
