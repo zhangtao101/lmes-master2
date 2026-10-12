@@ -15,6 +15,20 @@ const baseURL = 'http://192.168.0.102:8060'
 // const baseURL = 'http://192.168.0.211:8186'
 // const baseURL = 'http://10.10.0.41:8060'
 
+// 后台语言标识：与前端 locale（zh-Hans / en / ko）对应
+const LANG_MAP = {
+	'ko': 'ko-KR',
+	'en': 'en-US',
+	'zh-Hans': 'zh-CN',
+	'zh-Hant': 'zh-CN'
+}
+
+// 获取当前语言环境对应的 accept-language，默认中文
+const getAcceptLanguage = () => {
+	const locale = uni.getLocale() || '';
+	return LANG_MAP[locale] || 'zh-CN';
+}
+
 const request = (o) => {
 	const auth = uni.getStorageSync('auth');
 	let options = {
@@ -26,7 +40,8 @@ const request = (o) => {
 		data: {},
 		// 请求头
 		header: {
-			'Authorization': `${auth}`
+			'Authorization': `${auth}`,
+			'accept-language': getAcceptLanguage()
 		},
 		// 微信小程序请求时间一般设置为60000
 		timeout: 60000
