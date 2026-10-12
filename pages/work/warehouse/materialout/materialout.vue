@@ -128,6 +128,10 @@
 	import {
 		getCodeType
 	} from "/common/util.js"
+
+	// 线边仓库位固定值
+	const LINE_SIDE_LOCATION = 'KQ056-1';
+
 	export default {
 		data() {
 			return {
@@ -137,7 +141,9 @@
 				takeCount: {},
 				formInput: '',
 				labelInput: '',
-				labelFocus: false
+				labelFocus: false,
+				// 操作弹窗判定标记：1 需要弹窗选择，-1 不需要弹窗选择
+				checkFlag: -1
 			}
 		},
 		onLoad() {
@@ -179,20 +185,78 @@
 
 			},
 			loadLabelInfo: async function(code) {
-				const res = await material.getLabelInfo(code, OperateType.materialOut, this.formCode);
-				console.log(res)
+				await this.handleLabelResult(code);
+			},
+			// 标签信息处理：先按标签判定操作弹窗，再按选择结果处理
+			// skipWindow 为 true 时跳过判定（弹窗中已选择直接出库）
+			handleLabelResult: async function(code, skipWindow) {
+				const _this = this;
+				if (!skipWindow) {
+					// 根据标签判定操作弹窗：1 表示需要弹窗选择，-1 表示不需要弹窗选择
+					const windowRes = await material.checkLabelWindows(code);
+					const windowData = (windowRes && windowRes.code == 200 && windowRes.data) ?
+						windowRes.data : {};
+					_this.checkFlag = windowData.checkFlag != null ? windowData.checkFlag : -1;
+					if (_this.checkFlag == 1) {
+						// 需要弹窗：由用户选择线边仓调拨或直接出库
+						_this.showOutTypeSelector(code, windowData.labelInfo || {});
+						return;
+					}
+				}
+				// 无需弹窗或已选择直接出库：拉取标签信息并入列（与原流程一致）
+				const res = await material.getLabelInfo(code, OperateType.materialOut, _this.formCode);
 				if (res.code == 200) {
 					//动态生成响应式变量
-					this.takeCount[`takecount_${code}`] = res.data.packageNumber;
-					this.labelList.push(res.data)
+					_this.takeCount[`takecount_${code}`] = res.data.packageNumber;
+					_this.labelList.push(res.data)
 				} else {
 					uni.showToast({
 						title: res.msg,
 						icon: 'none'
 					})
 				}
-				return res;
-
+			},
+			// 操作选择弹窗：线边仓调拨 / 直接出库
+			showOutTypeSelector: function(code, labelInfo) {
+				const _this = this;
+				uni.showActionSheet({
+					itemList: [_this.$t('warehouse.lineSideTransfer'), _this.$t('warehouse.directOut')],
+					success: function(r) {
+						if (r.tapIndex === 0) {
+							// 线边仓调拨：按标签数量调拨到线边仓
+							_this.onLineSideTransfer(code, labelInfo.packageNumber);
+						} else {
+							// 直接出库：跳过判定，直接拉取标签信息并入列
+							_this.handleLabelResult(code, true);
+						}
+					}
+				});
+			},
+			// 线边仓调拨：标签码 + 标签数量提交调拨接口
+			onLineSideTransfer: function(code, packageNumber) {
+				const _this = this;
+				material.transfer([{
+					labelCode: code,
+					number: packageNumber,
+					wareLocationCode: LINE_SIDE_LOCATION
+				}]).then(function(res) {
+					if (res.code == 200) {
+						uni.showToast({
+							title: res.msg || _this.$t('warehouse.diaoboSuccess'),
+							icon: 'success'
+						});
+					} else {
+						uni.showToast({
+							title: res.msg || _this.$t('warehouse.diaoboFail'),
+							icon: 'none'
+						});
+					}
+				}).catch(function() {
+					uni.showToast({
+						title: _this.$t('warehouse.diaoboFail'),
+						icon: 'none'
+					});
+				});
 			},
 			// 领料单扫码
 			onFormScan: function() {

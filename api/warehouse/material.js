@@ -25,6 +25,16 @@ export default {
 			}
 		});
 	},
+	// 根据标签判定操作弹窗：data 为 1 表示需要弹窗选择，-1 表示不需要弹窗选择
+	checkLabelWindows: (labelCode) => {
+		return request({
+			url: `${prefixUrl}wms/warehouseForm/material/checkLabelWindows`,
+			method: "GET",
+			data: {
+				labelCode
+			}
+		});
+	},
 	materialIn: (labelList) => {
 		return request({
 			url: `${prefixUrl}wms/warehouseForm/material/enterForm`,
@@ -68,6 +78,8 @@ export default {
 			}
 		});
 	},
+	// 祺旺PDA调拨：payload 为数组，元素含 labelCode 标签编号、number 数量、
+	// wareLocationCode 线边仓库位（线边仓固定值 KQ056-1）
 	transfer: (labelList) => {
 		return request({
 			url: `${prefixUrl}wms/warehouseForm/material/transfer`,
