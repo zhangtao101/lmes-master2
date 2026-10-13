@@ -450,19 +450,19 @@
 					},
 					{
 						// 物料装载
-						img: "../../static/images/biangeng.png",
+						img: "../../static/images/wulioazhuangzhai.png",
 						nameKey: "pages.sanyan.materialLoad",
 						url: "/pages/work/sanyan/materialLoad/materialLoad"
 					},
 					{
 						// 物料卸载
-						img: "../../static/images/biangeng.png",
+						img: "../../static/images/wuliaoxiezai.png",
 						nameKey: "pages.sanyan.materialUnload",
 						url: "/pages/work/sanyan/materialUnload/materialUnload"
 					},
 					{
 						// 设备物料卸载
-						img: "../../static/images/biangeng.png",
+						img: "../../static/images/shebeiwuliaoxiezai.png",
 						nameKey: "pages.sanyan.deviceMaterialUnload",
 						url: "/pages/work/sanyan/deviceMaterialUnload/deviceMaterialUnload"
 					},
